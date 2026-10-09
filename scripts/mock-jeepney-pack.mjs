@@ -37,6 +37,32 @@ const STOPS = [
   ['mock-kapitolyo', 'Kapitolyo Stop (mock)', 14.5745, 121.0635],
   ['mock-pasig-tulay', 'Pasig Tulay (mock)', 14.569, 121.0705],
   ['mock-pasig-palengke', 'Pasig Palengke (mock)', 14.5605, 121.076],
+  ['mock-bgc', 'BGC Kanto (mock)', 14.55, 121.05],
+  ['mock-coastal', 'Coastal Kanto (mock)', 14.49, 120.991],
+  ['mock-sucat', 'Sucat Kanto (mock)', 14.456, 121.045],
+]
+
+// One made-up stop per Metro Manila city, so a rider can ask for a city by name.
+// The point is hand-picked somewhere inside the city; it is not a real terminal.
+// [id, city, lat, lon, extra names the chat should understand]
+const CITY_STOPS = [
+  ['mock-city-caloocan', 'Caloocan', 14.651, 120.972, ['Kalookan']],
+  ['mock-city-laspinas', 'Las Piñas', 14.45, 120.983, []],
+  ['mock-city-makati', 'Makati', 14.5665, 121.0295, []],
+  ['mock-city-malabon', 'Malabon', 14.662, 120.957, []],
+  ['mock-city-mandaluyong', 'Mandaluyong', 14.58, 121.034, []],
+  ['mock-city-manila', 'Manila', 14.5898, 120.9818, ['Maynila', 'City of Manila']],
+  // No bare "Marikina" alias: that name already means the LRT-2 station, which mock-j8 serves.
+  ['mock-city-marikina', 'Marikina', 14.6335, 121.097, []],
+  ['mock-city-muntinlupa', 'Muntinlupa', 14.418, 121.044, []],
+  ['mock-city-navotas', 'Navotas', 14.657, 120.948, []],
+  ['mock-city-paranaque', 'Parañaque', 14.48, 121.019, []],
+  ['mock-city-pasay', 'Pasay', 14.538, 121.001, []],
+  ['mock-city-pasig', 'Pasig', 14.572, 121.085, []],
+  ['mock-city-qc', 'Quezon City', 14.647, 121.05, ['QC', 'Kyusi']],
+  ['mock-city-sanjuan', 'San Juan', 14.602, 121.033, []],
+  ['mock-city-taguig', 'Taguig', 14.528, 121.07, []],
+  ['mock-city-valenzuela', 'Valenzuela', 14.7, 120.98, []],
 ]
 
 // Made-up fare tables. Deliberately not the LTFRB numbers.
@@ -48,14 +74,26 @@ const FARES = [
 // Each line runs both ways; the return trip is its own route, as the router expects.
 const LINES = [
   { id: 'mock-j1', name: 'Quezon Ave – Quiapo', mode: 'jeepney', kmh: 13, stops: ['rail-mrt3-quezon_avenue', 'mock-scout', 'mock-roces', 'mock-banawe', 'mock-rotonda', 'mock-espana', 'mock-quiapo', 'rail-lrt1-carriedo'] },
-  { id: 'mock-j2', name: 'Quiapo – Gil Puyat', mode: 'jeepney', kmh: 13, stops: ['mock-quiapo', 'mock-lawton', 'mock-taft-un', 'mock-taft-quirino', 'mock-taft-vito', 'rail-lrt1-gil_puyat'] },
+  { id: 'mock-j2', name: 'Quiapo – Gil Puyat', mode: 'jeepney', kmh: 13, stops: ['mock-quiapo', 'mock-lawton', 'mock-city-manila', 'mock-taft-un', 'mock-taft-quirino', 'mock-taft-vito', 'rail-lrt1-gil_puyat'] },
   { id: 'mock-j3', name: 'Gil Puyat – Ayala', mode: 'jeepney', kmh: 13, stops: ['rail-lrt1-gil_puyat', 'mock-osmena', 'mock-tamo', 'mock-buendia', 'mock-paseo', 'mock-makati-ave', 'rail-mrt3-ayala'] },
   { id: 'mock-j4', name: 'Shaw – Pasig', mode: 'jeepney', kmh: 13, stops: ['rail-mrt3-shaw_boulevard', 'mock-shaw-uno', 'mock-kapitolyo', 'mock-pasig-tulay', 'mock-pasig-palengke'] },
+  { id: 'mock-j5', name: 'Valenzuela – Monumento', mode: 'jeepney', kmh: 13, stops: ['mock-city-valenzuela', 'rail-lrt1-monumento'] },
+  { id: 'mock-j6', name: 'Navotas – Monumento', mode: 'jeepney', kmh: 13, stops: ['mock-city-navotas', 'mock-city-malabon', 'mock-city-caloocan', 'rail-lrt1-monumento'] },
+  { id: 'mock-j7', name: 'Monumento – Quezon City', mode: 'jeepney', kmh: 13, stops: ['rail-lrt1-monumento', 'rail-lrt1-balintawak', 'rail-mrt3-north_avenue', 'rail-mrt3-quezon_avenue', 'mock-city-qc'] },
+  { id: 'mock-j8', name: 'Quezon City – Marikina', mode: 'jeepney', kmh: 13, stops: ['mock-city-qc', 'rail-mrt3-araneta_cubao', 'rail-lrt2-anonas', 'rail-lrt2-katipunan', 'rail-lrt2-santolan', 'rail-lrt2-marikina', 'mock-city-marikina'] },
+  { id: 'mock-j9', name: 'Marikina – Pasig', mode: 'jeepney', kmh: 13, stops: ['mock-city-marikina', 'rail-lrt2-marikina', 'mock-city-pasig', 'mock-pasig-palengke'] },
+  { id: 'mock-j10', name: 'Cubao – Shaw', mode: 'jeepney', kmh: 13, stops: ['rail-mrt3-araneta_cubao', 'mock-city-sanjuan', 'mock-city-mandaluyong', 'rail-mrt3-shaw_boulevard'] },
+  { id: 'mock-j11', name: 'Mandaluyong – Ayala', mode: 'jeepney', kmh: 13, stops: ['mock-city-mandaluyong', 'rail-mrt3-boni', 'rail-mrt3-guadalupe', 'mock-city-makati', 'rail-mrt3-ayala'] },
+  { id: 'mock-j12', name: 'Ayala – Taguig', mode: 'jeepney', kmh: 13, stops: ['rail-mrt3-ayala', 'mock-bgc', 'mock-city-taguig'] },
+  { id: 'mock-j13', name: 'Gil Puyat – Parañaque', mode: 'jeepney', kmh: 13, stops: ['rail-lrt1-gil_puyat', 'mock-city-pasay', 'rail-lrt1-baclaran', 'mock-city-paranaque'] },
+  { id: 'mock-j14', name: 'Baclaran – Las Piñas', mode: 'jeepney', kmh: 13, stops: ['rail-lrt1-baclaran', 'mock-coastal', 'mock-city-laspinas'] },
+  { id: 'mock-j15', name: 'Parañaque – Muntinlupa', mode: 'jeepney', kmh: 13, stops: ['mock-city-paranaque', 'mock-sucat', 'mock-city-muntinlupa'] },
+  { id: 'mock-j16', name: 'Las Piñas – Muntinlupa', mode: 'jeepney', kmh: 13, stops: ['mock-city-laspinas', 'mock-city-muntinlupa'] },
   { id: 'mock-m1', name: 'Quezon Ave – Gil Puyat Express', mode: 'modern_jeepney', kmh: 21, stops: ['rail-mrt3-quezon_avenue', 'mock-rotonda', 'mock-lawton', 'rail-lrt1-gil_puyat'] },
 ]
 
 const railRows = readFileSync('data/metro-manila/rail-pack/landmarks.csv', 'utf8').split(/\r?\n/).slice(1).filter(Boolean)
-const place = new Map(STOPS.map(([id, , lat, lon]) => [id, { lat, lon }]))
+const place = new Map([...STOPS, ...CITY_STOPS].map(([id, , lat, lon]) => [id, { lat, lon }]))
 for (const row of railRows) {
   const [id, , , , lat, lon] = row.split(',')
   place.set(id, { lat: Number(lat), lon: Number(lon) })
@@ -64,7 +102,13 @@ for (const row of railRows) {
 const cell = (value) => (/[",\n]/.test(String(value)) ? `"${String(value).replaceAll('"', '""')}"` : String(value))
 const csv = (name, rows) => `${[PACK_HEADERS[name], ...rows].map((row) => row.map(cell).join(',')).join('\n')}\n`
 
-const landmarks = STOPS.map(([id, name, lat, lon]) => [id, name, name.replace(' (mock)', ''), '', lat, lon, NOTE])
+const landmarks = [
+  ...STOPS.map(([id, name, lat, lon]) => [id, name, name.replace(' (mock)', ''), '', lat, lon, NOTE]),
+  ...CITY_STOPS.map(([id, city, lat, lon, extra]) => {
+    const names = id === 'mock-city-marikina' ? [] : [city, ...(city.endsWith('City') ? [] : [`${city} City`]), ...extra]
+    return [id, `${city} Sentro (mock)`, [`${city} Sentro`, ...names].join('|'), '', lat, lon, NOTE]
+  }),
+]
 const fares = FARES.map((fare) => [fare.id, fare.mode, 'mock-fare', 'standard', 'distance', fare.base, fare.baseKm, fare.perKm, MADE_ON, '', 'nearest_0.25', NOTE, SOURCE_URL, '', ''])
 const routes = []
 const routeStops = []

@@ -17,16 +17,18 @@ mock-j1b,7,mock-scout,1.5,7,,made up,2026-10-10,mock,
 mock-j1b,8,rail-mrt3-quezon_avenue,1.3,6,,made up,2026-10-10,mock,
 mock-j2a,1,mock-quiapo,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
 mock-j2a,2,mock-lawton,0.9,4,,made up,2026-10-10,mock,
-mock-j2a,3,mock-taft-un,1.6,7,,made up,2026-10-10,mock,
-mock-j2a,4,mock-taft-quirino,1.9,9,,made up,2026-10-10,mock,
-mock-j2a,5,mock-taft-vito,1,5,,made up,2026-10-10,mock,
-mock-j2a,6,rail-lrt1-gil_puyat,1.3,6,,made up,2026-10-10,mock,
+mock-j2a,3,mock-city-manila,0.5,2,,made up,2026-10-10,mock,
+mock-j2a,4,mock-taft-un,1.1,5,,made up,2026-10-10,mock,
+mock-j2a,5,mock-taft-quirino,1.9,9,,made up,2026-10-10,mock,
+mock-j2a,6,mock-taft-vito,1,5,,made up,2026-10-10,mock,
+mock-j2a,7,rail-lrt1-gil_puyat,1.3,6,,made up,2026-10-10,mock,
 mock-j2b,1,rail-lrt1-gil_puyat,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
 mock-j2b,2,mock-taft-vito,1.3,6,,made up,2026-10-10,mock,
 mock-j2b,3,mock-taft-quirino,1,5,,made up,2026-10-10,mock,
 mock-j2b,4,mock-taft-un,1.9,9,,made up,2026-10-10,mock,
-mock-j2b,5,mock-lawton,1.6,7,,made up,2026-10-10,mock,
-mock-j2b,6,mock-quiapo,0.9,4,,made up,2026-10-10,mock,
+mock-j2b,5,mock-city-manila,1.1,5,,made up,2026-10-10,mock,
+mock-j2b,6,mock-lawton,0.5,2,,made up,2026-10-10,mock,
+mock-j2b,7,mock-quiapo,0.9,4,,made up,2026-10-10,mock,
 mock-j3a,1,rail-lrt1-gil_puyat,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
 mock-j3a,2,mock-osmena,1.1,5,,made up,2026-10-10,mock,
 mock-j3a,3,mock-tamo,1,5,,made up,2026-10-10,mock,
@@ -51,6 +53,98 @@ mock-j4b,2,mock-pasig-tulay,1.4,6,,made up,2026-10-10,mock,
 mock-j4b,3,mock-kapitolyo,1.2,6,,made up,2026-10-10,mock,
 mock-j4b,4,mock-shaw-uno,0.9,4,,made up,2026-10-10,mock,
 mock-j4b,5,rail-mrt3-shaw_boulevard,0.7,3,,made up,2026-10-10,mock,
+mock-j5a,1,mock-city-valenzuela,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j5a,2,rail-lrt1-monumento,6.4,30,,made up,2026-10-10,mock,
+mock-j5b,1,rail-lrt1-monumento,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j5b,2,mock-city-valenzuela,6.4,30,,made up,2026-10-10,mock,
+mock-j6a,1,mock-city-navotas,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j6a,2,mock-city-malabon,1.4,6,,made up,2026-10-10,mock,
+mock-j6a,3,mock-city-caloocan,2.5,12,,made up,2026-10-10,mock,
+mock-j6a,4,rail-lrt1-monumento,1.7,8,,made up,2026-10-10,mock,
+mock-j6b,1,rail-lrt1-monumento,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j6b,2,mock-city-caloocan,1.7,8,,made up,2026-10-10,mock,
+mock-j6b,3,mock-city-malabon,2.5,12,,made up,2026-10-10,mock,
+mock-j6b,4,mock-city-navotas,1.4,6,,made up,2026-10-10,mock,
+mock-j7a,1,rail-lrt1-monumento,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j7a,2,rail-lrt1-balintawak,2.7,12,,made up,2026-10-10,mock,
+mock-j7a,3,rail-mrt3-north_avenue,3.9,18,,made up,2026-10-10,mock,
+mock-j7a,4,rail-mrt3-quezon_avenue,1.6,7,,made up,2026-10-10,mock,
+mock-j7a,5,mock-city-qc,1.7,8,,made up,2026-10-10,mock,
+mock-j7b,1,mock-city-qc,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j7b,2,rail-mrt3-quezon_avenue,1.7,8,,made up,2026-10-10,mock,
+mock-j7b,3,rail-mrt3-north_avenue,1.6,7,,made up,2026-10-10,mock,
+mock-j7b,4,rail-lrt1-balintawak,3.9,18,,made up,2026-10-10,mock,
+mock-j7b,5,rail-lrt1-monumento,2.7,12,,made up,2026-10-10,mock,
+mock-j8a,1,mock-city-qc,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j8a,2,rail-mrt3-araneta_cubao,3.8,18,,made up,2026-10-10,mock,
+mock-j8a,3,rail-lrt2-anonas,2.2,10,,made up,2026-10-10,mock,
+mock-j8a,4,rail-lrt2-katipunan,1.2,6,,made up,2026-10-10,mock,
+mock-j8a,5,rail-lrt2-santolan,2.2,10,,made up,2026-10-10,mock,
+mock-j8a,6,rail-lrt2-marikina,2,9,,made up,2026-10-10,mock,
+mock-j8a,7,mock-city-marikina,1.9,9,,made up,2026-10-10,mock,
+mock-j8b,1,mock-city-marikina,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j8b,2,rail-lrt2-marikina,1.9,9,,made up,2026-10-10,mock,
+mock-j8b,3,rail-lrt2-santolan,2,9,,made up,2026-10-10,mock,
+mock-j8b,4,rail-lrt2-katipunan,2.2,10,,made up,2026-10-10,mock,
+mock-j8b,5,rail-lrt2-anonas,1.2,6,,made up,2026-10-10,mock,
+mock-j8b,6,rail-mrt3-araneta_cubao,2.2,10,,made up,2026-10-10,mock,
+mock-j8b,7,mock-city-qc,3.8,18,,made up,2026-10-10,mock,
+mock-j9a,1,mock-city-marikina,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j9a,2,rail-lrt2-marikina,1.9,9,,made up,2026-10-10,mock,
+mock-j9a,3,mock-city-pasig,7.1,33,,made up,2026-10-10,mock,
+mock-j9a,4,mock-pasig-palengke,2,9,,made up,2026-10-10,mock,
+mock-j9b,1,mock-pasig-palengke,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j9b,2,mock-city-pasig,2,9,,made up,2026-10-10,mock,
+mock-j9b,3,rail-lrt2-marikina,7.1,33,,made up,2026-10-10,mock,
+mock-j9b,4,mock-city-marikina,1.9,9,,made up,2026-10-10,mock,
+mock-j10a,1,rail-mrt3-araneta_cubao,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j10a,2,mock-city-sanjuan,3.4,16,,made up,2026-10-10,mock,
+mock-j10a,3,mock-city-mandaluyong,3.1,14,,made up,2026-10-10,mock,
+mock-j10a,4,rail-mrt3-shaw_boulevard,2.6,12,,made up,2026-10-10,mock,
+mock-j10b,1,rail-mrt3-shaw_boulevard,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j10b,2,mock-city-mandaluyong,2.6,12,,made up,2026-10-10,mock,
+mock-j10b,3,mock-city-sanjuan,3.1,14,,made up,2026-10-10,mock,
+mock-j10b,4,rail-mrt3-araneta_cubao,3.4,16,,made up,2026-10-10,mock,
+mock-j11a,1,mock-city-mandaluyong,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j11a,2,rail-mrt3-boni,2.1,10,,made up,2026-10-10,mock,
+mock-j11a,3,rail-mrt3-guadalupe,1,5,,made up,2026-10-10,mock,
+mock-j11a,4,mock-city-makati,2.2,10,,made up,2026-10-10,mock,
+mock-j11a,5,rail-mrt3-ayala,2.4,11,,made up,2026-10-10,mock,
+mock-j11b,1,rail-mrt3-ayala,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j11b,2,mock-city-makati,2.4,11,,made up,2026-10-10,mock,
+mock-j11b,3,rail-mrt3-guadalupe,2.2,10,,made up,2026-10-10,mock,
+mock-j11b,4,rail-mrt3-boni,1,5,,made up,2026-10-10,mock,
+mock-j11b,5,mock-city-mandaluyong,2.1,10,,made up,2026-10-10,mock,
+mock-j12a,1,rail-mrt3-ayala,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j12a,2,mock-bgc,3,14,,made up,2026-10-10,mock,
+mock-j12a,3,mock-city-taguig,4.1,19,,made up,2026-10-10,mock,
+mock-j12b,1,mock-city-taguig,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j12b,2,mock-bgc,4.1,19,,made up,2026-10-10,mock,
+mock-j12b,3,rail-mrt3-ayala,3,14,,made up,2026-10-10,mock,
+mock-j13a,1,rail-lrt1-gil_puyat,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j13a,2,mock-city-pasay,2.3,11,,made up,2026-10-10,mock,
+mock-j13a,3,rail-lrt1-baclaran,0.6,3,,made up,2026-10-10,mock,
+mock-j13a,4,mock-city-paranaque,8,37,,made up,2026-10-10,mock,
+mock-j13b,1,mock-city-paranaque,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j13b,2,rail-lrt1-baclaran,8,37,,made up,2026-10-10,mock,
+mock-j13b,3,mock-city-pasay,0.6,3,,made up,2026-10-10,mock,
+mock-j13b,4,rail-lrt1-gil_puyat,2.3,11,,made up,2026-10-10,mock,
+mock-j14a,1,rail-lrt1-baclaran,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j14a,2,mock-coastal,6.2,29,,made up,2026-10-10,mock,
+mock-j14a,3,mock-city-laspinas,5.7,26,,made up,2026-10-10,mock,
+mock-j14b,1,mock-city-laspinas,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j14b,2,mock-coastal,5.7,26,,made up,2026-10-10,mock,
+mock-j14b,3,rail-lrt1-baclaran,6.2,29,,made up,2026-10-10,mock,
+mock-j15a,1,mock-city-paranaque,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j15a,2,mock-sucat,4.8,22,,made up,2026-10-10,mock,
+mock-j15a,3,mock-city-muntinlupa,5.3,24,,made up,2026-10-10,mock,
+mock-j15b,1,mock-city-muntinlupa,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j15b,2,mock-sucat,5.3,24,,made up,2026-10-10,mock,
+mock-j15b,3,mock-city-paranaque,4.8,22,,made up,2026-10-10,mock,
+mock-j16a,1,mock-city-laspinas,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j16a,2,mock-city-muntinlupa,9.3,43,,made up,2026-10-10,mock,
+mock-j16b,1,mock-city-muntinlupa,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
+mock-j16b,2,mock-city-laspinas,9.3,43,,made up,2026-10-10,mock,
 mock-m1a,1,rail-mrt3-quezon_avenue,0,0,,made up,2026-10-10,mock,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe."
 mock-m1a,2,mock-rotonda,6,17,,made up,2026-10-10,mock,
 mock-m1a,3,mock-lawton,4.4,13,,made up,2026-10-10,mock,

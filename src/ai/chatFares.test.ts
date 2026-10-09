@@ -57,6 +57,19 @@ describe('chat on the real pack', () => {
     }
   })
 
+  it('plans a mock jeepney trip to each of the 16 Metro Manila cities by name', async () => {
+    const cities = ['Caloocan', 'Las Piñas', 'Makati', 'Malabon', 'Mandaluyong', 'Manila', 'Marikina', 'Muntinlupa', 'Navotas', 'Parañaque', 'Pasay', 'Pasig', 'Quezon City', 'San Juan', 'Taguig', 'Valenzuela']
+    for (const city of cities) {
+      const from = city === 'Valenzuela' ? 'Muntinlupa' : 'Valenzuela'
+      const reply = await handleUtterance(createSession(), `Paano pumunta sa ${city} galing ${from}?`, deps)
+      expect(reply.kind, city).toBe('options')
+      const cheapest = reply.options.find((option) => option.preference === 'cheapest')!
+      expect(cheapest.status, city).toBe('ok')
+      expect(cheapest.legs.every((leg) => leg.routeId.startsWith('mock-') || leg.mode === 'walk'), city).toBe(true)
+      expect(cheapest.totalFare, city).toBeGreaterThan(0)
+    }
+  })
+
   it('does not invent a fare across lines', async () => {
     const reply = await handleUtterance(createSession(), 'Paano pumunta sa Taft Avenue galing Dr. Santos?', deps)
     expect(reply.kind).not.toBe('answer')

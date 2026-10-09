@@ -546,3 +546,10 @@ The team asked for jeepney routes next to the trains and accepted made-up data a
 - Mock rows carry no tags, so there is no "Iwas ..." what-if chip for them in the real build. "Iwas EDSA" still works only in the sample build.
 - A train question between two stations that a mock route also joins (for example Quezon Ave to Ayala) shows the real train fare first, then the mock jeepney options.
 - The promo video on branch `promo-video` was recorded before this change and does not show the mock routes.
+
+## Mock jeepney routes for all 16 cities (2026-10-10)
+
+- At the user's request the mock pack now has one made-up stop per Metro Manila city (`mock-city-*`, "<City> Sentro (mock)") and 12 more made-up jeepney lines (`mock-j5` to `mock-j16`) joining them, 34 routes in all. Fares use the same two mock fare tables. Everything keeps the MOCK DATA labels.
+- Tsupher understands the city names (plus "QC", "Kyusi", "Maynila", "Kalookan"); the map draws the new lines from the pack with no code change.
+- Passed: `npm run lint`, `npm test` (210, new test plans a trip to each city), `npm run build`, `npm run test:e2e:real` (29), `npm run check:offline` (30). Not run: `test:e2e` (sample build), `check:update`, `check:llm`, `check:migrate`, audit, screenshots.
+- Assumption: "Marikina" alone resolves to the real LRT-2 station, not the mock stop, to avoid an ambiguous-name question.
