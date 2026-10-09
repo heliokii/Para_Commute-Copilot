@@ -3,6 +3,7 @@ import { Badge } from '../components/Badge'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 import { Chip } from '../components/Chip'
+import { FareLookup } from '../components/FareLookup'
 import { Icon } from '../components/Icon'
 import { LandmarkPicker } from '../components/LandmarkPicker'
 import { TopBar } from '../components/TopBar'
@@ -50,7 +51,8 @@ export function Ruta() {
         {!plan.pack && !plan.packError && (
           <p className="px-1 text-sm text-on-deep/85">{copy.plan.loading}</p>
         )}
-        {plan.pack && (
+        {plan.pack && plan.pack.routes.length === 0 && <FareLookup pack={plan.pack} />}
+        {plan.pack && plan.pack.routes.length > 0 && (
           <Card className="p-4">
             {plan.pack.note && (
               <p className="mb-3">

@@ -1,8 +1,3021 @@
 {
   "id": "metro-manila",
   "corridor": "Metro Manila: Q City Bus",
-  "version": "empty",
-  "landmarks": [],
+  "version": "2026-10-10-a719aa84",
+  "landmarks": [
+    {
+      "id": "rail-lrt1-dr_santos",
+      "name": "Dr. Santos (LRT-1)",
+      "aliases": [
+        "Dr. Santos"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.4852337,
+      "lon": 120.9895723
+    },
+    {
+      "id": "rail-lrt1-ninoy_aquino",
+      "name": "Ninoy Aquino Avenue (LRT-1)",
+      "aliases": [
+        "Ninoy Aquino Avenue"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.4988903,
+      "lon": 120.9943732
+    },
+    {
+      "id": "rail-lrt1-pitx",
+      "name": "PITX (LRT-1)",
+      "aliases": [
+        "PITX"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5083101,
+      "lon": 120.9912791
+    },
+    {
+      "id": "rail-lrt1-mia_road",
+      "name": "MIA Road (LRT-1)",
+      "aliases": [
+        "MIA Road"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5184318,
+      "lon": 120.9929872
+    },
+    {
+      "id": "rail-lrt1-redemptorist_aseana",
+      "name": "Redemptorist–Aseana (LRT-1)",
+      "aliases": [
+        "Redemptorist–Aseana"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5302786,
+      "lon": 120.9929379
+    },
+    {
+      "id": "rail-lrt1-baclaran",
+      "name": "Baclaran (LRT-1)",
+      "aliases": [
+        "Baclaran"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5342877,
+      "lon": 120.998398
+    },
+    {
+      "id": "rail-lrt1-edsa",
+      "name": "EDSA (LRT-1)",
+      "aliases": [
+        "EDSA"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5388434,
+      "lon": 121.0006192
+    },
+    {
+      "id": "rail-lrt1-libertad",
+      "name": "Libertad (LRT-1)",
+      "aliases": [
+        "Libertad"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5477514,
+      "lon": 120.9986373
+    },
+    {
+      "id": "rail-lrt1-gil_puyat",
+      "name": "Gil Puyat (LRT-1)",
+      "aliases": [
+        "Gil Puyat"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5541814,
+      "lon": 120.9971661
+    },
+    {
+      "id": "rail-lrt1-vito_cruz",
+      "name": "Vito Cruz (LRT-1)",
+      "aliases": [
+        "Vito Cruz"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5634699,
+      "lon": 120.9947509
+    },
+    {
+      "id": "rail-lrt1-quirino",
+      "name": "Quirino (LRT-1)",
+      "aliases": [
+        "Quirino"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5702879,
+      "lon": 120.9915257
+    },
+    {
+      "id": "rail-lrt1-pedro_gil",
+      "name": "Pedro Gil (LRT-1)",
+      "aliases": [
+        "Pedro Gil"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5765754,
+      "lon": 120.9880197
+    },
+    {
+      "id": "rail-lrt1-un_avenue",
+      "name": "UN Avenue (LRT-1)",
+      "aliases": [
+        "UN Avenue",
+        "United Nations"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5825264,
+      "lon": 120.9846244
+    },
+    {
+      "id": "rail-lrt1-central",
+      "name": "Central (LRT-1)",
+      "aliases": [
+        "Central"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5927962,
+      "lon": 120.9816199
+    },
+    {
+      "id": "rail-lrt1-carriedo",
+      "name": "Carriedo (LRT-1)",
+      "aliases": [
+        "Carriedo"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5991704,
+      "lon": 120.9813635
+    },
+    {
+      "id": "rail-lrt1-d_jose",
+      "name": "D. Jose (LRT-1)",
+      "aliases": [
+        "D. Jose",
+        "Doroteo Jose"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6052943,
+      "lon": 120.9820514
+    },
+    {
+      "id": "rail-lrt1-bambang",
+      "name": "Bambang (LRT-1)",
+      "aliases": [
+        "Bambang"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6111147,
+      "lon": 120.9824669
+    },
+    {
+      "id": "rail-lrt1-tayuman",
+      "name": "Tayuman (LRT-1)",
+      "aliases": [
+        "Tayuman"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6166999,
+      "lon": 120.9827228
+    },
+    {
+      "id": "rail-lrt1-blumentritt",
+      "name": "Blumentritt (LRT-1)",
+      "aliases": [
+        "Blumentritt"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6227714,
+      "lon": 120.9828989
+    },
+    {
+      "id": "rail-lrt1-abad_santos",
+      "name": "Abad Santos (LRT-1)",
+      "aliases": [
+        "Abad Santos"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6306063,
+      "lon": 120.9814053
+    },
+    {
+      "id": "rail-lrt1-r_papa",
+      "name": "R. Papa (LRT-1)",
+      "aliases": [
+        "R. Papa"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6360145,
+      "lon": 120.9822793
+    },
+    {
+      "id": "rail-lrt1-5th_avenue",
+      "name": "5th Avenue (LRT-1)",
+      "aliases": [
+        "5th Avenue"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6444062,
+      "lon": 120.9835359
+    },
+    {
+      "id": "rail-lrt1-monumento",
+      "name": "Monumento (LRT-1)",
+      "aliases": [
+        "Monumento"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6543118,
+      "lon": 120.9838745
+    },
+    {
+      "id": "rail-lrt1-balintawak",
+      "name": "Balintawak (LRT-1)",
+      "aliases": [
+        "Balintawak"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6574243,
+      "lon": 121.0038959
+    },
+    {
+      "id": "rail-lrt1-fernando_poe_jr",
+      "name": "Fernando Poe Jr. (LRT-1)",
+      "aliases": [
+        "Fernando Poe Jr."
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.657559,
+      "lon": 121.0211373
+    },
+    {
+      "id": "rail-lrt2-recto",
+      "name": "Recto (LRT-2)",
+      "aliases": [
+        "Recto"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6035073,
+      "lon": 120.9833708
+    },
+    {
+      "id": "rail-lrt2-legarda",
+      "name": "Legarda (LRT-2)",
+      "aliases": [
+        "Legarda"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.600877,
+      "lon": 120.9925686
+    },
+    {
+      "id": "rail-lrt2-pureza",
+      "name": "Pureza (LRT-2)",
+      "aliases": [
+        "Pureza"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6016769,
+      "lon": 121.0050939
+    },
+    {
+      "id": "rail-lrt2-v_mapa",
+      "name": "V. Mapa (LRT-2)",
+      "aliases": [
+        "V. Mapa"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6040903,
+      "lon": 121.0171136
+    },
+    {
+      "id": "rail-lrt2-j_ruiz",
+      "name": "J. Ruiz (LRT-2)",
+      "aliases": [
+        "J. Ruiz"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6105686,
+      "lon": 121.0260986
+    },
+    {
+      "id": "rail-lrt2-gilmore",
+      "name": "Gilmore (LRT-2)",
+      "aliases": [
+        "Gilmore"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6135362,
+      "lon": 121.0341458
+    },
+    {
+      "id": "rail-lrt2-betty_go",
+      "name": "Betty Go (LRT-2)",
+      "aliases": [
+        "Betty Go"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6185972,
+      "lon": 121.042706
+    },
+    {
+      "id": "rail-lrt2-cubao",
+      "name": "Cubao (LRT-2)",
+      "aliases": [
+        "Cubao"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6228614,
+      "lon": 121.0531248
+    },
+    {
+      "id": "rail-lrt2-anonas",
+      "name": "Anonas (LRT-2)",
+      "aliases": [
+        "Anonas"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6279862,
+      "lon": 121.0647231
+    },
+    {
+      "id": "rail-lrt2-katipunan",
+      "name": "Katipunan (LRT-2)",
+      "aliases": [
+        "Katipunan"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6310833,
+      "lon": 121.0729164
+    },
+    {
+      "id": "rail-lrt2-santolan",
+      "name": "Santolan (LRT-2)",
+      "aliases": [
+        "Santolan"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6221076,
+      "lon": 121.0859641
+    },
+    {
+      "id": "rail-lrt2-marikina",
+      "name": "Marikina (LRT-2)",
+      "aliases": [
+        "Marikina"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6204412,
+      "lon": 121.1006479
+    },
+    {
+      "id": "rail-mrt3-north_avenue",
+      "name": "North Ave. (MRT-3)",
+      "aliases": [
+        "North Avenue",
+        "North Ave."
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6521693,
+      "lon": 121.0323313
+    },
+    {
+      "id": "rail-mrt3-quezon_avenue",
+      "name": "Quezon Ave. (MRT-3)",
+      "aliases": [
+        "Quezon Avenue",
+        "Quezon Ave."
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.642555,
+      "lon": 121.0385751
+    },
+    {
+      "id": "rail-mrt3-gma_kamuning",
+      "name": "GMA Kamuning (MRT-3)",
+      "aliases": [
+        "GMA Kamuning"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6353465,
+      "lon": 121.0432937
+    },
+    {
+      "id": "rail-mrt3-araneta_cubao",
+      "name": "Araneta-Cubao (MRT-3)",
+      "aliases": [
+        "Araneta-Cubao"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6194777,
+      "lon": 121.051057
+    },
+    {
+      "id": "rail-mrt3-santolan_annapolis",
+      "name": "Santolan Annapolis (MRT-3)",
+      "aliases": [
+        "Santolan Annapolis"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.6078561,
+      "lon": 121.056524
+    },
+    {
+      "id": "rail-mrt3-ortigas",
+      "name": "Ortigas (MRT-3)",
+      "aliases": [
+        "Ortigas"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.587862,
+      "lon": 121.0567162
+    },
+    {
+      "id": "rail-mrt3-shaw_boulevard",
+      "name": "Shaw Blvd. (MRT-3)",
+      "aliases": [
+        "Shaw Boulevard",
+        "Shaw Blvd."
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5810649,
+      "lon": 121.0534794
+    },
+    {
+      "id": "rail-mrt3-boni",
+      "name": "Boni (MRT-3)",
+      "aliases": [
+        "Boni"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5737744,
+      "lon": 121.0481887
+    },
+    {
+      "id": "rail-mrt3-guadalupe",
+      "name": "Guadalupe (MRT-3)",
+      "aliases": [
+        "Guadalupe"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.567114,
+      "lon": 121.0455357
+    },
+    {
+      "id": "rail-mrt3-buendia",
+      "name": "Buendia (MRT-3)",
+      "aliases": [
+        "Buendia"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5543705,
+      "lon": 121.0342223
+    },
+    {
+      "id": "rail-mrt3-ayala",
+      "name": "Ayala (MRT-3)",
+      "aliases": [
+        "Ayala"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.549194,
+      "lon": 121.027919
+    },
+    {
+      "id": "rail-mrt3-magallanes",
+      "name": "Magallanes (MRT-3)",
+      "aliases": [
+        "Magallanes"
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5419448,
+      "lon": 121.0193919
+    },
+    {
+      "id": "rail-mrt3-taft_avenue",
+      "name": "Taft Ave. (MRT-3)",
+      "aliases": [
+        "Taft Avenue",
+        "Taft Ave."
+      ],
+      "tags": [
+        "train"
+      ],
+      "lat": 14.5375644,
+      "lon": 121.0018185
+    }
+  ],
   "routes": [],
-  "fares": []
+  "fares": [
+    {
+      "id": "lrt1-single-journey-2025-04-02",
+      "mode": "train",
+      "product": "single-journey",
+      "vehicleClass": "standard",
+      "rule": {
+        "kind": "matrix",
+        "byOriginDestination": {
+          "rail-lrt1-dr_santos": {
+            "rail-lrt1-ninoy_aquino": 20,
+            "rail-lrt1-pitx": 20,
+            "rail-lrt1-mia_road": 25,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 35,
+            "rail-lrt1-quirino": 35,
+            "rail-lrt1-pedro_gil": 35,
+            "rail-lrt1-un_avenue": 35,
+            "rail-lrt1-central": 40,
+            "rail-lrt1-carriedo": 40,
+            "rail-lrt1-d_jose": 40,
+            "rail-lrt1-bambang": 40,
+            "rail-lrt1-tayuman": 40,
+            "rail-lrt1-blumentritt": 45,
+            "rail-lrt1-abad_santos": 45,
+            "rail-lrt1-r_papa": 45,
+            "rail-lrt1-5th_avenue": 45,
+            "rail-lrt1-monumento": 50,
+            "rail-lrt1-balintawak": 50,
+            "rail-lrt1-fernando_poe_jr": 55
+          },
+          "rail-lrt1-ninoy_aquino": {
+            "rail-lrt1-dr_santos": 20,
+            "rail-lrt1-pitx": 20,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 25,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 30,
+            "rail-lrt1-pedro_gil": 35,
+            "rail-lrt1-un_avenue": 35,
+            "rail-lrt1-central": 35,
+            "rail-lrt1-carriedo": 35,
+            "rail-lrt1-d_jose": 40,
+            "rail-lrt1-bambang": 40,
+            "rail-lrt1-tayuman": 40,
+            "rail-lrt1-blumentritt": 40,
+            "rail-lrt1-abad_santos": 40,
+            "rail-lrt1-r_papa": 45,
+            "rail-lrt1-5th_avenue": 45,
+            "rail-lrt1-monumento": 45,
+            "rail-lrt1-balintawak": 50,
+            "rail-lrt1-fernando_poe_jr": 50
+          },
+          "rail-lrt1-pitx": {
+            "rail-lrt1-dr_santos": 20,
+            "rail-lrt1-ninoy_aquino": 20,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 20,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 25,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 30,
+            "rail-lrt1-pedro_gil": 30,
+            "rail-lrt1-un_avenue": 30,
+            "rail-lrt1-central": 35,
+            "rail-lrt1-carriedo": 35,
+            "rail-lrt1-d_jose": 35,
+            "rail-lrt1-bambang": 35,
+            "rail-lrt1-tayuman": 40,
+            "rail-lrt1-blumentritt": 40,
+            "rail-lrt1-abad_santos": 40,
+            "rail-lrt1-r_papa": 40,
+            "rail-lrt1-5th_avenue": 40,
+            "rail-lrt1-monumento": 45,
+            "rail-lrt1-balintawak": 45,
+            "rail-lrt1-fernando_poe_jr": 50
+          },
+          "rail-lrt1-mia_road": {
+            "rail-lrt1-dr_santos": 25,
+            "rail-lrt1-ninoy_aquino": 20,
+            "rail-lrt1-pitx": 20,
+            "rail-lrt1-redemptorist_aseana": 20,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 30,
+            "rail-lrt1-pedro_gil": 30,
+            "rail-lrt1-un_avenue": 30,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 35,
+            "rail-lrt1-d_jose": 35,
+            "rail-lrt1-bambang": 35,
+            "rail-lrt1-tayuman": 35,
+            "rail-lrt1-blumentritt": 35,
+            "rail-lrt1-abad_santos": 40,
+            "rail-lrt1-r_papa": 40,
+            "rail-lrt1-5th_avenue": 40,
+            "rail-lrt1-monumento": 40,
+            "rail-lrt1-balintawak": 45,
+            "rail-lrt1-fernando_poe_jr": 50
+          },
+          "rail-lrt1-redemptorist_aseana": {
+            "rail-lrt1-dr_santos": 25,
+            "rail-lrt1-ninoy_aquino": 25,
+            "rail-lrt1-pitx": 20,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 30,
+            "rail-lrt1-un_avenue": 30,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 30,
+            "rail-lrt1-d_jose": 35,
+            "rail-lrt1-bambang": 35,
+            "rail-lrt1-tayuman": 35,
+            "rail-lrt1-blumentritt": 35,
+            "rail-lrt1-abad_santos": 35,
+            "rail-lrt1-r_papa": 40,
+            "rail-lrt1-5th_avenue": 40,
+            "rail-lrt1-monumento": 40,
+            "rail-lrt1-balintawak": 45,
+            "rail-lrt1-fernando_poe_jr": 45
+          },
+          "rail-lrt1-baclaran": {
+            "rail-lrt1-dr_santos": 30,
+            "rail-lrt1-ninoy_aquino": 25,
+            "rail-lrt1-pitx": 25,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 20,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 20,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 30,
+            "rail-lrt1-d_jose": 30,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 35,
+            "rail-lrt1-abad_santos": 35,
+            "rail-lrt1-r_papa": 35,
+            "rail-lrt1-5th_avenue": 35,
+            "rail-lrt1-monumento": 40,
+            "rail-lrt1-balintawak": 40,
+            "rail-lrt1-fernando_poe_jr": 45
+          },
+          "rail-lrt1-edsa": {
+            "rail-lrt1-dr_santos": 30,
+            "rail-lrt1-ninoy_aquino": 25,
+            "rail-lrt1-pitx": 25,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 20,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-libertad": 20,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 30,
+            "rail-lrt1-d_jose": 30,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 35,
+            "rail-lrt1-abad_santos": 35,
+            "rail-lrt1-r_papa": 35,
+            "rail-lrt1-5th_avenue": 35,
+            "rail-lrt1-monumento": 40,
+            "rail-lrt1-balintawak": 40,
+            "rail-lrt1-fernando_poe_jr": 45
+          },
+          "rail-lrt1-libertad": {
+            "rail-lrt1-dr_santos": 30,
+            "rail-lrt1-ninoy_aquino": 30,
+            "rail-lrt1-pitx": 25,
+            "rail-lrt1-mia_road": 25,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 30,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 30,
+            "rail-lrt1-abad_santos": 30,
+            "rail-lrt1-r_papa": 35,
+            "rail-lrt1-5th_avenue": 35,
+            "rail-lrt1-monumento": 35,
+            "rail-lrt1-balintawak": 40,
+            "rail-lrt1-fernando_poe_jr": 40
+          },
+          "rail-lrt1-gil_puyat": {
+            "rail-lrt1-dr_santos": 30,
+            "rail-lrt1-ninoy_aquino": 30,
+            "rail-lrt1-pitx": 25,
+            "rail-lrt1-mia_road": 25,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 20,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 30,
+            "rail-lrt1-abad_santos": 30,
+            "rail-lrt1-r_papa": 30,
+            "rail-lrt1-5th_avenue": 35,
+            "rail-lrt1-monumento": 35,
+            "rail-lrt1-balintawak": 40,
+            "rail-lrt1-fernando_poe_jr": 40
+          },
+          "rail-lrt1-vito_cruz": {
+            "rail-lrt1-dr_santos": 35,
+            "rail-lrt1-ninoy_aquino": 30,
+            "rail-lrt1-pitx": 30,
+            "rail-lrt1-mia_road": 25,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 20,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 30,
+            "rail-lrt1-abad_santos": 30,
+            "rail-lrt1-r_papa": 30,
+            "rail-lrt1-5th_avenue": 30,
+            "rail-lrt1-monumento": 35,
+            "rail-lrt1-balintawak": 35,
+            "rail-lrt1-fernando_poe_jr": 40
+          },
+          "rail-lrt1-quirino": {
+            "rail-lrt1-dr_santos": 35,
+            "rail-lrt1-ninoy_aquino": 30,
+            "rail-lrt1-pitx": 30,
+            "rail-lrt1-mia_road": 30,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 25,
+            "rail-lrt1-libertad": 20,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 30,
+            "rail-lrt1-r_papa": 30,
+            "rail-lrt1-5th_avenue": 30,
+            "rail-lrt1-monumento": 35,
+            "rail-lrt1-balintawak": 35,
+            "rail-lrt1-fernando_poe_jr": 40
+          },
+          "rail-lrt1-pedro_gil": {
+            "rail-lrt1-dr_santos": 35,
+            "rail-lrt1-ninoy_aquino": 35,
+            "rail-lrt1-pitx": 30,
+            "rail-lrt1-mia_road": 30,
+            "rail-lrt1-redemptorist_aseana": 30,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 25,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 25,
+            "rail-lrt1-r_papa": 30,
+            "rail-lrt1-5th_avenue": 30,
+            "rail-lrt1-monumento": 30,
+            "rail-lrt1-balintawak": 35,
+            "rail-lrt1-fernando_poe_jr": 35
+          },
+          "rail-lrt1-un_avenue": {
+            "rail-lrt1-dr_santos": 35,
+            "rail-lrt1-ninoy_aquino": 35,
+            "rail-lrt1-pitx": 30,
+            "rail-lrt1-mia_road": 30,
+            "rail-lrt1-redemptorist_aseana": 30,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 25,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 25,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 30,
+            "rail-lrt1-monumento": 30,
+            "rail-lrt1-balintawak": 35,
+            "rail-lrt1-fernando_poe_jr": 35
+          },
+          "rail-lrt1-central": {
+            "rail-lrt1-dr_santos": 40,
+            "rail-lrt1-ninoy_aquino": 35,
+            "rail-lrt1-pitx": 35,
+            "rail-lrt1-mia_road": 30,
+            "rail-lrt1-redemptorist_aseana": 30,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 25,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 30,
+            "rail-lrt1-balintawak": 30,
+            "rail-lrt1-fernando_poe_jr": 35
+          },
+          "rail-lrt1-carriedo": {
+            "rail-lrt1-dr_santos": 40,
+            "rail-lrt1-ninoy_aquino": 35,
+            "rail-lrt1-pitx": 35,
+            "rail-lrt1-mia_road": 35,
+            "rail-lrt1-redemptorist_aseana": 30,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 25,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 30,
+            "rail-lrt1-fernando_poe_jr": 35
+          },
+          "rail-lrt1-d_jose": {
+            "rail-lrt1-dr_santos": 40,
+            "rail-lrt1-ninoy_aquino": 40,
+            "rail-lrt1-pitx": 35,
+            "rail-lrt1-mia_road": 35,
+            "rail-lrt1-redemptorist_aseana": 35,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 30,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-bambang": {
+            "rail-lrt1-dr_santos": 40,
+            "rail-lrt1-ninoy_aquino": 40,
+            "rail-lrt1-pitx": 35,
+            "rail-lrt1-mia_road": 35,
+            "rail-lrt1-redemptorist_aseana": 35,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 30,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-tayuman": {
+            "rail-lrt1-dr_santos": 40,
+            "rail-lrt1-ninoy_aquino": 40,
+            "rail-lrt1-pitx": 40,
+            "rail-lrt1-mia_road": 35,
+            "rail-lrt1-redemptorist_aseana": 35,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 30,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-blumentritt": {
+            "rail-lrt1-dr_santos": 45,
+            "rail-lrt1-ninoy_aquino": 40,
+            "rail-lrt1-pitx": 40,
+            "rail-lrt1-mia_road": 35,
+            "rail-lrt1-redemptorist_aseana": 35,
+            "rail-lrt1-baclaran": 35,
+            "rail-lrt1-edsa": 35,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 20,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 25,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-abad_santos": {
+            "rail-lrt1-dr_santos": 45,
+            "rail-lrt1-ninoy_aquino": 40,
+            "rail-lrt1-pitx": 40,
+            "rail-lrt1-mia_road": 40,
+            "rail-lrt1-redemptorist_aseana": 35,
+            "rail-lrt1-baclaran": 35,
+            "rail-lrt1-edsa": 35,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 30,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 20,
+            "rail-lrt1-monumento": 20,
+            "rail-lrt1-balintawak": 25,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-r_papa": {
+            "rail-lrt1-dr_santos": 45,
+            "rail-lrt1-ninoy_aquino": 45,
+            "rail-lrt1-pitx": 40,
+            "rail-lrt1-mia_road": 40,
+            "rail-lrt1-redemptorist_aseana": 40,
+            "rail-lrt1-baclaran": 35,
+            "rail-lrt1-edsa": 35,
+            "rail-lrt1-libertad": 35,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 30,
+            "rail-lrt1-pedro_gil": 30,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-5th_avenue": 20,
+            "rail-lrt1-monumento": 20,
+            "rail-lrt1-balintawak": 25,
+            "rail-lrt1-fernando_poe_jr": 25
+          },
+          "rail-lrt1-5th_avenue": {
+            "rail-lrt1-dr_santos": 45,
+            "rail-lrt1-ninoy_aquino": 45,
+            "rail-lrt1-pitx": 40,
+            "rail-lrt1-mia_road": 40,
+            "rail-lrt1-redemptorist_aseana": 40,
+            "rail-lrt1-baclaran": 35,
+            "rail-lrt1-edsa": 35,
+            "rail-lrt1-libertad": 35,
+            "rail-lrt1-gil_puyat": 35,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 30,
+            "rail-lrt1-pedro_gil": 30,
+            "rail-lrt1-un_avenue": 30,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-monumento": 20,
+            "rail-lrt1-balintawak": 25,
+            "rail-lrt1-fernando_poe_jr": 25
+          },
+          "rail-lrt1-monumento": {
+            "rail-lrt1-dr_santos": 50,
+            "rail-lrt1-ninoy_aquino": 45,
+            "rail-lrt1-pitx": 45,
+            "rail-lrt1-mia_road": 40,
+            "rail-lrt1-redemptorist_aseana": 40,
+            "rail-lrt1-baclaran": 40,
+            "rail-lrt1-edsa": 40,
+            "rail-lrt1-libertad": 35,
+            "rail-lrt1-gil_puyat": 35,
+            "rail-lrt1-vito_cruz": 35,
+            "rail-lrt1-quirino": 35,
+            "rail-lrt1-pedro_gil": 30,
+            "rail-lrt1-un_avenue": 30,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 20,
+            "rail-lrt1-balintawak": 20,
+            "rail-lrt1-fernando_poe_jr": 25
+          },
+          "rail-lrt1-balintawak": {
+            "rail-lrt1-dr_santos": 50,
+            "rail-lrt1-ninoy_aquino": 50,
+            "rail-lrt1-pitx": 45,
+            "rail-lrt1-mia_road": 45,
+            "rail-lrt1-redemptorist_aseana": 45,
+            "rail-lrt1-baclaran": 40,
+            "rail-lrt1-edsa": 40,
+            "rail-lrt1-libertad": 40,
+            "rail-lrt1-gil_puyat": 40,
+            "rail-lrt1-vito_cruz": 35,
+            "rail-lrt1-quirino": 35,
+            "rail-lrt1-pedro_gil": 35,
+            "rail-lrt1-un_avenue": 35,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 30,
+            "rail-lrt1-d_jose": 30,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 25,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 20,
+            "rail-lrt1-fernando_poe_jr": 20
+          },
+          "rail-lrt1-fernando_poe_jr": {
+            "rail-lrt1-dr_santos": 55,
+            "rail-lrt1-ninoy_aquino": 50,
+            "rail-lrt1-pitx": 50,
+            "rail-lrt1-mia_road": 50,
+            "rail-lrt1-redemptorist_aseana": 45,
+            "rail-lrt1-baclaran": 45,
+            "rail-lrt1-edsa": 45,
+            "rail-lrt1-libertad": 40,
+            "rail-lrt1-gil_puyat": 40,
+            "rail-lrt1-vito_cruz": 40,
+            "rail-lrt1-quirino": 40,
+            "rail-lrt1-pedro_gil": 35,
+            "rail-lrt1-un_avenue": 35,
+            "rail-lrt1-central": 35,
+            "rail-lrt1-carriedo": 35,
+            "rail-lrt1-d_jose": 30,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 30,
+            "rail-lrt1-abad_santos": 30,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 20
+          }
+        }
+      },
+      "effectiveDate": "2025-04-02",
+      "promotions": [],
+      "sourceUrl": "https://lrmc.ph/wp-content/uploads/2025/03/New-SVC-fare-matrix-effective-April-2-2025-1.png",
+      "sourceNote": "Visible image heading says Single Journey; asset filename says SVC. Same-station cells are blank. Effective April 2, 2025."
+    },
+    {
+      "id": "lrt1-stored-value-2025-04-02",
+      "mode": "train",
+      "product": "stored-value",
+      "vehicleClass": "standard",
+      "rule": {
+        "kind": "matrix",
+        "byOriginDestination": {
+          "rail-lrt1-dr_santos": {
+            "rail-lrt1-ninoy_aquino": 19,
+            "rail-lrt1-pitx": 20,
+            "rail-lrt1-mia_road": 22,
+            "rail-lrt1-redemptorist_aseana": 23,
+            "rail-lrt1-baclaran": 26,
+            "rail-lrt1-edsa": 27,
+            "rail-lrt1-libertad": 28,
+            "rail-lrt1-gil_puyat": 29,
+            "rail-lrt1-vito_cruz": 31,
+            "rail-lrt1-quirino": 32,
+            "rail-lrt1-pedro_gil": 33,
+            "rail-lrt1-un_avenue": 34,
+            "rail-lrt1-central": 36,
+            "rail-lrt1-carriedo": 37,
+            "rail-lrt1-d_jose": 38,
+            "rail-lrt1-bambang": 39,
+            "rail-lrt1-tayuman": 40,
+            "rail-lrt1-blumentritt": 41,
+            "rail-lrt1-abad_santos": 42,
+            "rail-lrt1-r_papa": 43,
+            "rail-lrt1-5th_avenue": 45,
+            "rail-lrt1-monumento": 46,
+            "rail-lrt1-balintawak": 49,
+            "rail-lrt1-fernando_poe_jr": 52
+          },
+          "rail-lrt1-ninoy_aquino": {
+            "rail-lrt1-dr_santos": 19,
+            "rail-lrt1-pitx": 18,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 21,
+            "rail-lrt1-baclaran": 23,
+            "rail-lrt1-edsa": 24,
+            "rail-lrt1-libertad": 26,
+            "rail-lrt1-gil_puyat": 27,
+            "rail-lrt1-vito_cruz": 28,
+            "rail-lrt1-quirino": 29,
+            "rail-lrt1-pedro_gil": 31,
+            "rail-lrt1-un_avenue": 32,
+            "rail-lrt1-central": 33,
+            "rail-lrt1-carriedo": 35,
+            "rail-lrt1-d_jose": 36,
+            "rail-lrt1-bambang": 36,
+            "rail-lrt1-tayuman": 37,
+            "rail-lrt1-blumentritt": 38,
+            "rail-lrt1-abad_santos": 40,
+            "rail-lrt1-r_papa": 41,
+            "rail-lrt1-5th_avenue": 42,
+            "rail-lrt1-monumento": 44,
+            "rail-lrt1-balintawak": 47,
+            "rail-lrt1-fernando_poe_jr": 50
+          },
+          "rail-lrt1-pitx": {
+            "rail-lrt1-dr_santos": 20,
+            "rail-lrt1-ninoy_aquino": 18,
+            "rail-lrt1-mia_road": 18,
+            "rail-lrt1-redemptorist_aseana": 19,
+            "rail-lrt1-baclaran": 22,
+            "rail-lrt1-edsa": 22,
+            "rail-lrt1-libertad": 24,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 27,
+            "rail-lrt1-quirino": 28,
+            "rail-lrt1-pedro_gil": 29,
+            "rail-lrt1-un_avenue": 30,
+            "rail-lrt1-central": 32,
+            "rail-lrt1-carriedo": 33,
+            "rail-lrt1-d_jose": 34,
+            "rail-lrt1-bambang": 35,
+            "rail-lrt1-tayuman": 36,
+            "rail-lrt1-blumentritt": 37,
+            "rail-lrt1-abad_santos": 38,
+            "rail-lrt1-r_papa": 39,
+            "rail-lrt1-5th_avenue": 40,
+            "rail-lrt1-monumento": 42,
+            "rail-lrt1-balintawak": 45,
+            "rail-lrt1-fernando_poe_jr": 48
+          },
+          "rail-lrt1-mia_road": {
+            "rail-lrt1-dr_santos": 22,
+            "rail-lrt1-ninoy_aquino": 20,
+            "rail-lrt1-pitx": 18,
+            "rail-lrt1-redemptorist_aseana": 17,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 22,
+            "rail-lrt1-gil_puyat": 23,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 26,
+            "rail-lrt1-pedro_gil": 27,
+            "rail-lrt1-un_avenue": 28,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 31,
+            "rail-lrt1-d_jose": 32,
+            "rail-lrt1-bambang": 33,
+            "rail-lrt1-tayuman": 34,
+            "rail-lrt1-blumentritt": 35,
+            "rail-lrt1-abad_santos": 36,
+            "rail-lrt1-r_papa": 37,
+            "rail-lrt1-5th_avenue": 38,
+            "rail-lrt1-monumento": 40,
+            "rail-lrt1-balintawak": 43,
+            "rail-lrt1-fernando_poe_jr": 46
+          },
+          "rail-lrt1-redemptorist_aseana": {
+            "rail-lrt1-dr_santos": 23,
+            "rail-lrt1-ninoy_aquino": 21,
+            "rail-lrt1-pitx": 19,
+            "rail-lrt1-mia_road": 17,
+            "rail-lrt1-baclaran": 18,
+            "rail-lrt1-edsa": 19,
+            "rail-lrt1-libertad": 21,
+            "rail-lrt1-gil_puyat": 22,
+            "rail-lrt1-vito_cruz": 23,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 26,
+            "rail-lrt1-un_avenue": 27,
+            "rail-lrt1-central": 29,
+            "rail-lrt1-carriedo": 30,
+            "rail-lrt1-d_jose": 31,
+            "rail-lrt1-bambang": 32,
+            "rail-lrt1-tayuman": 33,
+            "rail-lrt1-blumentritt": 34,
+            "rail-lrt1-abad_santos": 35,
+            "rail-lrt1-r_papa": 36,
+            "rail-lrt1-5th_avenue": 37,
+            "rail-lrt1-monumento": 39,
+            "rail-lrt1-balintawak": 42,
+            "rail-lrt1-fernando_poe_jr": 45
+          },
+          "rail-lrt1-baclaran": {
+            "rail-lrt1-dr_santos": 26,
+            "rail-lrt1-ninoy_aquino": 23,
+            "rail-lrt1-pitx": 22,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 18,
+            "rail-lrt1-edsa": 17,
+            "rail-lrt1-libertad": 19,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 21,
+            "rail-lrt1-quirino": 22,
+            "rail-lrt1-pedro_gil": 24,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 27,
+            "rail-lrt1-carriedo": 28,
+            "rail-lrt1-d_jose": 29,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 31,
+            "rail-lrt1-abad_santos": 33,
+            "rail-lrt1-r_papa": 34,
+            "rail-lrt1-5th_avenue": 35,
+            "rail-lrt1-monumento": 37,
+            "rail-lrt1-balintawak": 40,
+            "rail-lrt1-fernando_poe_jr": 43
+          },
+          "rail-lrt1-edsa": {
+            "rail-lrt1-dr_santos": 27,
+            "rail-lrt1-ninoy_aquino": 24,
+            "rail-lrt1-pitx": 22,
+            "rail-lrt1-mia_road": 20,
+            "rail-lrt1-redemptorist_aseana": 19,
+            "rail-lrt1-baclaran": 17,
+            "rail-lrt1-libertad": 18,
+            "rail-lrt1-gil_puyat": 19,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 22,
+            "rail-lrt1-pedro_gil": 23,
+            "rail-lrt1-un_avenue": 24,
+            "rail-lrt1-central": 26,
+            "rail-lrt1-carriedo": 27,
+            "rail-lrt1-d_jose": 28,
+            "rail-lrt1-bambang": 29,
+            "rail-lrt1-tayuman": 30,
+            "rail-lrt1-blumentritt": 31,
+            "rail-lrt1-abad_santos": 32,
+            "rail-lrt1-r_papa": 33,
+            "rail-lrt1-5th_avenue": 34,
+            "rail-lrt1-monumento": 36,
+            "rail-lrt1-balintawak": 39,
+            "rail-lrt1-fernando_poe_jr": 42
+          },
+          "rail-lrt1-libertad": {
+            "rail-lrt1-dr_santos": 28,
+            "rail-lrt1-ninoy_aquino": 26,
+            "rail-lrt1-pitx": 24,
+            "rail-lrt1-mia_road": 22,
+            "rail-lrt1-redemptorist_aseana": 21,
+            "rail-lrt1-baclaran": 19,
+            "rail-lrt1-edsa": 18,
+            "rail-lrt1-gil_puyat": 17,
+            "rail-lrt1-vito_cruz": 19,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 21,
+            "rail-lrt1-un_avenue": 22,
+            "rail-lrt1-central": 24,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 26,
+            "rail-lrt1-bambang": 27,
+            "rail-lrt1-tayuman": 28,
+            "rail-lrt1-blumentritt": 29,
+            "rail-lrt1-abad_santos": 30,
+            "rail-lrt1-r_papa": 31,
+            "rail-lrt1-5th_avenue": 33,
+            "rail-lrt1-monumento": 34,
+            "rail-lrt1-balintawak": 38,
+            "rail-lrt1-fernando_poe_jr": 40
+          },
+          "rail-lrt1-gil_puyat": {
+            "rail-lrt1-dr_santos": 29,
+            "rail-lrt1-ninoy_aquino": 27,
+            "rail-lrt1-pitx": 25,
+            "rail-lrt1-mia_road": 23,
+            "rail-lrt1-redemptorist_aseana": 22,
+            "rail-lrt1-baclaran": 20,
+            "rail-lrt1-edsa": 19,
+            "rail-lrt1-libertad": 17,
+            "rail-lrt1-vito_cruz": 18,
+            "rail-lrt1-quirino": 19,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 21,
+            "rail-lrt1-central": 23,
+            "rail-lrt1-carriedo": 24,
+            "rail-lrt1-d_jose": 25,
+            "rail-lrt1-bambang": 26,
+            "rail-lrt1-tayuman": 27,
+            "rail-lrt1-blumentritt": 28,
+            "rail-lrt1-abad_santos": 29,
+            "rail-lrt1-r_papa": 30,
+            "rail-lrt1-5th_avenue": 32,
+            "rail-lrt1-monumento": 33,
+            "rail-lrt1-balintawak": 37,
+            "rail-lrt1-fernando_poe_jr": 39
+          },
+          "rail-lrt1-vito_cruz": {
+            "rail-lrt1-dr_santos": 31,
+            "rail-lrt1-ninoy_aquino": 28,
+            "rail-lrt1-pitx": 27,
+            "rail-lrt1-mia_road": 25,
+            "rail-lrt1-redemptorist_aseana": 23,
+            "rail-lrt1-baclaran": 21,
+            "rail-lrt1-edsa": 20,
+            "rail-lrt1-libertad": 19,
+            "rail-lrt1-gil_puyat": 18,
+            "rail-lrt1-quirino": 17,
+            "rail-lrt1-pedro_gil": 19,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 22,
+            "rail-lrt1-carriedo": 23,
+            "rail-lrt1-d_jose": 24,
+            "rail-lrt1-bambang": 25,
+            "rail-lrt1-tayuman": 25,
+            "rail-lrt1-blumentritt": 26,
+            "rail-lrt1-abad_santos": 28,
+            "rail-lrt1-r_papa": 29,
+            "rail-lrt1-5th_avenue": 30,
+            "rail-lrt1-monumento": 32,
+            "rail-lrt1-balintawak": 35,
+            "rail-lrt1-fernando_poe_jr": 38
+          },
+          "rail-lrt1-quirino": {
+            "rail-lrt1-dr_santos": 32,
+            "rail-lrt1-ninoy_aquino": 29,
+            "rail-lrt1-pitx": 28,
+            "rail-lrt1-mia_road": 26,
+            "rail-lrt1-redemptorist_aseana": 25,
+            "rail-lrt1-baclaran": 22,
+            "rail-lrt1-edsa": 22,
+            "rail-lrt1-libertad": 20,
+            "rail-lrt1-gil_puyat": 19,
+            "rail-lrt1-vito_cruz": 17,
+            "rail-lrt1-pedro_gil": 17,
+            "rail-lrt1-un_avenue": 19,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 21,
+            "rail-lrt1-d_jose": 22,
+            "rail-lrt1-bambang": 23,
+            "rail-lrt1-tayuman": 24,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 27,
+            "rail-lrt1-r_papa": 28,
+            "rail-lrt1-5th_avenue": 29,
+            "rail-lrt1-monumento": 31,
+            "rail-lrt1-balintawak": 34,
+            "rail-lrt1-fernando_poe_jr": 37
+          },
+          "rail-lrt1-pedro_gil": {
+            "rail-lrt1-dr_santos": 33,
+            "rail-lrt1-ninoy_aquino": 31,
+            "rail-lrt1-pitx": 29,
+            "rail-lrt1-mia_road": 27,
+            "rail-lrt1-redemptorist_aseana": 26,
+            "rail-lrt1-baclaran": 24,
+            "rail-lrt1-edsa": 23,
+            "rail-lrt1-libertad": 21,
+            "rail-lrt1-gil_puyat": 20,
+            "rail-lrt1-vito_cruz": 19,
+            "rail-lrt1-quirino": 17,
+            "rail-lrt1-un_avenue": 17,
+            "rail-lrt1-central": 19,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 21,
+            "rail-lrt1-bambang": 22,
+            "rail-lrt1-tayuman": 23,
+            "rail-lrt1-blumentritt": 24,
+            "rail-lrt1-abad_santos": 25,
+            "rail-lrt1-r_papa": 26,
+            "rail-lrt1-5th_avenue": 28,
+            "rail-lrt1-monumento": 29,
+            "rail-lrt1-balintawak": 33,
+            "rail-lrt1-fernando_poe_jr": 35
+          },
+          "rail-lrt1-un_avenue": {
+            "rail-lrt1-dr_santos": 34,
+            "rail-lrt1-ninoy_aquino": 32,
+            "rail-lrt1-pitx": 30,
+            "rail-lrt1-mia_road": 28,
+            "rail-lrt1-redemptorist_aseana": 27,
+            "rail-lrt1-baclaran": 25,
+            "rail-lrt1-edsa": 24,
+            "rail-lrt1-libertad": 22,
+            "rail-lrt1-gil_puyat": 21,
+            "rail-lrt1-vito_cruz": 20,
+            "rail-lrt1-quirino": 19,
+            "rail-lrt1-pedro_gil": 17,
+            "rail-lrt1-central": 18,
+            "rail-lrt1-carriedo": 19,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 21,
+            "rail-lrt1-tayuman": 22,
+            "rail-lrt1-blumentritt": 23,
+            "rail-lrt1-abad_santos": 24,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 27,
+            "rail-lrt1-monumento": 28,
+            "rail-lrt1-balintawak": 32,
+            "rail-lrt1-fernando_poe_jr": 34
+          },
+          "rail-lrt1-central": {
+            "rail-lrt1-dr_santos": 36,
+            "rail-lrt1-ninoy_aquino": 33,
+            "rail-lrt1-pitx": 32,
+            "rail-lrt1-mia_road": 30,
+            "rail-lrt1-redemptorist_aseana": 29,
+            "rail-lrt1-baclaran": 27,
+            "rail-lrt1-edsa": 26,
+            "rail-lrt1-libertad": 24,
+            "rail-lrt1-gil_puyat": 23,
+            "rail-lrt1-vito_cruz": 22,
+            "rail-lrt1-quirino": 20,
+            "rail-lrt1-pedro_gil": 19,
+            "rail-lrt1-un_avenue": 18,
+            "rail-lrt1-carriedo": 17,
+            "rail-lrt1-d_jose": 18,
+            "rail-lrt1-bambang": 19,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 21,
+            "rail-lrt1-abad_santos": 23,
+            "rail-lrt1-r_papa": 23,
+            "rail-lrt1-5th_avenue": 25,
+            "rail-lrt1-monumento": 27,
+            "rail-lrt1-balintawak": 30,
+            "rail-lrt1-fernando_poe_jr": 33
+          },
+          "rail-lrt1-carriedo": {
+            "rail-lrt1-dr_santos": 37,
+            "rail-lrt1-ninoy_aquino": 35,
+            "rail-lrt1-pitx": 33,
+            "rail-lrt1-mia_road": 31,
+            "rail-lrt1-redemptorist_aseana": 30,
+            "rail-lrt1-baclaran": 28,
+            "rail-lrt1-edsa": 27,
+            "rail-lrt1-libertad": 25,
+            "rail-lrt1-gil_puyat": 24,
+            "rail-lrt1-vito_cruz": 23,
+            "rail-lrt1-quirino": 21,
+            "rail-lrt1-pedro_gil": 20,
+            "rail-lrt1-un_avenue": 19,
+            "rail-lrt1-central": 17,
+            "rail-lrt1-d_jose": 17,
+            "rail-lrt1-bambang": 18,
+            "rail-lrt1-tayuman": 19,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 21,
+            "rail-lrt1-r_papa": 22,
+            "rail-lrt1-5th_avenue": 24,
+            "rail-lrt1-monumento": 25,
+            "rail-lrt1-balintawak": 29,
+            "rail-lrt1-fernando_poe_jr": 31
+          },
+          "rail-lrt1-d_jose": {
+            "rail-lrt1-dr_santos": 38,
+            "rail-lrt1-ninoy_aquino": 36,
+            "rail-lrt1-pitx": 34,
+            "rail-lrt1-mia_road": 32,
+            "rail-lrt1-redemptorist_aseana": 31,
+            "rail-lrt1-baclaran": 29,
+            "rail-lrt1-edsa": 28,
+            "rail-lrt1-libertad": 26,
+            "rail-lrt1-gil_puyat": 25,
+            "rail-lrt1-vito_cruz": 24,
+            "rail-lrt1-quirino": 22,
+            "rail-lrt1-pedro_gil": 21,
+            "rail-lrt1-un_avenue": 20,
+            "rail-lrt1-central": 18,
+            "rail-lrt1-carriedo": 17,
+            "rail-lrt1-bambang": 17,
+            "rail-lrt1-tayuman": 18,
+            "rail-lrt1-blumentritt": 19,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 21,
+            "rail-lrt1-5th_avenue": 23,
+            "rail-lrt1-monumento": 24,
+            "rail-lrt1-balintawak": 28,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-bambang": {
+            "rail-lrt1-dr_santos": 39,
+            "rail-lrt1-ninoy_aquino": 36,
+            "rail-lrt1-pitx": 35,
+            "rail-lrt1-mia_road": 33,
+            "rail-lrt1-redemptorist_aseana": 32,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 29,
+            "rail-lrt1-libertad": 27,
+            "rail-lrt1-gil_puyat": 26,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 23,
+            "rail-lrt1-pedro_gil": 22,
+            "rail-lrt1-un_avenue": 21,
+            "rail-lrt1-central": 19,
+            "rail-lrt1-carriedo": 18,
+            "rail-lrt1-d_jose": 17,
+            "rail-lrt1-tayuman": 17,
+            "rail-lrt1-blumentritt": 18,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 22,
+            "rail-lrt1-monumento": 23,
+            "rail-lrt1-balintawak": 27,
+            "rail-lrt1-fernando_poe_jr": 30
+          },
+          "rail-lrt1-tayuman": {
+            "rail-lrt1-dr_santos": 40,
+            "rail-lrt1-ninoy_aquino": 37,
+            "rail-lrt1-pitx": 36,
+            "rail-lrt1-mia_road": 34,
+            "rail-lrt1-redemptorist_aseana": 33,
+            "rail-lrt1-baclaran": 30,
+            "rail-lrt1-edsa": 30,
+            "rail-lrt1-libertad": 28,
+            "rail-lrt1-gil_puyat": 27,
+            "rail-lrt1-vito_cruz": 25,
+            "rail-lrt1-quirino": 24,
+            "rail-lrt1-pedro_gil": 23,
+            "rail-lrt1-un_avenue": 22,
+            "rail-lrt1-central": 20,
+            "rail-lrt1-carriedo": 19,
+            "rail-lrt1-d_jose": 18,
+            "rail-lrt1-bambang": 17,
+            "rail-lrt1-blumentritt": 17,
+            "rail-lrt1-abad_santos": 19,
+            "rail-lrt1-r_papa": 20,
+            "rail-lrt1-5th_avenue": 21,
+            "rail-lrt1-monumento": 23,
+            "rail-lrt1-balintawak": 26,
+            "rail-lrt1-fernando_poe_jr": 29
+          },
+          "rail-lrt1-blumentritt": {
+            "rail-lrt1-dr_santos": 41,
+            "rail-lrt1-ninoy_aquino": 38,
+            "rail-lrt1-pitx": 37,
+            "rail-lrt1-mia_road": 35,
+            "rail-lrt1-redemptorist_aseana": 34,
+            "rail-lrt1-baclaran": 31,
+            "rail-lrt1-edsa": 31,
+            "rail-lrt1-libertad": 29,
+            "rail-lrt1-gil_puyat": 28,
+            "rail-lrt1-vito_cruz": 26,
+            "rail-lrt1-quirino": 25,
+            "rail-lrt1-pedro_gil": 24,
+            "rail-lrt1-un_avenue": 23,
+            "rail-lrt1-central": 21,
+            "rail-lrt1-carriedo": 20,
+            "rail-lrt1-d_jose": 19,
+            "rail-lrt1-bambang": 18,
+            "rail-lrt1-tayuman": 17,
+            "rail-lrt1-abad_santos": 18,
+            "rail-lrt1-r_papa": 19,
+            "rail-lrt1-5th_avenue": 20,
+            "rail-lrt1-monumento": 22,
+            "rail-lrt1-balintawak": 25,
+            "rail-lrt1-fernando_poe_jr": 28
+          },
+          "rail-lrt1-abad_santos": {
+            "rail-lrt1-dr_santos": 42,
+            "rail-lrt1-ninoy_aquino": 40,
+            "rail-lrt1-pitx": 38,
+            "rail-lrt1-mia_road": 36,
+            "rail-lrt1-redemptorist_aseana": 35,
+            "rail-lrt1-baclaran": 33,
+            "rail-lrt1-edsa": 32,
+            "rail-lrt1-libertad": 30,
+            "rail-lrt1-gil_puyat": 29,
+            "rail-lrt1-vito_cruz": 28,
+            "rail-lrt1-quirino": 27,
+            "rail-lrt1-pedro_gil": 25,
+            "rail-lrt1-un_avenue": 24,
+            "rail-lrt1-central": 23,
+            "rail-lrt1-carriedo": 21,
+            "rail-lrt1-d_jose": 20,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 19,
+            "rail-lrt1-blumentritt": 18,
+            "rail-lrt1-r_papa": 17,
+            "rail-lrt1-5th_avenue": 19,
+            "rail-lrt1-monumento": 20,
+            "rail-lrt1-balintawak": 24,
+            "rail-lrt1-fernando_poe_jr": 26
+          },
+          "rail-lrt1-r_papa": {
+            "rail-lrt1-dr_santos": 43,
+            "rail-lrt1-ninoy_aquino": 41,
+            "rail-lrt1-pitx": 39,
+            "rail-lrt1-mia_road": 37,
+            "rail-lrt1-redemptorist_aseana": 36,
+            "rail-lrt1-baclaran": 34,
+            "rail-lrt1-edsa": 33,
+            "rail-lrt1-libertad": 31,
+            "rail-lrt1-gil_puyat": 30,
+            "rail-lrt1-vito_cruz": 29,
+            "rail-lrt1-quirino": 28,
+            "rail-lrt1-pedro_gil": 26,
+            "rail-lrt1-un_avenue": 25,
+            "rail-lrt1-central": 23,
+            "rail-lrt1-carriedo": 22,
+            "rail-lrt1-d_jose": 21,
+            "rail-lrt1-bambang": 20,
+            "rail-lrt1-tayuman": 20,
+            "rail-lrt1-blumentritt": 19,
+            "rail-lrt1-abad_santos": 17,
+            "rail-lrt1-5th_avenue": 18,
+            "rail-lrt1-monumento": 19,
+            "rail-lrt1-balintawak": 23,
+            "rail-lrt1-fernando_poe_jr": 25
+          },
+          "rail-lrt1-5th_avenue": {
+            "rail-lrt1-dr_santos": 45,
+            "rail-lrt1-ninoy_aquino": 42,
+            "rail-lrt1-pitx": 40,
+            "rail-lrt1-mia_road": 38,
+            "rail-lrt1-redemptorist_aseana": 37,
+            "rail-lrt1-baclaran": 35,
+            "rail-lrt1-edsa": 34,
+            "rail-lrt1-libertad": 33,
+            "rail-lrt1-gil_puyat": 32,
+            "rail-lrt1-vito_cruz": 30,
+            "rail-lrt1-quirino": 29,
+            "rail-lrt1-pedro_gil": 28,
+            "rail-lrt1-un_avenue": 27,
+            "rail-lrt1-central": 25,
+            "rail-lrt1-carriedo": 24,
+            "rail-lrt1-d_jose": 23,
+            "rail-lrt1-bambang": 22,
+            "rail-lrt1-tayuman": 21,
+            "rail-lrt1-blumentritt": 20,
+            "rail-lrt1-abad_santos": 19,
+            "rail-lrt1-r_papa": 18,
+            "rail-lrt1-monumento": 18,
+            "rail-lrt1-balintawak": 21,
+            "rail-lrt1-fernando_poe_jr": 24
+          },
+          "rail-lrt1-monumento": {
+            "rail-lrt1-dr_santos": 46,
+            "rail-lrt1-ninoy_aquino": 44,
+            "rail-lrt1-pitx": 42,
+            "rail-lrt1-mia_road": 40,
+            "rail-lrt1-redemptorist_aseana": 39,
+            "rail-lrt1-baclaran": 37,
+            "rail-lrt1-edsa": 36,
+            "rail-lrt1-libertad": 34,
+            "rail-lrt1-gil_puyat": 33,
+            "rail-lrt1-vito_cruz": 32,
+            "rail-lrt1-quirino": 31,
+            "rail-lrt1-pedro_gil": 29,
+            "rail-lrt1-un_avenue": 28,
+            "rail-lrt1-central": 27,
+            "rail-lrt1-carriedo": 25,
+            "rail-lrt1-d_jose": 24,
+            "rail-lrt1-bambang": 23,
+            "rail-lrt1-tayuman": 23,
+            "rail-lrt1-blumentritt": 22,
+            "rail-lrt1-abad_santos": 20,
+            "rail-lrt1-r_papa": 19,
+            "rail-lrt1-5th_avenue": 18,
+            "rail-lrt1-balintawak": 20,
+            "rail-lrt1-fernando_poe_jr": 22
+          },
+          "rail-lrt1-balintawak": {
+            "rail-lrt1-dr_santos": 49,
+            "rail-lrt1-ninoy_aquino": 47,
+            "rail-lrt1-pitx": 45,
+            "rail-lrt1-mia_road": 43,
+            "rail-lrt1-redemptorist_aseana": 42,
+            "rail-lrt1-baclaran": 40,
+            "rail-lrt1-edsa": 39,
+            "rail-lrt1-libertad": 38,
+            "rail-lrt1-gil_puyat": 37,
+            "rail-lrt1-vito_cruz": 35,
+            "rail-lrt1-quirino": 34,
+            "rail-lrt1-pedro_gil": 33,
+            "rail-lrt1-un_avenue": 32,
+            "rail-lrt1-central": 30,
+            "rail-lrt1-carriedo": 29,
+            "rail-lrt1-d_jose": 28,
+            "rail-lrt1-bambang": 27,
+            "rail-lrt1-tayuman": 26,
+            "rail-lrt1-blumentritt": 25,
+            "rail-lrt1-abad_santos": 24,
+            "rail-lrt1-r_papa": 23,
+            "rail-lrt1-5th_avenue": 21,
+            "rail-lrt1-monumento": 20,
+            "rail-lrt1-fernando_poe_jr": 19
+          },
+          "rail-lrt1-fernando_poe_jr": {
+            "rail-lrt1-dr_santos": 52,
+            "rail-lrt1-ninoy_aquino": 50,
+            "rail-lrt1-pitx": 48,
+            "rail-lrt1-mia_road": 46,
+            "rail-lrt1-redemptorist_aseana": 45,
+            "rail-lrt1-baclaran": 43,
+            "rail-lrt1-edsa": 42,
+            "rail-lrt1-libertad": 40,
+            "rail-lrt1-gil_puyat": 39,
+            "rail-lrt1-vito_cruz": 38,
+            "rail-lrt1-quirino": 37,
+            "rail-lrt1-pedro_gil": 35,
+            "rail-lrt1-un_avenue": 34,
+            "rail-lrt1-central": 33,
+            "rail-lrt1-carriedo": 31,
+            "rail-lrt1-d_jose": 30,
+            "rail-lrt1-bambang": 30,
+            "rail-lrt1-tayuman": 29,
+            "rail-lrt1-blumentritt": 28,
+            "rail-lrt1-abad_santos": 26,
+            "rail-lrt1-r_papa": 25,
+            "rail-lrt1-5th_avenue": 24,
+            "rail-lrt1-monumento": 22,
+            "rail-lrt1-balintawak": 19
+          }
+        }
+      },
+      "effectiveDate": "2025-04-02",
+      "promotions": [],
+      "sourceUrl": "https://lrmc.ph/wp-content/uploads/2025/03/New-SJT-fare-matrix-effective-April-2-2025-1.png",
+      "sourceNote": "Visible image heading says Stored Value; asset filename says SJT. Same-station value is 16. Effective April 2, 2025."
+    },
+    {
+      "id": "lrt2-sjt-scheduled-2023",
+      "mode": "train",
+      "product": "single-journey",
+      "vehicleClass": "standard",
+      "rule": {
+        "kind": "matrix",
+        "byOriginDestination": {
+          "rail-lrt2-recto": {
+            "rail-lrt2-legarda": 15,
+            "rail-lrt2-pureza": 20,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 25,
+            "rail-lrt2-betty_go": 25,
+            "rail-lrt2-cubao": 25,
+            "rail-lrt2-anonas": 25,
+            "rail-lrt2-katipunan": 30,
+            "rail-lrt2-santolan": 30,
+            "rail-lrt2-marikina": 35
+          },
+          "rail-lrt2-legarda": {
+            "rail-lrt2-recto": 15,
+            "rail-lrt2-pureza": 15,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 20,
+            "rail-lrt2-betty_go": 25,
+            "rail-lrt2-cubao": 25,
+            "rail-lrt2-anonas": 25,
+            "rail-lrt2-katipunan": 25,
+            "rail-lrt2-santolan": 30,
+            "rail-lrt2-marikina": 30
+          },
+          "rail-lrt2-pureza": {
+            "rail-lrt2-recto": 20,
+            "rail-lrt2-legarda": 15,
+            "rail-lrt2-v_mapa": 15,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 20,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 25,
+            "rail-lrt2-katipunan": 25,
+            "rail-lrt2-santolan": 30,
+            "rail-lrt2-marikina": 30
+          },
+          "rail-lrt2-v_mapa": {
+            "rail-lrt2-recto": 20,
+            "rail-lrt2-legarda": 20,
+            "rail-lrt2-pureza": 15,
+            "rail-lrt2-j_ruiz": 15,
+            "rail-lrt2-gilmore": 20,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 25,
+            "rail-lrt2-santolan": 25,
+            "rail-lrt2-marikina": 30
+          },
+          "rail-lrt2-j_ruiz": {
+            "rail-lrt2-recto": 20,
+            "rail-lrt2-legarda": 20,
+            "rail-lrt2-pureza": 20,
+            "rail-lrt2-v_mapa": 15,
+            "rail-lrt2-gilmore": 15,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-santolan": 25,
+            "rail-lrt2-marikina": 25
+          },
+          "rail-lrt2-gilmore": {
+            "rail-lrt2-recto": 25,
+            "rail-lrt2-legarda": 20,
+            "rail-lrt2-pureza": 20,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 15,
+            "rail-lrt2-betty_go": 15,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-santolan": 25,
+            "rail-lrt2-marikina": 25
+          },
+          "rail-lrt2-betty_go": {
+            "rail-lrt2-recto": 25,
+            "rail-lrt2-legarda": 25,
+            "rail-lrt2-pureza": 20,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 15,
+            "rail-lrt2-cubao": 15,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-santolan": 20,
+            "rail-lrt2-marikina": 25
+          },
+          "rail-lrt2-cubao": {
+            "rail-lrt2-recto": 25,
+            "rail-lrt2-legarda": 25,
+            "rail-lrt2-pureza": 20,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 20,
+            "rail-lrt2-betty_go": 15,
+            "rail-lrt2-anonas": 15,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-santolan": 20,
+            "rail-lrt2-marikina": 25
+          },
+          "rail-lrt2-anonas": {
+            "rail-lrt2-recto": 25,
+            "rail-lrt2-legarda": 25,
+            "rail-lrt2-pureza": 25,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 20,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 15,
+            "rail-lrt2-katipunan": 15,
+            "rail-lrt2-santolan": 20,
+            "rail-lrt2-marikina": 20
+          },
+          "rail-lrt2-katipunan": {
+            "rail-lrt2-recto": 30,
+            "rail-lrt2-legarda": 25,
+            "rail-lrt2-pureza": 25,
+            "rail-lrt2-v_mapa": 25,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 20,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 15,
+            "rail-lrt2-santolan": 20,
+            "rail-lrt2-marikina": 20
+          },
+          "rail-lrt2-santolan": {
+            "rail-lrt2-recto": 30,
+            "rail-lrt2-legarda": 30,
+            "rail-lrt2-pureza": 30,
+            "rail-lrt2-v_mapa": 25,
+            "rail-lrt2-j_ruiz": 25,
+            "rail-lrt2-gilmore": 25,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-marikina": 15
+          },
+          "rail-lrt2-marikina": {
+            "rail-lrt2-recto": 35,
+            "rail-lrt2-legarda": 30,
+            "rail-lrt2-pureza": 30,
+            "rail-lrt2-v_mapa": 30,
+            "rail-lrt2-j_ruiz": 25,
+            "rail-lrt2-gilmore": 25,
+            "rail-lrt2-betty_go": 25,
+            "rail-lrt2-cubao": 25,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-santolan": 15
+          }
+        }
+      },
+      "effectiveDate": "2023-08-02",
+      "promotions": [
+        {
+          "id": "lrt2-sjt-discounted-2026",
+          "label": "50% all-passenger discount",
+          "eligibility": "all",
+          "effectiveDate": "2026-03-23",
+          "rule": {
+            "kind": "matrix",
+            "byOriginDestination": {
+              "rail-lrt2-recto": {
+                "rail-lrt2-legarda": 8,
+                "rail-lrt2-pureza": 10,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 13,
+                "rail-lrt2-betty_go": 13,
+                "rail-lrt2-cubao": 13,
+                "rail-lrt2-anonas": 13,
+                "rail-lrt2-katipunan": 15,
+                "rail-lrt2-santolan": 15,
+                "rail-lrt2-marikina": 18
+              },
+              "rail-lrt2-legarda": {
+                "rail-lrt2-recto": 8,
+                "rail-lrt2-pureza": 8,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 10,
+                "rail-lrt2-betty_go": 13,
+                "rail-lrt2-cubao": 13,
+                "rail-lrt2-anonas": 13,
+                "rail-lrt2-katipunan": 13,
+                "rail-lrt2-santolan": 15,
+                "rail-lrt2-marikina": 15
+              },
+              "rail-lrt2-pureza": {
+                "rail-lrt2-recto": 10,
+                "rail-lrt2-legarda": 8,
+                "rail-lrt2-v_mapa": 8,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 10,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 13,
+                "rail-lrt2-katipunan": 13,
+                "rail-lrt2-santolan": 15,
+                "rail-lrt2-marikina": 15
+              },
+              "rail-lrt2-v_mapa": {
+                "rail-lrt2-recto": 10,
+                "rail-lrt2-legarda": 10,
+                "rail-lrt2-pureza": 8,
+                "rail-lrt2-j_ruiz": 8,
+                "rail-lrt2-gilmore": 10,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 13,
+                "rail-lrt2-santolan": 13,
+                "rail-lrt2-marikina": 15
+              },
+              "rail-lrt2-j_ruiz": {
+                "rail-lrt2-recto": 10,
+                "rail-lrt2-legarda": 10,
+                "rail-lrt2-pureza": 10,
+                "rail-lrt2-v_mapa": 8,
+                "rail-lrt2-gilmore": 8,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-santolan": 13,
+                "rail-lrt2-marikina": 13
+              },
+              "rail-lrt2-gilmore": {
+                "rail-lrt2-recto": 13,
+                "rail-lrt2-legarda": 10,
+                "rail-lrt2-pureza": 10,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 8,
+                "rail-lrt2-betty_go": 8,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-santolan": 13,
+                "rail-lrt2-marikina": 13
+              },
+              "rail-lrt2-betty_go": {
+                "rail-lrt2-recto": 13,
+                "rail-lrt2-legarda": 13,
+                "rail-lrt2-pureza": 10,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 8,
+                "rail-lrt2-cubao": 8,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-santolan": 10,
+                "rail-lrt2-marikina": 13
+              },
+              "rail-lrt2-cubao": {
+                "rail-lrt2-recto": 13,
+                "rail-lrt2-legarda": 13,
+                "rail-lrt2-pureza": 10,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 10,
+                "rail-lrt2-betty_go": 8,
+                "rail-lrt2-anonas": 8,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-santolan": 10,
+                "rail-lrt2-marikina": 13
+              },
+              "rail-lrt2-anonas": {
+                "rail-lrt2-recto": 13,
+                "rail-lrt2-legarda": 13,
+                "rail-lrt2-pureza": 13,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 10,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 8,
+                "rail-lrt2-katipunan": 8,
+                "rail-lrt2-santolan": 10,
+                "rail-lrt2-marikina": 10
+              },
+              "rail-lrt2-katipunan": {
+                "rail-lrt2-recto": 15,
+                "rail-lrt2-legarda": 13,
+                "rail-lrt2-pureza": 13,
+                "rail-lrt2-v_mapa": 13,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 10,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 8,
+                "rail-lrt2-santolan": 10,
+                "rail-lrt2-marikina": 10
+              },
+              "rail-lrt2-santolan": {
+                "rail-lrt2-recto": 15,
+                "rail-lrt2-legarda": 15,
+                "rail-lrt2-pureza": 15,
+                "rail-lrt2-v_mapa": 13,
+                "rail-lrt2-j_ruiz": 13,
+                "rail-lrt2-gilmore": 13,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-marikina": 8
+              },
+              "rail-lrt2-marikina": {
+                "rail-lrt2-recto": 18,
+                "rail-lrt2-legarda": 15,
+                "rail-lrt2-pureza": 15,
+                "rail-lrt2-v_mapa": 15,
+                "rail-lrt2-j_ruiz": 13,
+                "rail-lrt2-gilmore": 13,
+                "rail-lrt2-betty_go": 13,
+                "rail-lrt2-cubao": 13,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-santolan": 8
+              }
+            }
+          },
+          "sourceUrl": "https://www.lrta.gov.ph/wp-content/uploads/2026/03/Citizens-Charter-Handbook-2026-2nd-Edition.pdf",
+          "sourceNote": "Annex B 50% discounted Single Journey matrix effective March 23, 2026; LRTA states the 50% all-passenger discount also applies to LRT-2 and MRT-3. Status: current-on-capture-date; LRTA page shows no end date"
+        }
+      ],
+      "sourceUrl": "https://www.lrta.gov.ph/wp-content/uploads/2026/01/Citizens-Charter-Handbook-2026-1st-Edition.pdf",
+      "sourceNote": "Annex A standard Single Journey Fare Matrix; effective August 2, 2023, republished in LRTA 2026 Citizen's Charter."
+    },
+    {
+      "id": "lrt2-svc-scheduled-2023",
+      "mode": "train",
+      "product": "stored-value",
+      "vehicleClass": "standard",
+      "rule": {
+        "kind": "matrix",
+        "byOriginDestination": {
+          "rail-lrt2-recto": {
+            "rail-lrt2-legarda": 15,
+            "rail-lrt2-pureza": 16,
+            "rail-lrt2-v_mapa": 18,
+            "rail-lrt2-j_ruiz": 19,
+            "rail-lrt2-gilmore": 21,
+            "rail-lrt2-betty_go": 22,
+            "rail-lrt2-cubao": 23,
+            "rail-lrt2-anonas": 25,
+            "rail-lrt2-katipunan": 26,
+            "rail-lrt2-santolan": 28,
+            "rail-lrt2-marikina": 31
+          },
+          "rail-lrt2-legarda": {
+            "rail-lrt2-recto": 15,
+            "rail-lrt2-pureza": 15,
+            "rail-lrt2-v_mapa": 17,
+            "rail-lrt2-j_ruiz": 18,
+            "rail-lrt2-gilmore": 19,
+            "rail-lrt2-betty_go": 21,
+            "rail-lrt2-cubao": 22,
+            "rail-lrt2-anonas": 24,
+            "rail-lrt2-katipunan": 25,
+            "rail-lrt2-santolan": 27,
+            "rail-lrt2-marikina": 29
+          },
+          "rail-lrt2-pureza": {
+            "rail-lrt2-recto": 16,
+            "rail-lrt2-legarda": 15,
+            "rail-lrt2-v_mapa": 15,
+            "rail-lrt2-j_ruiz": 16,
+            "rail-lrt2-gilmore": 18,
+            "rail-lrt2-betty_go": 19,
+            "rail-lrt2-cubao": 20,
+            "rail-lrt2-anonas": 22,
+            "rail-lrt2-katipunan": 23,
+            "rail-lrt2-santolan": 26,
+            "rail-lrt2-marikina": 28
+          },
+          "rail-lrt2-v_mapa": {
+            "rail-lrt2-recto": 18,
+            "rail-lrt2-legarda": 17,
+            "rail-lrt2-pureza": 15,
+            "rail-lrt2-j_ruiz": 15,
+            "rail-lrt2-gilmore": 16,
+            "rail-lrt2-betty_go": 17,
+            "rail-lrt2-cubao": 19,
+            "rail-lrt2-anonas": 20,
+            "rail-lrt2-katipunan": 22,
+            "rail-lrt2-santolan": 24,
+            "rail-lrt2-marikina": 26
+          },
+          "rail-lrt2-j_ruiz": {
+            "rail-lrt2-recto": 19,
+            "rail-lrt2-legarda": 18,
+            "rail-lrt2-pureza": 16,
+            "rail-lrt2-v_mapa": 15,
+            "rail-lrt2-gilmore": 14,
+            "rail-lrt2-betty_go": 16,
+            "rail-lrt2-cubao": 17,
+            "rail-lrt2-anonas": 19,
+            "rail-lrt2-katipunan": 20,
+            "rail-lrt2-santolan": 22,
+            "rail-lrt2-marikina": 24
+          },
+          "rail-lrt2-gilmore": {
+            "rail-lrt2-recto": 21,
+            "rail-lrt2-legarda": 19,
+            "rail-lrt2-pureza": 18,
+            "rail-lrt2-v_mapa": 16,
+            "rail-lrt2-j_ruiz": 14,
+            "rail-lrt2-betty_go": 15,
+            "rail-lrt2-cubao": 16,
+            "rail-lrt2-anonas": 18,
+            "rail-lrt2-katipunan": 19,
+            "rail-lrt2-santolan": 21,
+            "rail-lrt2-marikina": 23
+          },
+          "rail-lrt2-betty_go": {
+            "rail-lrt2-recto": 22,
+            "rail-lrt2-legarda": 21,
+            "rail-lrt2-pureza": 19,
+            "rail-lrt2-v_mapa": 17,
+            "rail-lrt2-j_ruiz": 16,
+            "rail-lrt2-gilmore": 15,
+            "rail-lrt2-cubao": 15,
+            "rail-lrt2-anonas": 16,
+            "rail-lrt2-katipunan": 18,
+            "rail-lrt2-santolan": 20,
+            "rail-lrt2-marikina": 22
+          },
+          "rail-lrt2-cubao": {
+            "rail-lrt2-recto": 23,
+            "rail-lrt2-legarda": 22,
+            "rail-lrt2-pureza": 20,
+            "rail-lrt2-v_mapa": 19,
+            "rail-lrt2-j_ruiz": 17,
+            "rail-lrt2-gilmore": 16,
+            "rail-lrt2-betty_go": 15,
+            "rail-lrt2-anonas": 15,
+            "rail-lrt2-katipunan": 16,
+            "rail-lrt2-santolan": 19,
+            "rail-lrt2-marikina": 21
+          },
+          "rail-lrt2-anonas": {
+            "rail-lrt2-recto": 25,
+            "rail-lrt2-legarda": 24,
+            "rail-lrt2-pureza": 22,
+            "rail-lrt2-v_mapa": 20,
+            "rail-lrt2-j_ruiz": 19,
+            "rail-lrt2-gilmore": 18,
+            "rail-lrt2-betty_go": 16,
+            "rail-lrt2-cubao": 15,
+            "rail-lrt2-katipunan": 14,
+            "rail-lrt2-santolan": 17,
+            "rail-lrt2-marikina": 19
+          },
+          "rail-lrt2-katipunan": {
+            "rail-lrt2-recto": 26,
+            "rail-lrt2-legarda": 25,
+            "rail-lrt2-pureza": 23,
+            "rail-lrt2-v_mapa": 22,
+            "rail-lrt2-j_ruiz": 20,
+            "rail-lrt2-gilmore": 19,
+            "rail-lrt2-betty_go": 18,
+            "rail-lrt2-cubao": 16,
+            "rail-lrt2-anonas": 14,
+            "rail-lrt2-santolan": 16,
+            "rail-lrt2-marikina": 18
+          },
+          "rail-lrt2-santolan": {
+            "rail-lrt2-recto": 28,
+            "rail-lrt2-legarda": 27,
+            "rail-lrt2-pureza": 26,
+            "rail-lrt2-v_mapa": 24,
+            "rail-lrt2-j_ruiz": 22,
+            "rail-lrt2-gilmore": 21,
+            "rail-lrt2-betty_go": 20,
+            "rail-lrt2-cubao": 19,
+            "rail-lrt2-anonas": 17,
+            "rail-lrt2-katipunan": 16,
+            "rail-lrt2-marikina": 15
+          },
+          "rail-lrt2-marikina": {
+            "rail-lrt2-recto": 31,
+            "rail-lrt2-legarda": 29,
+            "rail-lrt2-pureza": 28,
+            "rail-lrt2-v_mapa": 26,
+            "rail-lrt2-j_ruiz": 24,
+            "rail-lrt2-gilmore": 23,
+            "rail-lrt2-betty_go": 22,
+            "rail-lrt2-cubao": 21,
+            "rail-lrt2-anonas": 19,
+            "rail-lrt2-katipunan": 18,
+            "rail-lrt2-santolan": 15
+          }
+        }
+      },
+      "effectiveDate": "2023-08-02",
+      "promotions": [
+        {
+          "id": "lrt2-svc-discounted-2026",
+          "label": "50% all-passenger discount",
+          "eligibility": "all",
+          "effectiveDate": "2026-03-23",
+          "rule": {
+            "kind": "matrix",
+            "byOriginDestination": {
+              "rail-lrt2-recto": {
+                "rail-lrt2-legarda": 7.5,
+                "rail-lrt2-pureza": 8,
+                "rail-lrt2-v_mapa": 9,
+                "rail-lrt2-j_ruiz": 9.5,
+                "rail-lrt2-gilmore": 10.5,
+                "rail-lrt2-betty_go": 11,
+                "rail-lrt2-cubao": 11.5,
+                "rail-lrt2-anonas": 12.5,
+                "rail-lrt2-katipunan": 13,
+                "rail-lrt2-santolan": 14,
+                "rail-lrt2-marikina": 15.5
+              },
+              "rail-lrt2-legarda": {
+                "rail-lrt2-recto": 7.5,
+                "rail-lrt2-pureza": 7.5,
+                "rail-lrt2-v_mapa": 8.5,
+                "rail-lrt2-j_ruiz": 9,
+                "rail-lrt2-gilmore": 9.5,
+                "rail-lrt2-betty_go": 10.5,
+                "rail-lrt2-cubao": 11,
+                "rail-lrt2-anonas": 12,
+                "rail-lrt2-katipunan": 12.5,
+                "rail-lrt2-santolan": 13.5,
+                "rail-lrt2-marikina": 14.5
+              },
+              "rail-lrt2-pureza": {
+                "rail-lrt2-recto": 8,
+                "rail-lrt2-legarda": 7.5,
+                "rail-lrt2-v_mapa": 7.5,
+                "rail-lrt2-j_ruiz": 8,
+                "rail-lrt2-gilmore": 9,
+                "rail-lrt2-betty_go": 9.5,
+                "rail-lrt2-cubao": 10,
+                "rail-lrt2-anonas": 11,
+                "rail-lrt2-katipunan": 11.5,
+                "rail-lrt2-santolan": 13,
+                "rail-lrt2-marikina": 14
+              },
+              "rail-lrt2-v_mapa": {
+                "rail-lrt2-recto": 9,
+                "rail-lrt2-legarda": 8.5,
+                "rail-lrt2-pureza": 7.5,
+                "rail-lrt2-j_ruiz": 7.5,
+                "rail-lrt2-gilmore": 8,
+                "rail-lrt2-betty_go": 8.5,
+                "rail-lrt2-cubao": 9.5,
+                "rail-lrt2-anonas": 10,
+                "rail-lrt2-katipunan": 11,
+                "rail-lrt2-santolan": 12,
+                "rail-lrt2-marikina": 13
+              },
+              "rail-lrt2-j_ruiz": {
+                "rail-lrt2-recto": 9.5,
+                "rail-lrt2-legarda": 9,
+                "rail-lrt2-pureza": 8,
+                "rail-lrt2-v_mapa": 7.5,
+                "rail-lrt2-gilmore": 7,
+                "rail-lrt2-betty_go": 8,
+                "rail-lrt2-cubao": 8.5,
+                "rail-lrt2-anonas": 9.5,
+                "rail-lrt2-katipunan": 10,
+                "rail-lrt2-santolan": 11,
+                "rail-lrt2-marikina": 12
+              },
+              "rail-lrt2-gilmore": {
+                "rail-lrt2-recto": 10.5,
+                "rail-lrt2-legarda": 9.5,
+                "rail-lrt2-pureza": 9,
+                "rail-lrt2-v_mapa": 8,
+                "rail-lrt2-j_ruiz": 7,
+                "rail-lrt2-betty_go": 7.5,
+                "rail-lrt2-cubao": 8,
+                "rail-lrt2-anonas": 9,
+                "rail-lrt2-katipunan": 9.5,
+                "rail-lrt2-santolan": 10.5,
+                "rail-lrt2-marikina": 11.5
+              },
+              "rail-lrt2-betty_go": {
+                "rail-lrt2-recto": 11,
+                "rail-lrt2-legarda": 10.5,
+                "rail-lrt2-pureza": 9.5,
+                "rail-lrt2-v_mapa": 8.5,
+                "rail-lrt2-j_ruiz": 8,
+                "rail-lrt2-gilmore": 7.5,
+                "rail-lrt2-cubao": 7.5,
+                "rail-lrt2-anonas": 8,
+                "rail-lrt2-katipunan": 9,
+                "rail-lrt2-santolan": 10,
+                "rail-lrt2-marikina": 11
+              },
+              "rail-lrt2-cubao": {
+                "rail-lrt2-recto": 11.5,
+                "rail-lrt2-legarda": 11,
+                "rail-lrt2-pureza": 10,
+                "rail-lrt2-v_mapa": 9.5,
+                "rail-lrt2-j_ruiz": 8.5,
+                "rail-lrt2-gilmore": 8,
+                "rail-lrt2-betty_go": 7.5,
+                "rail-lrt2-anonas": 7.5,
+                "rail-lrt2-katipunan": 8,
+                "rail-lrt2-santolan": 9.5,
+                "rail-lrt2-marikina": 10.5
+              },
+              "rail-lrt2-anonas": {
+                "rail-lrt2-recto": 12.5,
+                "rail-lrt2-legarda": 12,
+                "rail-lrt2-pureza": 11,
+                "rail-lrt2-v_mapa": 10,
+                "rail-lrt2-j_ruiz": 9.5,
+                "rail-lrt2-gilmore": 9,
+                "rail-lrt2-betty_go": 8,
+                "rail-lrt2-cubao": 7.5,
+                "rail-lrt2-katipunan": 7,
+                "rail-lrt2-santolan": 8.5,
+                "rail-lrt2-marikina": 9.5
+              },
+              "rail-lrt2-katipunan": {
+                "rail-lrt2-recto": 13,
+                "rail-lrt2-legarda": 12.5,
+                "rail-lrt2-pureza": 11.5,
+                "rail-lrt2-v_mapa": 11,
+                "rail-lrt2-j_ruiz": 10,
+                "rail-lrt2-gilmore": 9.5,
+                "rail-lrt2-betty_go": 9,
+                "rail-lrt2-cubao": 8,
+                "rail-lrt2-anonas": 7,
+                "rail-lrt2-santolan": 8,
+                "rail-lrt2-marikina": 9
+              },
+              "rail-lrt2-santolan": {
+                "rail-lrt2-recto": 14,
+                "rail-lrt2-legarda": 13.5,
+                "rail-lrt2-pureza": 13,
+                "rail-lrt2-v_mapa": 12,
+                "rail-lrt2-j_ruiz": 11,
+                "rail-lrt2-gilmore": 10.5,
+                "rail-lrt2-betty_go": 10,
+                "rail-lrt2-cubao": 9.5,
+                "rail-lrt2-anonas": 8.5,
+                "rail-lrt2-katipunan": 8,
+                "rail-lrt2-marikina": 7.5
+              },
+              "rail-lrt2-marikina": {
+                "rail-lrt2-recto": 15.5,
+                "rail-lrt2-legarda": 14.5,
+                "rail-lrt2-pureza": 14,
+                "rail-lrt2-v_mapa": 13,
+                "rail-lrt2-j_ruiz": 12,
+                "rail-lrt2-gilmore": 11.5,
+                "rail-lrt2-betty_go": 11,
+                "rail-lrt2-cubao": 10.5,
+                "rail-lrt2-anonas": 9.5,
+                "rail-lrt2-katipunan": 9,
+                "rail-lrt2-santolan": 7.5
+              }
+            }
+          },
+          "sourceUrl": "https://www.lrta.gov.ph/wp-content/uploads/2026/04/Discount_Matrix_OriginSVC_SJT_1.png",
+          "sourceNote": "2026 LRTA Stored Value Fare Matrix Discounted 50%; 13 stations, exact directional fares. Status: current-on-capture-date; LRTA page shows no end date"
+        }
+      ],
+      "sourceUrl": "https://www.lrta.gov.ph/wp-content/uploads/2026/01/Citizens-Charter-Handbook-2026-1st-Edition.pdf",
+      "sourceNote": "Annex A standard Stored Value Fare Matrix; effective August 2, 2023, republished in LRTA 2026 Citizen's Charter."
+    },
+    {
+      "id": "mrt3-regular-current-posted",
+      "mode": "train",
+      "product": "regular-posted-matrix",
+      "vehicleClass": "regular",
+      "rule": {
+        "kind": "matrix",
+        "byOriginDestination": {
+          "rail-mrt3-north_avenue": {
+            "rail-mrt3-quezon_avenue": 13,
+            "rail-mrt3-gma_kamuning": 13,
+            "rail-mrt3-araneta_cubao": 16,
+            "rail-mrt3-santolan_annapolis": 16,
+            "rail-mrt3-ortigas": 20,
+            "rail-mrt3-shaw_boulevard": 20,
+            "rail-mrt3-boni": 20,
+            "rail-mrt3-guadalupe": 24,
+            "rail-mrt3-buendia": 24,
+            "rail-mrt3-ayala": 24,
+            "rail-mrt3-magallanes": 28,
+            "rail-mrt3-taft_avenue": 28
+          },
+          "rail-mrt3-quezon_avenue": {
+            "rail-mrt3-north_avenue": 13,
+            "rail-mrt3-gma_kamuning": 13,
+            "rail-mrt3-araneta_cubao": 13,
+            "rail-mrt3-santolan_annapolis": 16,
+            "rail-mrt3-ortigas": 16,
+            "rail-mrt3-shaw_boulevard": 20,
+            "rail-mrt3-boni": 20,
+            "rail-mrt3-guadalupe": 20,
+            "rail-mrt3-buendia": 24,
+            "rail-mrt3-ayala": 24,
+            "rail-mrt3-magallanes": 24,
+            "rail-mrt3-taft_avenue": 28
+          },
+          "rail-mrt3-gma_kamuning": {
+            "rail-mrt3-north_avenue": 13,
+            "rail-mrt3-quezon_avenue": 13,
+            "rail-mrt3-araneta_cubao": 13,
+            "rail-mrt3-santolan_annapolis": 13,
+            "rail-mrt3-ortigas": 16,
+            "rail-mrt3-shaw_boulevard": 16,
+            "rail-mrt3-boni": 20,
+            "rail-mrt3-guadalupe": 20,
+            "rail-mrt3-buendia": 20,
+            "rail-mrt3-ayala": 24,
+            "rail-mrt3-magallanes": 24,
+            "rail-mrt3-taft_avenue": 24
+          },
+          "rail-mrt3-araneta_cubao": {
+            "rail-mrt3-north_avenue": 16,
+            "rail-mrt3-quezon_avenue": 13,
+            "rail-mrt3-gma_kamuning": 13,
+            "rail-mrt3-santolan_annapolis": 13,
+            "rail-mrt3-ortigas": 13,
+            "rail-mrt3-shaw_boulevard": 16,
+            "rail-mrt3-boni": 16,
+            "rail-mrt3-guadalupe": 20,
+            "rail-mrt3-buendia": 20,
+            "rail-mrt3-ayala": 20,
+            "rail-mrt3-magallanes": 24,
+            "rail-mrt3-taft_avenue": 24
+          },
+          "rail-mrt3-santolan_annapolis": {
+            "rail-mrt3-north_avenue": 16,
+            "rail-mrt3-quezon_avenue": 16,
+            "rail-mrt3-gma_kamuning": 13,
+            "rail-mrt3-araneta_cubao": 13,
+            "rail-mrt3-ortigas": 13,
+            "rail-mrt3-shaw_boulevard": 13,
+            "rail-mrt3-boni": 16,
+            "rail-mrt3-guadalupe": 16,
+            "rail-mrt3-buendia": 20,
+            "rail-mrt3-ayala": 20,
+            "rail-mrt3-magallanes": 20,
+            "rail-mrt3-taft_avenue": 24
+          },
+          "rail-mrt3-ortigas": {
+            "rail-mrt3-north_avenue": 20,
+            "rail-mrt3-quezon_avenue": 16,
+            "rail-mrt3-gma_kamuning": 16,
+            "rail-mrt3-araneta_cubao": 13,
+            "rail-mrt3-santolan_annapolis": 13,
+            "rail-mrt3-shaw_boulevard": 13,
+            "rail-mrt3-boni": 13,
+            "rail-mrt3-guadalupe": 16,
+            "rail-mrt3-buendia": 16,
+            "rail-mrt3-ayala": 20,
+            "rail-mrt3-magallanes": 20,
+            "rail-mrt3-taft_avenue": 20
+          },
+          "rail-mrt3-shaw_boulevard": {
+            "rail-mrt3-north_avenue": 20,
+            "rail-mrt3-quezon_avenue": 20,
+            "rail-mrt3-gma_kamuning": 16,
+            "rail-mrt3-araneta_cubao": 16,
+            "rail-mrt3-santolan_annapolis": 13,
+            "rail-mrt3-ortigas": 13,
+            "rail-mrt3-boni": 13,
+            "rail-mrt3-guadalupe": 13,
+            "rail-mrt3-buendia": 16,
+            "rail-mrt3-ayala": 16,
+            "rail-mrt3-magallanes": 20,
+            "rail-mrt3-taft_avenue": 20
+          },
+          "rail-mrt3-boni": {
+            "rail-mrt3-north_avenue": 20,
+            "rail-mrt3-quezon_avenue": 20,
+            "rail-mrt3-gma_kamuning": 20,
+            "rail-mrt3-araneta_cubao": 16,
+            "rail-mrt3-santolan_annapolis": 16,
+            "rail-mrt3-ortigas": 13,
+            "rail-mrt3-shaw_boulevard": 13,
+            "rail-mrt3-guadalupe": 13,
+            "rail-mrt3-buendia": 13,
+            "rail-mrt3-ayala": 16,
+            "rail-mrt3-magallanes": 16,
+            "rail-mrt3-taft_avenue": 20
+          },
+          "rail-mrt3-guadalupe": {
+            "rail-mrt3-north_avenue": 24,
+            "rail-mrt3-quezon_avenue": 20,
+            "rail-mrt3-gma_kamuning": 20,
+            "rail-mrt3-araneta_cubao": 20,
+            "rail-mrt3-santolan_annapolis": 16,
+            "rail-mrt3-ortigas": 16,
+            "rail-mrt3-shaw_boulevard": 13,
+            "rail-mrt3-boni": 13,
+            "rail-mrt3-buendia": 13,
+            "rail-mrt3-ayala": 13,
+            "rail-mrt3-magallanes": 16,
+            "rail-mrt3-taft_avenue": 16
+          },
+          "rail-mrt3-buendia": {
+            "rail-mrt3-north_avenue": 24,
+            "rail-mrt3-quezon_avenue": 24,
+            "rail-mrt3-gma_kamuning": 20,
+            "rail-mrt3-araneta_cubao": 20,
+            "rail-mrt3-santolan_annapolis": 20,
+            "rail-mrt3-ortigas": 16,
+            "rail-mrt3-shaw_boulevard": 16,
+            "rail-mrt3-boni": 13,
+            "rail-mrt3-guadalupe": 13,
+            "rail-mrt3-ayala": 13,
+            "rail-mrt3-magallanes": 13,
+            "rail-mrt3-taft_avenue": 16
+          },
+          "rail-mrt3-ayala": {
+            "rail-mrt3-north_avenue": 24,
+            "rail-mrt3-quezon_avenue": 24,
+            "rail-mrt3-gma_kamuning": 24,
+            "rail-mrt3-araneta_cubao": 20,
+            "rail-mrt3-santolan_annapolis": 20,
+            "rail-mrt3-ortigas": 20,
+            "rail-mrt3-shaw_boulevard": 16,
+            "rail-mrt3-boni": 16,
+            "rail-mrt3-guadalupe": 13,
+            "rail-mrt3-buendia": 13,
+            "rail-mrt3-magallanes": 13,
+            "rail-mrt3-taft_avenue": 13
+          },
+          "rail-mrt3-magallanes": {
+            "rail-mrt3-north_avenue": 28,
+            "rail-mrt3-quezon_avenue": 24,
+            "rail-mrt3-gma_kamuning": 24,
+            "rail-mrt3-araneta_cubao": 24,
+            "rail-mrt3-santolan_annapolis": 20,
+            "rail-mrt3-ortigas": 20,
+            "rail-mrt3-shaw_boulevard": 20,
+            "rail-mrt3-boni": 16,
+            "rail-mrt3-guadalupe": 16,
+            "rail-mrt3-buendia": 13,
+            "rail-mrt3-ayala": 13,
+            "rail-mrt3-taft_avenue": 13
+          },
+          "rail-mrt3-taft_avenue": {
+            "rail-mrt3-north_avenue": 28,
+            "rail-mrt3-quezon_avenue": 28,
+            "rail-mrt3-gma_kamuning": 24,
+            "rail-mrt3-araneta_cubao": 24,
+            "rail-mrt3-santolan_annapolis": 24,
+            "rail-mrt3-ortigas": 20,
+            "rail-mrt3-shaw_boulevard": 20,
+            "rail-mrt3-boni": 20,
+            "rail-mrt3-guadalupe": 16,
+            "rail-mrt3-buendia": 16,
+            "rail-mrt3-ayala": 13,
+            "rail-mrt3-magallanes": 13
+          }
+        }
+      },
+      "effectiveDate": "2026-10-10",
+      "promotions": [
+        {
+          "id": "mrt3-all-passenger-half-fare-2026",
+          "label": "50% all-passenger discount",
+          "eligibility": "all",
+          "effectiveDate": "2026-03-23",
+          "rule": {
+            "kind": "matrix",
+            "byOriginDestination": {
+              "rail-mrt3-north_avenue": {
+                "rail-mrt3-quezon_avenue": 6,
+                "rail-mrt3-gma_kamuning": 6,
+                "rail-mrt3-araneta_cubao": 8,
+                "rail-mrt3-santolan_annapolis": 8,
+                "rail-mrt3-ortigas": 10,
+                "rail-mrt3-shaw_boulevard": 10,
+                "rail-mrt3-boni": 10,
+                "rail-mrt3-guadalupe": 12,
+                "rail-mrt3-buendia": 12,
+                "rail-mrt3-ayala": 12,
+                "rail-mrt3-magallanes": 14,
+                "rail-mrt3-taft_avenue": 14
+              },
+              "rail-mrt3-quezon_avenue": {
+                "rail-mrt3-north_avenue": 6,
+                "rail-mrt3-gma_kamuning": 6,
+                "rail-mrt3-araneta_cubao": 6,
+                "rail-mrt3-santolan_annapolis": 8,
+                "rail-mrt3-ortigas": 8,
+                "rail-mrt3-shaw_boulevard": 10,
+                "rail-mrt3-boni": 10,
+                "rail-mrt3-guadalupe": 10,
+                "rail-mrt3-buendia": 12,
+                "rail-mrt3-ayala": 12,
+                "rail-mrt3-magallanes": 12,
+                "rail-mrt3-taft_avenue": 14
+              },
+              "rail-mrt3-gma_kamuning": {
+                "rail-mrt3-north_avenue": 6,
+                "rail-mrt3-quezon_avenue": 6,
+                "rail-mrt3-araneta_cubao": 6,
+                "rail-mrt3-santolan_annapolis": 6,
+                "rail-mrt3-ortigas": 8,
+                "rail-mrt3-shaw_boulevard": 8,
+                "rail-mrt3-boni": 10,
+                "rail-mrt3-guadalupe": 10,
+                "rail-mrt3-buendia": 10,
+                "rail-mrt3-ayala": 12,
+                "rail-mrt3-magallanes": 12,
+                "rail-mrt3-taft_avenue": 12
+              },
+              "rail-mrt3-araneta_cubao": {
+                "rail-mrt3-north_avenue": 8,
+                "rail-mrt3-quezon_avenue": 6,
+                "rail-mrt3-gma_kamuning": 6,
+                "rail-mrt3-santolan_annapolis": 6,
+                "rail-mrt3-ortigas": 6,
+                "rail-mrt3-shaw_boulevard": 8,
+                "rail-mrt3-boni": 8,
+                "rail-mrt3-guadalupe": 10,
+                "rail-mrt3-buendia": 10,
+                "rail-mrt3-ayala": 10,
+                "rail-mrt3-magallanes": 12,
+                "rail-mrt3-taft_avenue": 12
+              },
+              "rail-mrt3-santolan_annapolis": {
+                "rail-mrt3-north_avenue": 8,
+                "rail-mrt3-quezon_avenue": 8,
+                "rail-mrt3-gma_kamuning": 6,
+                "rail-mrt3-araneta_cubao": 6,
+                "rail-mrt3-ortigas": 6,
+                "rail-mrt3-shaw_boulevard": 6,
+                "rail-mrt3-boni": 8,
+                "rail-mrt3-guadalupe": 8,
+                "rail-mrt3-buendia": 10,
+                "rail-mrt3-ayala": 10,
+                "rail-mrt3-magallanes": 10,
+                "rail-mrt3-taft_avenue": 12
+              },
+              "rail-mrt3-ortigas": {
+                "rail-mrt3-north_avenue": 10,
+                "rail-mrt3-quezon_avenue": 8,
+                "rail-mrt3-gma_kamuning": 8,
+                "rail-mrt3-araneta_cubao": 6,
+                "rail-mrt3-santolan_annapolis": 6,
+                "rail-mrt3-shaw_boulevard": 6,
+                "rail-mrt3-boni": 6,
+                "rail-mrt3-guadalupe": 8,
+                "rail-mrt3-buendia": 8,
+                "rail-mrt3-ayala": 10,
+                "rail-mrt3-magallanes": 10,
+                "rail-mrt3-taft_avenue": 10
+              },
+              "rail-mrt3-shaw_boulevard": {
+                "rail-mrt3-north_avenue": 10,
+                "rail-mrt3-quezon_avenue": 10,
+                "rail-mrt3-gma_kamuning": 8,
+                "rail-mrt3-araneta_cubao": 8,
+                "rail-mrt3-santolan_annapolis": 6,
+                "rail-mrt3-ortigas": 6,
+                "rail-mrt3-boni": 6,
+                "rail-mrt3-guadalupe": 6,
+                "rail-mrt3-buendia": 8,
+                "rail-mrt3-ayala": 8,
+                "rail-mrt3-magallanes": 10,
+                "rail-mrt3-taft_avenue": 10
+              },
+              "rail-mrt3-boni": {
+                "rail-mrt3-north_avenue": 10,
+                "rail-mrt3-quezon_avenue": 10,
+                "rail-mrt3-gma_kamuning": 10,
+                "rail-mrt3-araneta_cubao": 8,
+                "rail-mrt3-santolan_annapolis": 8,
+                "rail-mrt3-ortigas": 6,
+                "rail-mrt3-shaw_boulevard": 6,
+                "rail-mrt3-guadalupe": 6,
+                "rail-mrt3-buendia": 6,
+                "rail-mrt3-ayala": 8,
+                "rail-mrt3-magallanes": 8,
+                "rail-mrt3-taft_avenue": 10
+              },
+              "rail-mrt3-guadalupe": {
+                "rail-mrt3-north_avenue": 12,
+                "rail-mrt3-quezon_avenue": 10,
+                "rail-mrt3-gma_kamuning": 10,
+                "rail-mrt3-araneta_cubao": 10,
+                "rail-mrt3-santolan_annapolis": 8,
+                "rail-mrt3-ortigas": 8,
+                "rail-mrt3-shaw_boulevard": 6,
+                "rail-mrt3-boni": 6,
+                "rail-mrt3-buendia": 6,
+                "rail-mrt3-ayala": 6,
+                "rail-mrt3-magallanes": 8,
+                "rail-mrt3-taft_avenue": 8
+              },
+              "rail-mrt3-buendia": {
+                "rail-mrt3-north_avenue": 12,
+                "rail-mrt3-quezon_avenue": 12,
+                "rail-mrt3-gma_kamuning": 10,
+                "rail-mrt3-araneta_cubao": 10,
+                "rail-mrt3-santolan_annapolis": 10,
+                "rail-mrt3-ortigas": 8,
+                "rail-mrt3-shaw_boulevard": 8,
+                "rail-mrt3-boni": 6,
+                "rail-mrt3-guadalupe": 6,
+                "rail-mrt3-ayala": 6,
+                "rail-mrt3-magallanes": 6,
+                "rail-mrt3-taft_avenue": 8
+              },
+              "rail-mrt3-ayala": {
+                "rail-mrt3-north_avenue": 12,
+                "rail-mrt3-quezon_avenue": 12,
+                "rail-mrt3-gma_kamuning": 12,
+                "rail-mrt3-araneta_cubao": 10,
+                "rail-mrt3-santolan_annapolis": 10,
+                "rail-mrt3-ortigas": 10,
+                "rail-mrt3-shaw_boulevard": 8,
+                "rail-mrt3-boni": 8,
+                "rail-mrt3-guadalupe": 6,
+                "rail-mrt3-buendia": 6,
+                "rail-mrt3-magallanes": 6,
+                "rail-mrt3-taft_avenue": 6
+              },
+              "rail-mrt3-magallanes": {
+                "rail-mrt3-north_avenue": 14,
+                "rail-mrt3-quezon_avenue": 12,
+                "rail-mrt3-gma_kamuning": 12,
+                "rail-mrt3-araneta_cubao": 12,
+                "rail-mrt3-santolan_annapolis": 10,
+                "rail-mrt3-ortigas": 10,
+                "rail-mrt3-shaw_boulevard": 10,
+                "rail-mrt3-boni": 8,
+                "rail-mrt3-guadalupe": 8,
+                "rail-mrt3-buendia": 6,
+                "rail-mrt3-ayala": 6,
+                "rail-mrt3-taft_avenue": 6
+              },
+              "rail-mrt3-taft_avenue": {
+                "rail-mrt3-north_avenue": 14,
+                "rail-mrt3-quezon_avenue": 14,
+                "rail-mrt3-gma_kamuning": 12,
+                "rail-mrt3-araneta_cubao": 12,
+                "rail-mrt3-santolan_annapolis": 12,
+                "rail-mrt3-ortigas": 10,
+                "rail-mrt3-shaw_boulevard": 10,
+                "rail-mrt3-boni": 10,
+                "rail-mrt3-guadalupe": 8,
+                "rail-mrt3-buendia": 8,
+                "rail-mrt3-ayala": 6,
+                "rail-mrt3-magallanes": 6
+              }
+            }
+          },
+          "sourceUrl": "https://www.dotrmrt3.gov.ph/dotrmrt3-citizen-charter-handbook-2026-1st-edition.pdf",
+          "sourceNote": "Charter displays a 50% all-passenger matrix starting March 23, 2026. Values are half regular fare, floored to whole peso as shown by the official fare tiers (13→6, 16→8, 20→10, 24→12, 28→14). Status: shown in 2026 Citizen Charter; active validity should be rechecked at activation"
+        }
+      ],
+      "sourceUrl": "https://www.dotrmrt3.gov.ph/fare-matrix.pdf",
+      "sourceNote": "Exact directional station-pair values transcribed from the DOTr-MRT3 Regular Fare Matrix PDF. Effective date not stated on the source; capture date 2026-10-10 used."
+    }
+  ]
 }

@@ -1,4 +1,5 @@
-// Usage: npm run build && npm run test:e2e
+// Usage: npm run build:sample && npm run test:e2e
+// Needs the sample build: the real pack has no routes to plan. Real-data checks: scripts/e2e-real.mjs.
 // End-to-end plan flow with the network off: plan -> results -> detail -> map,
 // then an avoid what-if and a no-route case. Runs against the production build.
 // Expected values are the hand-computed ones in src/router/__fixtures__/synthetic-pack.ts.

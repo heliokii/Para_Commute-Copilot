@@ -321,6 +321,20 @@ export const copy = {
     activeAvoid: 'Iwas EDSA (simulated)',
     activeCustom: 'Custom Preference',
   },
+  fares: {
+    intro:
+      'Pamasahe lang ng LRT-1, LRT-2 at MRT-3 ang may totoong data ngayon. Wala pang oras o ruta ng bus at jeep, kaya hindi pa makakapag-plan ng biyahe.',
+    origin: 'Sakayan',
+    destination: 'Babaan',
+    pickBoth: 'Pumili ng sakayan at babaan sa iisang linya.',
+    noFare: 'Walang nakalistang pamasahe sa pagitan ng dalawang istasyon na ito. Pumili ng dalawang istasyon sa iisang linya.',
+    normally: (amount: string) => `karaniwan ${amount}`,
+    asOf: (date: string) => `Pamasahe as of ${date}`,
+    source: 'Pinagkunan',
+    noRoute: 'Pamasahe lang ito. Walang oras at walang ruta na data pa.',
+    noEligibilityData: 'Walang hiwalay na data para sa student, senior o PWD na diskwento. Ang ipinapakita ay ang pamasahe ng lahat ng pasahero.',
+    mapHint: 'Pindutin ang dalawang istasyon sa mapa para makita ang pamasahe.',
+  },
   results: {
     title: 'Mga Ruta',
     found: (count: number) => (count === 1 ? '1 opsyon' : `${count} opsyon`),
@@ -433,7 +447,7 @@ export const copy = {
   },
   map: {
     title: 'Mapa ng Ruta',
-    schematic: 'Schematic lang ito mula sa route pack. Hindi ito totoong mapa ng kalsada.',
+    schematic: 'Mapa mula sa OpenStreetMap, nasa phone mo na. Ang mga linya ng tren ay galing sa track data nito; hindi ito opisyal na mapa ng operator.',
     noRoute: 'Wala pang napiling ruta. Ipinapakita ang buong network.',
     planFirst: 'Mag-plan ng ruta',
     zoomIn: 'Palakihin',
@@ -444,8 +458,8 @@ export const copy = {
     transfer: 'Lipatan',
     legend: 'Legend',
     describe: (from: string, to: string, legs: number) =>
-      `Schematic na mapa mula ${from} hanggang ${to}, ${legs} bahagi.`,
-    describeNetwork: 'Schematic na mapa ng buong route pack.',
+      `Mapa mula ${from} hanggang ${to}, ${legs} bahagi.`,
+    describeNetwork: 'Mapa ng Metro Manila na may mga linya ng LRT-1, LRT-2 at MRT-3.',
   },
   about: {
     title: 'About',
@@ -460,7 +474,7 @@ export const copy = {
     dataLoading: 'Binabasa ang local database…',
     dataNote: 'Synthetic na test network lang. Walang totoong ruta, terminal o pamasahe.',
     realDataNote:
-      'Galing sa mga opisyal na source na nakalista sa data/metro-manila/SOURCES.md. May tatak na "Hindi pa verified" ang rutang hindi pa nasasakyan ng team.',
+      'Pamasahe ng LRT-1, LRT-2 at MRT-3 mula sa mga opisyal na matrix na nakalista sa data/metro-manila/SOURCES.md. Mapa at lokasyon ng istasyon: © OpenStreetMap contributors (ODbL). Wala pang ruta o oras ng bus at jeep.',
     packVersion: (id: string, version: string) => `Route pack: ${id}, bersyon ${version}`,
     fareAsOf: (date: string) => `Pamasahe as of ${date}`,
     fonts: 'Mga font',

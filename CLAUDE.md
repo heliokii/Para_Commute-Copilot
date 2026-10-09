@@ -176,7 +176,7 @@ This section overrides anything earlier that conflicts (including the GSAP and `
 
 **Rules that matter for honesty**
 - Mockup values (₱95, 2 oras, 815 MB, Imus → Cubao) are placeholders; never hardcode them. Sample or unverified data is labeled on screen.
-- The map is a schematic SVG from the route pack, not map tiles.
+- The map is an SVG drawn from an OpenStreetMap extract bundled with the app (`src/assets/ncr-map.json`, built by `scripts/build-map-data.mjs`), with the pack's stations on top. No tiles, no network. Credit "© OpenStreetMap contributors" is shown on the map and in About.
 - LLM text is never trusted for numbers or names: explanations are template-first and validated against the RouteResult.
 - Simulated GPS and simulated what-ifs must always be labeled as simulated.
 - "Bytes sent" is an app-measured tally; devtools Network is the real proof.

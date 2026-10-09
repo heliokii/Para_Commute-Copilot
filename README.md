@@ -41,7 +41,7 @@ Team **git inet**: Daniel Aldreen Manjares, Justine Catapang, Elijah Emmanuel. P
 
 ## Honest limits
 
-- **The data is not real.** The app ships with a synthetic test network (places named "SYN Alpha Terminal" and so on, at coordinates in the open ocean). It is labeled "SAMPLE DATA, not verified" on screen. No real route, fare or terminal is in the app. One ride-verified corridor is the plan; see `docs/DATA_COLLECTION.md`.
+- **The app plans no trips yet.** The real data is rail only: station-to-station fares for LRT-1, LRT-2 and MRT-3 (transcribed from the operators' matrices, dated on screen) and the stations' OpenStreetMap coordinates. There are no road routes, ride times or terminals, so the Ruta tab is a fare lookup and the chat answers "how much from A to B" for two stations on one line. Q City Bus has stop names but no measured coordinates or times; see `docs/DATA_COLLECTION.md`. The synthetic sample network ("SYN Alpha Terminal"...) is kept for tests and for `npm run build:sample`; it is labeled "SAMPLE DATA, not verified".
 - **Not tested on a phone.** Everything was verified in desktop Chrome, mostly headless. `docs/IOS_NOTES.md` lists what to check on iOS; none of it has been checked.
 - **The AI model needs WebGPU and a large one-time download** (277 MB to 926 MB). Without it the app still works through the rules lane.
 - **The model has not been shown to help.** On the current 50-query test set the rules alone score 100% (they were tuned on that set), and the model is consulted for 6 of the 50. See `docs/model-benchmark.md`.
@@ -49,7 +49,7 @@ Team **git inet**: Daniel Aldreen Manjares, Justine Catapang, Elijah Emmanuel. P
 - **Waiting time is not modeled.** Times are ride and walk time only.
 - **GPS and trip mode are on branch `phases-7-9` only.** On `main` and `submission-v1` location is not used at all. On the branch, "Simulan ang Ruta" opens trip mode with an on-device arrival alert. It was verified only with **Simulated GPS** (a replayed track, always labeled on screen). Real GPS, the wake lock, vibration and the chime were never tried on any device.
 - **Favorites, settings and the contribution queue are on branch `phases-7-9` only** (Paborito, Settings, "May mali ba?"). They are verified in headless desktop Chrome, not on a phone. **Wika (Taglish / English) does not exist**: Settings shows it as "Hindi pa available". The unit settings (Oras, Distansya) change only the route screens, not Tsupher's chat sentences. Reports are never sent anywhere: "sync now" is a file export that the rider hands over by hand. On `main` the Paborito tab is a placeholder and the Settings rows are not there.
-- **The map is a schematic** drawn from the route pack, not a street map.
+- **The map is OpenStreetMap data** bundled with the app (roads, water, city names, rail track). It is a snapshot (the date is on the map), simplified, and not an official operator map. The NCR outline is OSM-derived, not a legal boundary. © OpenStreetMap contributors, ODbL.
 
 Current state and history: `docs/PROGRESS.md`. What is built and what is not: `docs/SUBMISSION.md`. Models, libraries, data and art: `DISCLOSURE.md`.
 
@@ -82,7 +82,8 @@ These need a build first (`npm run build`) and Chrome or Edge. Set `CHROME_PATH`
 
 ```sh
 npm run check:offline    # app shell with the network off, then with the server stopped
-npm run test:e2e         # plan, results, detail, map, chat, what-if, with the network off
+npm run test:e2e:real    # real pack: fare lookup, OpenStreetMap map, station taps, chat fare answer, network off
+npm run build:sample     # then npm run test:e2e: plan, results, detail, map, chat, what-if on the sample pack
 npm run check:update     # a new version waits for the rider and never reloads mid-chat
 npm run check:migrate    # branch `phases-7-9`: the Dexie v1 to v2 migration on a populated v1 database
 npm run audit            # Lighthouse plus an accessibility sweep, written to docs/audit.md

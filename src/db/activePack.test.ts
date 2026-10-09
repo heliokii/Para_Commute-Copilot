@@ -6,13 +6,18 @@ import { ACTIVE_PACK, pickActivePack } from './activePack.ts'
 const EMPTY: RoutePack = { id: 'metro-manila', corridor: 'x', version: 'empty', landmarks: [], routes: [], fares: [] }
 
 describe('pickActivePack', () => {
-  it('keeps the sample pack while the real pack has no routes', () => {
+  it('keeps the sample pack while the real pack is empty', () => {
     expect(pickActivePack(EMPTY, SYNTHETIC_PACK)).toBe(SYNTHETIC_PACK)
   })
 
-  it('switches to the real pack once it has a route', () => {
-    const real = { ...EMPTY, routes: [SYNTHETIC_PACK.routes[0]] }
+  it('switches to the real pack once it has landmarks and fares, even with no routes', () => {
+    const real = { ...EMPTY, landmarks: [SYNTHETIC_PACK.landmarks[0]], fares: [SYNTHETIC_PACK.fares[0]] }
     expect(pickActivePack(real, SYNTHETIC_PACK)).toBe(real)
+  })
+
+  it('stays on the sample pack when only landmarks exist', () => {
+    const partial = { ...EMPTY, landmarks: [SYNTHETIC_PACK.landmarks[0]] }
+    expect(pickActivePack(partial, SYNTHETIC_PACK)).toBe(SYNTHETIC_PACK)
   })
 
   it('never activates a pack labeled as sample data without saying so', () => {

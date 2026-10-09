@@ -7,9 +7,11 @@
 //                 bundled pack is written to <root>/generated-pack.json, not into src/.
 //
 // A route is imported only when every stop has coordinates and every segment a
-// measured distance and time. The app switches to the result only when it has
-// routes and passes the same checks as "npm run validate:pack", including
-// <root>/pack/ncr_boundary.geojson. Otherwise the bundled pack is written empty
+// measured distance and time. Fare-only data in <root>/rail-pack (made by
+// scripts/rail-fares-to-csv.mjs) is appended as is. The app switches to the
+// result when it has landmarks and fares and passes the same checks as
+// "npm run validate:pack", including <root>/pack/ncr_boundary.geojson (made by
+// scripts/build-map-data.mjs). Otherwise the bundled pack is written empty
 // and the app keeps the sample pack. Exit code 1 when nothing was activated.
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -27,6 +29,7 @@ const rootArg = args.indexOf('--root')
 const root = resolve(rootArg === -1 ? DEFAULT_ROOT : args[rootArg + 1])
 const fieldDir = join(root, 'field')
 const packDir = join(root, 'pack')
+const railDir = join(root, 'rail-pack')
 const bundlePath = root === resolve(DEFAULT_ROOT) ? resolve('src/db/generated/metro-manila-pack.json') : join(root, 'generated-pack.json')
 
 const inventory = JSON.parse(readFileSync(INVENTORY, 'utf8'))
@@ -47,6 +50,15 @@ console.log(`Worksheets in ${fieldDir}`)
 if (args.includes('--init')) process.exit(0)
 
 const result = buildPackFiles(inventory, sheets)
+// Append the rail-pack rows (same headers, no routes) under the bus rows.
+if (existsSync(railDir)) {
+  for (const name of Object.keys(result.files)) {
+    const path = join(railDir, `${name}.csv`)
+    if (!existsSync(path)) continue
+    const extra = readFileSync(path, 'utf8').split(/\r?\n/).slice(1).filter(Boolean)
+    if (extra.length) result.files[name] = `${result.files[name].replace(/\n*$/, '\n')}${extra.join('\n')}\n`
+  }
+}
 mkdirSync(packDir, { recursive: true })
 for (const [name, text] of Object.entries(result.files)) writeFileSync(join(packDir, `${name}.csv`), text)
 
@@ -60,7 +72,7 @@ const meta = { id: PACK_ID, corridor: CORRIDOR, version: `${inventory.capturedAt
 const check = checkPackDir(packDir, meta)
 printPackCheck(packDir, check)
 
-const active = check.errors.length === 0 && check.pack.routes.length > 0
+const active = check.errors.length === 0 && check.pack.landmarks.length > 0 && check.pack.fares.length > 0
 const bundle = active ? check.pack : { id: PACK_ID, corridor: CORRIDOR, version: 'empty', landmarks: [], routes: [], fares: [] }
 mkdirSync(resolve(bundlePath, '..'), { recursive: true })
 writeFileSync(bundlePath, `${JSON.stringify(bundle, null, 2)}\n`)

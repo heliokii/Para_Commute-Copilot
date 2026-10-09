@@ -152,7 +152,7 @@ try {
     ),
   )
   check('Proof: service worker row is true because a worker controls the page', proof.sw?.ok === 'true', proof.sw?.text)
-  check('Proof: route pack row shows the loaded version and fare date', proof.pack?.ok === 'true' && /Bersyon 0\.\d+\.\d+-synthetic/.test(proof.pack.text) && /as of \d{4}-\d{2}-\d{2}/.test(proof.pack.text), proof.pack?.text)
+  check('Proof: route pack row shows the loaded version and fare date', proof.pack?.ok === 'true' && /Bersyon (0\.\d+\.\d+-synthetic|\d{4}-\d{2}-\d{2}-[0-9a-f]{8})/.test(proof.pack.text) && /as of \d{4}-\d{2}-\d{2}/.test(proof.pack.text), proof.pack?.text)
   check('Proof: AI row is not ticked when no model is installed', proof.model?.ok === 'false' && /Hindi pa naka-install|Walang WebGPU/.test(proof.model.text), proof.model?.text)
   check('Proof: no inference is claimed before one happens', proof.inference?.ok === 'null', proof.inference?.text)
   check('Proof: zero requests to other servers, counted by the browser', proof['cross-origin']?.ok === 'true' && / 0 /.test(proof['cross-origin'].text + ' '), proof['cross-origin']?.text)
@@ -163,8 +163,10 @@ try {
   })
   await page.waitForFunction(() => document.body.innerText.includes('On this device'), { timeout: 5000 })
   const about = await page.evaluate(() => document.body.innerText)
-  check('Offline: About lists libraries and the sample-data label', about.includes('dexie') && about.includes('SAMPLE DATA, not verified'))
-  check('About: shows the route pack version, fare date and model licences', /Route pack: synthetic-pack, bersyon/.test(about) && /Pamasahe as of \d{4}-\d{2}-\d{2}/.test(about) && about.includes('Apache-2.0'))
+  // The sample build (npm run build:sample) must say SAMPLE DATA; the real build must credit OpenStreetMap and not claim to be a sample.
+  const isSample = about.includes('SAMPLE DATA, not verified')
+  check('Offline: About lists libraries and labels the data (sample label, or OpenStreetMap credit on the real pack)', about.includes('dexie') && (isSample || (about.includes('OpenStreetMap') && !about.includes('Synthetic na test network'))))
+  check('About: shows the route pack version, fare date and model licences', /Route pack: (synthetic-pack|metro-manila), bersyon/.test(about) && /Pamasahe as of \d{4}-\d{2}-\d{2}/.test(about) && about.includes('Apache-2.0'))
   check('Mascot is named Tsupher, never "Kuya Para"', !/kuya para/i.test(home.text + about) && home.text.includes('Tsupher'))
 
   const local = await page.evaluate(
@@ -198,7 +200,7 @@ try {
     'Dexie: one route pack with landmarks, routes with stops, and dated fares',
     routePacks.length === 1 &&
       landmarks.length > 0 &&
-      routes.length > 0 &&
+      (routes.length > 0 || routePacks[0]?.id === 'metro-manila') &&
       routes.every((route) => route.stops?.length >= 2) &&
       fares.length > 0 &&
       fares.every((fare) => /^\d{4}-\d{2}-\d{2}$/.test(fare.effectiveDate)),

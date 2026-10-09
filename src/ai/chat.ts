@@ -1,3 +1,4 @@
+import { describeStationFares, lookupStationFares } from '../fares/lookup.ts'
 import { orderOptions } from '../router/order.ts'
 import type { Avoid, Intent, Preference, RoutePack, RouteResult } from '../router/types.ts'
 import { explainSteps, explainSummary, explainWhy } from './explain.ts'
@@ -151,6 +152,13 @@ export async function handleUtterance(
     const found = options.filter((option) => option.status === 'ok')
     const simulated = options.some((option) => option.simulated)
     if (found.length === 0) {
+      // No route to plan, but two stations on one line still have a published fare.
+      const fares = lookupStationFares(pack, intent.originId, intent.destinationId, intent.fareEligibility)
+      if (fares.length > 0) {
+        const name = (id: string) => pack.landmarks.find((landmark) => landmark.id === id)?.name ?? id
+        const facts = describeStationFares(fares, name(intent.originId), name(intent.destinationId))
+        return reply({ kind: 'answer', message: 'answer', facts: [facts.join(' ')], lane, intent })
+      }
       return reply({ kind: 'no_route', message: 'noRoute', options, simulated, lane, intent })
     }
     const best = options[Math.max(chosenIndex, 0)]

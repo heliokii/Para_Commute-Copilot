@@ -59,10 +59,14 @@ Versions and licences were read from the installed packages' `package.json` file
 
 | Data | What it is | Verified? |
 |---|---|---|
-| Route pack `synthetic-pack` 0.2.0-synthetic | 8 made-up landmarks ("SYN ..."), 4 made-up routes, 2 made-up fare tables, at coordinates near latitude 0, longitude 0. Written by the coding agent to test the router. | It is not real and is labeled "SAMPLE DATA, not verified" on screen. No real route, terminal or fare is in the app. |
-| Fare tables | Synthetic values chosen to be unlike any real fare matrix. | Not real. No LTFRB figure is used anywhere in the app. |
+| Rail fare pack (`data/metro-manila/rail-pack`, bundled as `src/db/generated/metro-manila-pack.json`) | Exact station-to-station fares for LRT-1 (effective 2025-04-02), LRT-2 (scheduled 2023-08-02, 50% promotion from 2026-03-23) and MRT-3 (regular matrix, 50% promotion from 2026-03-23), transcribed from the operators' published matrices. Sources and dates are in `data/metro-manila/SOURCES.md` and `source-manifest.json`. | Transcribed by the coding agent from images and PDFs; three fares were spot-checked against the transcription. Operators' discount products and reuse terms were not rechecked. Shown on screen with an "as of" date. |
+| Rail station coordinates (`rail-station-coordinates.csv`) | 51 stations, taken from OpenStreetMap on 2026-10-10. LRT-2 Antipolo is outside NCR and is left out. | OSM contributors' mapping, not surveyed. ODbL. |
+| Basemap (`src/assets/ncr-map.json`) | Roads, water, city names, the NCR outline and rail track geometry for Metro Manila, extracted from OpenStreetMap on the date shown on the map, then simplified. | © OpenStreetMap contributors, ODbL. The NCR outline is OSM-derived, not a legal boundary. Track-to-line assignment is by distance to each line's stations. |
+| Routes | None. Q City Bus stop names are listed but have no coordinates or measured times, so no road route is in the app. | Not collected. |
+| Sample pack `synthetic-pack` | 8 made-up landmarks and 4 made-up routes, used only by unit tests. Not shown in the app. | Not real. |
 | `tests/taglish-50.json` | 50 test queries written by the coding agent against the synthetic pack. | Seed set only. Not real rider phrasings. |
-| Ride-verified corridor data | None yet. Templates and a collection guide exist (`data/templates/`, `docs/DATA_COLLECTION.md`). | Not collected. |
+
+The app cannot plan a trip: there are no route or travel-time data. It looks up the fare between two stations on one line.
 
 The fare-hike details and other facts in `CLAUDE.md` section 3 were research notes for planning. None of them is encoded in the app. Their sources are listed in `CLAUDE.md` section 11 and were not re-checked during the build.
 
@@ -117,7 +121,7 @@ Stored in IndexedDB on the device only. No account, no upload, no sync.
 2. Origin of, and rights to, the mascot, logo and mockup art.
 3. Whether AI tools helped write the planning documents.
 4. Anything on a phone: nothing was run on iOS or Android.
-5. Real routes, fares and terminals: none collected.
+5. Road routes and terminals: none collected. Rail fares are transcribed, not re-verified against the operators' current pages.
 6. The "Para!" name: `CLAUDE.md` notes it should be checked for prior use. Not checked.
 7. Transitive dependency licences.
 9. Real GPS (trip mode was verified with Simulated GPS only), the wake lock, vibration and the chime, on any device.

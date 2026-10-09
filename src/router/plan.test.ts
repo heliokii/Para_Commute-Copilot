@@ -275,7 +275,8 @@ describe('determinism', () => {
         expect(JSON.stringify(planOptions(pack, testCase))).toBe(first)
       }
     }
-  })
+    // 500 plans: well under a second alone, but a loaded machine can pass the 5 s default.
+  }, 20_000)
 
   it('does not depend on the order of routes, landmarks or fares in the pack', () => {
     const shuffled: RoutePack = {
