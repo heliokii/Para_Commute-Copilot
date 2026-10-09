@@ -1,46 +1,22 @@
 import Dexie, { type EntityTable } from 'dexie'
-import { seedSampleData } from './seed'
+import type { FareEntry, Landmark, Route } from '../router/types.ts'
 
-export interface RoutePack {
+export interface RoutePackRow {
   id: string
   corridor: string
   version: string
   note?: string
 }
 
-export interface Route {
-  id: number
-  packId: string
-  mode: string
-  name: string
-  note?: string
-}
-
-export interface Landmark {
-  id: number
-  packId: string
-  name: string
-  lat: number
-  lon: number
-}
+// Router shapes plus the pack they belong to. Rows carry their own string ids.
+export type RouteRow = Route & { packId: string }
+export type LandmarkRow = Landmark & { packId: string }
+export type FareRow = FareEntry & { packId: string }
 
 export interface Terminal {
   id: number
   packId: string
   name: string
-}
-
-export interface Fare {
-  id: number
-  mode: string
-  /** ISO date (YYYY-MM-DD) the fare took effect. Shown as "as of". */
-  effectiveDate: string
-  baseFare: number
-  baseKm: number
-  perKm: number
-  currency: string
-  source?: string
-  note?: string
 }
 
 export interface Contribution {
@@ -52,11 +28,11 @@ export interface Contribution {
 }
 
 export type ParaDB = Dexie & {
-  routePacks: EntityTable<RoutePack, 'id'>
-  routes: EntityTable<Route, 'id'>
-  landmarks: EntityTable<Landmark, 'id'>
+  routePacks: EntityTable<RoutePackRow, 'id'>
+  routes: EntityTable<RouteRow, 'id'>
+  landmarks: EntityTable<LandmarkRow, 'id'>
   terminals: EntityTable<Terminal, 'id'>
-  fares: EntityTable<Fare, 'id'>
+  fares: EntityTable<FareRow, 'id'>
   contributions: EntityTable<Contribution, 'id'>
 }
 
@@ -71,6 +47,3 @@ db.version(1).stores({
   fares: '++id, mode, effectiveDate',
   contributions: '++id, type, status, createdAt',
 })
-
-// Runs once, when the database is first created.
-db.on('populate', (tx) => seedSampleData(tx))

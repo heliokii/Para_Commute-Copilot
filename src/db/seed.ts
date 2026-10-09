@@ -1,41 +1,33 @@
-import type { Transaction } from 'dexie'
+import { SYNTHETIC_PACK } from '../router/__fixtures__/synthetic-pack.ts'
+import { db } from './db.ts'
 
 export const SAMPLE_LABEL = 'SAMPLE DATA, not verified'
-export const SAMPLE_PACK_ID = 'sample-pack'
+export const ACTIVE_PACK_ID = SYNTHETIC_PACK.id
 
-// Placeholder rows so the schema can be exercised offline. Nothing here is a
-// real route, terminal or fare. Replace with the ride-verified pack (build step 2).
-export function seedSampleData(tx: Transaction) {
-  tx.table('routePacks').add({
-    id: SAMPLE_PACK_ID,
-    corridor: 'SAMPLE corridor',
-    version: '0.0.0-sample',
-    note: SAMPLE_LABEL,
-  })
+// Loads the synthetic pack so the router can be exercised offline. Nothing in it
+// is a real route, terminal or fare. Replace with the ride-verified pack later.
+async function ensureSeed() {
+  const existing = await db.routePacks.get(SYNTHETIC_PACK.id)
+  if (existing?.version === SYNTHETIC_PACK.version) return
 
-  tx.table('routes').bulkAdd([
-    {
-      packId: SAMPLE_PACK_ID,
-      mode: 'sample',
-      name: 'SAMPLE Route A (Point A to Point B)',
-      note: SAMPLE_LABEL,
-    },
-    {
-      packId: SAMPLE_PACK_ID,
-      mode: 'sample',
-      name: 'SAMPLE Route B (Point B to Point C)',
-      note: SAMPLE_LABEL,
-    },
-  ])
-
-  tx.table('fares').add({
-    mode: 'sample',
-    effectiveDate: '2026-01-01',
-    baseFare: 1,
-    baseKm: 1,
-    perKm: 1,
-    currency: 'PHP',
-    source: 'none (placeholder values)',
-    note: SAMPLE_LABEL,
+  const { landmarks, routes, fares, ...packRow } = SYNTHETIC_PACK
+  const packId = packRow.id
+  await db.transaction('rw', db.routePacks, db.routes, db.landmarks, db.fares, async () => {
+    // Only sample rows have ever lived in these tables, so a full replace is safe.
+    await Promise.all([
+      db.routePacks.clear(),
+      db.routes.clear(),
+      db.landmarks.clear(),
+      db.fares.clear(),
+    ])
+    await db.routePacks.put(packRow)
+    await db.landmarks.bulkPut(landmarks.map((landmark) => ({ ...landmark, packId })))
+    await db.routes.bulkPut(routes.map((route) => ({ ...route, packId })))
+    await db.fares.bulkPut(fares.map((fare) => ({ ...fare, packId })))
   })
 }
+
+/** Resolves once the local database holds the current sample pack. */
+export const seedReady: Promise<void> = ensureSeed().catch((error) => {
+  console.error('ParaDB seed failed', error)
+})

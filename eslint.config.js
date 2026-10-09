@@ -19,4 +19,12 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: ['scripts/**/*.mjs'],
+    extends: [js.configs.recommended],
+    languageOptions: {
+      // Node scripts, with browser globals for code passed to page.evaluate().
+      globals: { ...globals.node, ...globals.browser },
+    },
+  },
 ])

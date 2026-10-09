@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import pkg from '../../package.json'
 import { db } from '../db/db'
-import { SAMPLE_LABEL } from '../db/seed'
+import { SAMPLE_LABEL, seedReady } from '../db/seed'
 
 const versions: Record<string, string> = { ...pkg.devDependencies, ...pkg.dependencies }
 
@@ -28,14 +28,18 @@ export function About() {
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([
-      db.routePacks.count(),
-      db.routes.count(),
-      db.fares.count(),
-      db.fares.orderBy('effectiveDate').last(),
-    ]).then(([packs, routes, fares, latestFare]) => {
-      if (!cancelled) setCounts({ packs, routes, fares, fareAsOf: latestFare?.effectiveDate })
-    })
+    seedReady
+      .then(() =>
+        Promise.all([
+          db.routePacks.count(),
+          db.routes.count(),
+          db.fares.count(),
+          db.fares.orderBy('effectiveDate').last(),
+        ]),
+      )
+      .then(([packs, routes, fares, latestFare]) => {
+        if (!cancelled) setCounts({ packs, routes, fares, fareAsOf: latestFare?.effectiveDate })
+      })
     return () => {
       cancelled = true
     }
@@ -97,11 +101,11 @@ export function About() {
             <p className="font-semibold text-warn">{SAMPLE_LABEL}</p>
             <p className="mt-1 text-muted tabular-nums">
               {counts
-                ? `On this device: ${counts.packs} route pack, ${counts.routes} routes, ${counts.fares} fare entry (as of ${counts.fareAsOf ?? 'unknown'}).`
+                ? `On this device: route packs ${counts.packs}, routes ${counts.routes}, fare tables ${counts.fares} (latest as of ${counts.fareAsOf ?? 'unknown'}).`
                 : 'Reading local database…'}
             </p>
             <p className="mt-1 text-muted">
-              Placeholder rows only. No real routes, terminals or fares are included.
+              Synthetic test network only. No real routes, terminals or fares are included.
             </p>
           </div>
         </section>

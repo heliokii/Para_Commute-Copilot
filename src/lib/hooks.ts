@@ -23,10 +23,12 @@ function subscribeHash(listener: () => void) {
   return () => window.removeEventListener('hashchange', listener)
 }
 
-export type RoutePath = '/' | '/about'
+export type RoutePath = '/' | '/about' | '/dev/router'
 
 // Hash routing keeps every screen on the precached index.html.
 export function useHashRoute(): RoutePath {
   const hash = useSyncExternalStore(subscribeHash, () => location.hash)
-  return hash === '#/about' ? '/about' : '/'
+  if (hash === '#/about') return '/about'
+  if (hash === '#/dev/router') return '/dev/router'
+  return '/'
 }

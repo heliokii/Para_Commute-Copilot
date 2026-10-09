@@ -2,7 +2,7 @@
 
 Taglish commute helper that works with no signal. Offline-first PWA: Vite, React, TypeScript, Tailwind, Dexie. See `CLAUDE.md` for the full plan.
 
-Current state: Phase 1, the PWA shell. No router, LLM, Whisper or voice yet. The local database holds placeholder rows labeled "SAMPLE DATA, not verified".
+Current state: PWA shell plus the deterministic router (Phase 2). No LLM, Whisper or voice yet. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
 
 ## Run
 
@@ -19,6 +19,26 @@ The service worker is not active in `npm run dev`. Use the build and preview ste
 npm run build     # type-check, then build to dist/ with sw.js and manifest.json
 npm run preview   # serve dist/ at http://localhost:4173
 npm run lint
+```
+
+## Test
+
+```sh
+npm test                 # router and data-validator unit tests (Vitest)
+npm run check:offline    # after a build: headless Chrome, network off, then server stopped
+```
+
+`check:offline` needs Chrome or Edge. Set `CHROME_PATH` if it is not in a default location.
+
+Router dev harness (development only, not in production builds): run `npm run dev`, then open http://localhost:5173/#/dev/router.
+
+## Route pack data
+
+Collection guide: `docs/DATA_COLLECTION.md`. CSV templates: `data/templates/`.
+
+```sh
+npm run validate:pack              # checks data/pack
+npm run validate:pack -- some/dir  # checks another folder
 ```
 
 ## Test airplane mode
