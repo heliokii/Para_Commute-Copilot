@@ -57,9 +57,16 @@ try {
     return page.$eval(input, (element) => element.value)
   }
 
+  const navKind = () =>
+    page.evaluate(() => {
+      const navs = [...document.querySelectorAll('nav')].filter((nav) => nav.getClientRects().length > 0)
+      return { count: navs.length, side: navs.some((nav) => nav.innerText.includes('Commute Copilot')) }
+    })
   // --- Fare lookup on the Ruta tab ---
   await goTo('#/ruta')
   await page.waitForSelector('[data-testid=fare-lookup]', { timeout: 10000 })
+  const phoneNav = await navKind()
+  check('Phone width: bottom nav only, no side nav', phoneNav.count === 1 && !phoneNav.side, JSON.stringify(phoneNav))
   check('Ruta: shows the fare lookup, not a route form', (await page.$('main:not([hidden]) button[type=submit]')) === null)
   check('Ruta: no SAMPLE DATA label on the real pack', !(await visibleText()).includes('SAMPLE DATA'))
   check('Picker: "dr santos" resolves to a rail station', (await pick('origin', 'dr santos')).includes('Dr. Santos'))
@@ -124,6 +131,35 @@ try {
   await page.waitForFunction(() => document.body.innerText.includes('Pamasahe, Dr. Santos'), { timeout: 15000 }).catch(() => {})
   const chat = await visibleText()
   check('Chat: a station-to-station question gets the matrix fare, without invented time or route', chat.includes('₱20.00') && chat.includes('Walang oras o ruta'), chat.slice(-200).replace(/s+/g, ' '))
+
+  // --- Laptop view: the dashboard shows the side nav and Home, Ruta and Mapa side by side ---
+  // --- Laptop view: side nav, with Home, Ruta and Mapa side by side ---
+  await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 })
+  await goTo('#/ruta')
+  await page.waitForSelector('[data-testid=fare-lookup]', { visible: true, timeout: 5000 })
+  const laptopNav = await navKind()
+  check('Laptop width: side nav, no bottom nav', laptopNav.count === 1 && laptopNav.side, JSON.stringify(laptopNav))
+  const columns = await page.evaluate(() => {
+    const rect = (selector) => {
+      const box = document.querySelector(selector)?.getBoundingClientRect()
+      return box ? { left: box.left, right: box.right, width: box.width } : null
+    }
+    return { lookup: rect('[data-testid=fare-lookup]'), map: rect('[data-testid=route-map]'), home: rect('#ask') }
+  })
+  check(
+    'Laptop width: Home prompt, Ruta fare lookup and the map are visible together, left to right',
+    columns.home && columns.lookup && columns.map && columns.home.right <= columns.lookup.left + 1 && columns.lookup.right <= columns.map.left + 1 && columns.map.width > 200,
+    JSON.stringify(Object.fromEntries(Object.entries(columns).map(([key, box]) => [key, box && Math.round(box.left)]))),
+  )
+  check('Laptop width: only one fare lookup is on screen', (await page.$$eval('[data-testid=fare-lookup], [data-testid=map-fare-lookup]', (nodes) => nodes.filter((node) => node.getClientRects().length > 0).length)) === 1)
+  // Tapping a station on the map fills the Ruta column's pickers (shared state).
+  await page.click('button[aria-label="Ibalik ang view"]')
+  for (let i = 0; i < 7; i++) await page.click('button[aria-label="Palakihin"]')
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+  const lapTapped = await tapStation('rail-mrt3-guadalupe')
+  const lapOrigin = lapTapped ? await page.$eval('[data-testid=origin]', (element) => element.value) : ''
+  check('Laptop width: tapping a map station fills the Ruta column', lapTapped && lapOrigin.includes('Guadalupe'), lapOrigin)
+  check('Laptop width: no SAMPLE DATA label', !(await visibleText()).includes('SAMPLE DATA'))
 
   check('Zero requests to other hosts', outside.length === 0, outside.join(', '))
   check('No console errors', consoleErrors.length === 0, consoleErrors.join(' | '))
