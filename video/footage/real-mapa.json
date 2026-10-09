@@ -1,0 +1,106 @@
+{
+ "name": "real-mapa",
+ "build": "real",
+ "viewport": {
+  "width": 390,
+  "height": 844,
+  "deviceScaleFactor": 3
+ },
+ "offlineAtEnd": true,
+ "frames": [
+  0,
+  1.5046,
+  1.6224,
+  1.744,
+  1.8392,
+  2.0096,
+  2.1611,
+  2.3607,
+  2.5357,
+  2.9771,
+  3.0925,
+  3.2075,
+  3.3205,
+  3.4372,
+  3.5555,
+  3.6774,
+  3.796,
+  3.9118,
+  4.0359,
+  4.1547,
+  4.27,
+  4.3859,
+  4.5108,
+  4.6355,
+  4.6793,
+  4.8806,
+  5.0023,
+  5.1272,
+  5.2511,
+  5.3745,
+  5.499,
+  5.6167,
+  5.6422,
+  6.0032,
+  7.1084,
+  7.2469,
+  7.6581,
+  7.689,
+  7.8394,
+  7.8703,
+  7.8929,
+  8.0344,
+  8.0618
+ ],
+ "marks": [
+  {
+   "t": 1.308,
+   "label": "zoom"
+  },
+  {
+   "t": 2.697,
+   "label": "pan"
+  },
+  {
+   "t": 5.904,
+   "label": "tap:origin",
+   "x": 230.5194091796875,
+   "y": 179.51913452148438
+  },
+  {
+   "t": 6.841,
+   "label": "tap:destination",
+   "x": 159.48061656951904,
+   "y": 402.4808044433594
+  },
+  {
+   "t": 6.91,
+   "label": "fare"
+  },
+  {
+   "t": 7.627,
+   "label": "scroll"
+  },
+  {
+   "t": 10.192,
+   "label": "end"
+  }
+ ],
+ "facts": {
+  "pair": [
+   "rail-mrt3-araneta_cubao",
+   "rail-mrt3-ayala"
+  ],
+  "origin": "Araneta-Cubao (MRT-3)",
+  "destination": "Ayala (MRT-3)",
+  "rows": [
+   "Regular ₱10.00 50% all-passenger discount karaniwan ₱20.00 Pamasahe as of 2026-03-23 Pinagkunan"
+  ],
+  "markersStill": true,
+  "credit": {
+   "text": "© OpenStreetMap contributors (ODbL), 2026-10-09",
+   "onScreen": true
+  },
+  "polylines": 0
+ }
+}

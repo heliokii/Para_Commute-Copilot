@@ -1,0 +1,136 @@
+{
+ "branch": "main",
+ "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+ "capturedAt": "2026-10-09T19:43:23.427Z",
+ "builds": {
+  "real": "npm run build -- --outDir video/.build/real",
+  "sample": "npm run build:sample -- --outDir video/.build/sample"
+ },
+ "clips": [
+  {
+   "name": "real-home",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 174,
+   "seconds": 4.7894
+  },
+  {
+   "name": "real-chat",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 104,
+   "seconds": 10.4744
+  },
+  {
+   "name": "real-ruta",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 28,
+   "seconds": 4.2753
+  },
+  {
+   "name": "real-mapa",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 43,
+   "seconds": 8.0618
+  },
+  {
+   "name": "real-offline",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 7,
+   "seconds": 2.4262
+  },
+  {
+   "name": "real-about",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 12,
+   "seconds": 2.4247
+  },
+  {
+   "name": "real-dashboard",
+   "build": "real",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "deviceScaleFactor": 2
+   },
+   "offlineAtEnd": true,
+   "frames": 27,
+   "seconds": 3.9485
+  },
+  {
+   "name": "sample-chat",
+   "build": "sample",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 74,
+   "seconds": 7.6579
+  },
+  {
+   "name": "sample-trip",
+   "build": "sample",
+   "commit": "33a093a3ee11802bd1a0af367c8f224910967924",
+   "viewport": {
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 3
+   },
+   "offlineAtEnd": true,
+   "frames": 486,
+   "seconds": 13.365
+  }
+ ],
+ "browser": "Chrome/155.0.8059.39",
+ "real": {
+  "pair": [
+   "rail-mrt3-araneta_cubao",
+   "rail-mrt3-ayala"
+  ],
+  "requestsToOtherHostsWhileOffline": 0
+ }
+}
