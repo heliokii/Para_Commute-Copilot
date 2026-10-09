@@ -1,5 +1,5 @@
 import { useEffect, useSyncExternalStore } from 'react'
-import { peekModel, peekVoice, useModel } from '../ai/modelManager'
+import { peekModel, useModel } from '../ai/modelManager'
 import { CANDIDATES, getLastStats, subscribeStats } from '../ai/runtime'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
@@ -11,7 +11,6 @@ import { useBytesSent } from '../lib/hooks'
 import { backHref, OVERLAY_PATHS } from '../lib/nav'
 import { isFareStale, useCrossOriginRequests, useServiceWorkerState } from '../lib/proof'
 import { ensurePack, usePlan } from '../state/plan'
-import { getLastVoiceStats, getVoiceBackend, VOICE_CANDIDATES } from '../voice/whisper'
 
 interface Row {
   id: string
@@ -33,7 +32,6 @@ export function OfflineMode() {
 
   useEffect(() => {
     void peekModel()
-    void peekVoice()
     void ensurePack()
   }, [])
 
@@ -43,11 +41,6 @@ export function OfflineMode() {
   const oldestFare = fareDates[0]
   const installed = model.status === 'ready' || model.status === 'cached'
   const modelLabel = CANDIDATES.find((candidate) => candidate.id === model.selectedId)?.label
-  const voiceInstalled = model.voiceStatus === 'ready' || model.voiceStatus === 'cached'
-  const voiceLabel = VOICE_CANDIDATES.find((candidate) => candidate.id === model.voiceId)?.label
-  // Known only once the speech model has been loaded in this session.
-  const voiceBackend = getVoiceBackend()
-  const voiceStats = getLastVoiceStats()
 
   const rows: Row[] = [
     {
@@ -96,29 +89,6 @@ export function OfflineMode() {
                   : text.aiAbsent,
       ok: model.status === 'unknown' ? null : installed,
       note: installed ? text.backendWebGpu : model.status === 'unknown' ? undefined : text.rulesFallback,
-    },
-    {
-      id: 'voice',
-      label: text.rows.voice,
-      value:
-        model.voiceStatus === 'unknown'
-          ? text.checking
-          : voiceInstalled && voiceLabel
-            ? text.aiInstalled(voiceLabel, model.voiceBytes ? megabytes(model.voiceBytes) : null)
-            : model.voiceStatus === 'downloading'
-              ? text.aiDownloading(Math.round(model.voiceProgress * 100))
-              : model.voiceStatus === 'error'
-                ? text.aiFailed
-                : text.aiAbsent,
-      ok: model.voiceStatus === 'unknown' ? null : voiceInstalled,
-      note: voiceBackend
-        ? [
-            text.voiceBackend(voiceBackend === 'webgpu' ? 'WebGPU' : 'WASM'),
-            voiceStats ? text.voiceLast(Math.round(voiceStats.latencyMs), voiceStats.audioSeconds.toFixed(1)) : '',
-          ]
-            .filter(Boolean)
-            .join(' · ')
-        : text.voiceNote,
     },
     {
       id: 'inference',

@@ -1,6 +1,7 @@
 # CLAUDE.md — Para! Offline Commute Helper
 
 > "Para!" is a working name. Check it is not already taken before branding.
+> Update 2026-10-10: speech-to-text (Whisper) was removed from the app; input is typed text only. Mentions of voice below are historical.
 > Plan compiled October 9, 2026. Part A is the concept; Part B merges in the Tarsi-style offline-first PWA blueprint and agent skills.
 
 ## 1. One-line pitch

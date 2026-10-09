@@ -25,20 +25,6 @@ No model is shipped inside the app. One model is downloaded on demand from the "
 - What the model does: reads a Taglish message into a structured request when the built-in rules cannot, and maps follow-up messages. Its output is checked against the route pack before use. It does not compute routes, fares, times or distances. A model-written summary feature exists but is switched off.
 - Benchmark: `docs/model-benchmark.md`.
 
-### Speech model (branch `phases-7-9`, Phase 7)
-
-Voice input uses Whisper on the device, through transformers.js on ONNX Runtime Web (WebGPU when the browser has it, otherwise WASM). The Web Speech API is not used. Like the language model, it is not shipped in the app: the rider downloads it from the "Gisingin si Tsupher" screen.
-
-| Model | Repository | Base model | Licence | Download size measured (WebGPU build, runtime files included) |
-|---|---|---|---|---|
-| Whisper tiny, multilingual (**default**) | `huggingface.co/onnx-community/whisper-tiny` | `openai/whisper-tiny` (OpenAI) | Apache-2.0 | 142 MB |
-| Whisper base, multilingual | `huggingface.co/onnx-community/whisper-base` | `openai/whisper-base` (OpenAI) | Apache-2.0 | 224 MB |
-
-- Licence: read from the Hugging Face API on 2026-10-09. `openai/whisper-tiny` and `openai/whisper-base` are tagged `license:apache-2.0`. The `onnx-community` conversion repositories name those as their base model and carry **no licence tag of their own**. **TEAM TO CONFIRM.**
-- Build used: encoder fp32 with a 4-bit decoder on WebGPU; 8-bit on WASM (about 67 MB for tiny, computed from the repository file sizes, not measured).
-- What it does: turns up to 8 seconds of speech into text. The text is then corrected against the route pack landmark names and goes to the same parser as typed text. It does not compute routes or fares.
-- **Accuracy on human speech is untested.** Only generated audio was used (`docs/voice-benchmark.md`).
-
 ## Libraries
 
 Runtime (shipped in the app)
@@ -48,8 +34,6 @@ Runtime (shipped in the app)
 | react, react-dom | 19.3.0 | MIT | UI |
 | dexie | 4.4.6 | Apache-2.0 | IndexedDB storage |
 | @mlc-ai/web-llm | 0.2.85 | Apache-2.0 | On-device model runtime (WebGPU) |
-| @huggingface/transformers | 4.3.1 | Apache-2.0 | On-device Whisper speech recognition |
-| onnxruntime-web (dependency of the above) | 1.31.0-dev.20260914-8d85527a0 | MIT | Runs the Whisper model. Its WASM files are served by the app itself, not by a CDN. |
 | workbox (through vite-plugin-pwa 2.0.0, workbox-window 7.4.1) | | MIT | Service worker, offline cache |
 | tailwindcss | 4.3.3 | MIT | Styles (compiled to CSS at build time) |
 | @fontsource-variable/inter | 5.3.0 | OFL-1.1 | Inter font files |
@@ -109,8 +93,6 @@ The fare-hike details and other facts in `CLAUDE.md` section 3 were research not
 - While online, the browser itself re-checks the service worker file for updates. That request carries no user data.
 - No analytics, no accounts, no remote fonts, no map tiles.
 - The rider's typed text, route requests and results are not sent anywhere and are not stored on disk. The chosen model's id and measured size are kept in `localStorage`.
-- Voice (branch `phases-7-9`): downloading the speech model uses the same two Hugging Face hosts, `huggingface.co` and `us.aws.cdn.hf.co` (observed 2026-10-09; the second is a redirect target and may change). The ONNX Runtime WASM files come from the app origin. By default transformers.js would fetch them from `cdn.jsdelivr.net`; that is overridden, and `npm run check:voice` confirms no request leaves for any other host.
-- The microphone is asked for only when the rider taps the mic button. Audio is kept in memory for at most 8 seconds, transcribed on the device, then wiped. It is never stored or sent.
 - Location: on branch `phases-7-9` trip mode reads GPS on the device only (Phase 8). It is not stored or sent.
 
 ## Local data the rider creates (branch `phases-7-9`, Phase 9)
@@ -126,7 +108,7 @@ Stored in IndexedDB on the device only. No account, no upload, no sync.
 
 - Exporting marks a report "exported". That means a file was made, not that anyone received it.
 - Import accepts only our JSON format or a CSV with the same columns, checks every row, ignores any status or extra field in the file, and skips a report whose id it already has.
-- "Burahin lahat ng data" deletes favorites, settings, reports and the session. It keeps the route pack and the offline copy of the app. Ticking a separate box also deletes the selected AI model and the voice model.
+- "Burahin lahat ng data" deletes favorites, settings, reports and the session. It keeps the route pack and the offline copy of the app. Ticking a separate box also deletes the selected AI model.
 - No library or model was added in Phase 9.
 
 ## Not verified, in one list
@@ -138,7 +120,6 @@ Stored in IndexedDB on the device only. No account, no upload, no sync.
 5. Real routes, fares and terminals: none collected.
 6. The "Para!" name: `CLAUDE.md` notes it should be checked for prior use. Not checked.
 7. Transitive dependency licences.
-8. Voice accuracy on human speech, voice on any phone, and the licence of the `onnx-community` Whisper conversions.
 9. Real GPS (trip mode was verified with Simulated GPS only), the wake lock, vibration and the chime, on any device.
 10. Phase 9 on any phone, including how a phone saves the exported file and opens the import file picker.
 11. Whether a spreadsheet opens an exported CSV safely: the formula guard was tested only by a round trip in code.

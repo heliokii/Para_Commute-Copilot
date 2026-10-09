@@ -23,7 +23,6 @@ const ITEMS: Item[] = [
         { icon: 'tools' as const, ...copy.higit.devRouter, href: `#${OVERLAY_PATHS['dev-router']}` },
         { icon: 'tools' as const, ...copy.higit.devComponents, href: `#${OVERLAY_PATHS['dev-components']}` },
         { icon: 'tools' as const, label: 'Model benchmark', sub: 'Dev only', href: `#${OVERLAY_PATHS['dev-bench']}` },
-        { icon: 'tools' as const, label: 'Voice benchmark', sub: 'Dev only', href: `#${OVERLAY_PATHS['dev-voice']}` },
       ]
     : []),
 ]

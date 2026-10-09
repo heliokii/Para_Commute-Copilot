@@ -1,26 +1,20 @@
 import { useEffect, useState } from 'react'
 import {
   downloadModel,
-  downloadVoice,
   initModelManager,
-  peekVoice,
   removeModel,
-  removeVoice,
   selectModel,
-  selectVoice,
   useModel,
 } from '../ai/modelManager'
 import { Badge } from '../components/Badge'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
-import { Icon } from '../components/Icon'
 import { ProgressBar } from '../components/ProgressBar'
 import { TopBar } from '../components/TopBar'
 import { Tsupher } from '../components/Tsupher'
 import { copy } from '../copy'
 import { megabytes } from '../lib/format'
 import { backHref } from '../lib/nav'
-import { VOICE_CANDIDATES } from '../voice/whisper'
 
 /** First-run "Gisingin si Tsupher": downloads the on-device model once. */
 export function Setup() {
@@ -30,7 +24,7 @@ export function Setup() {
 
   useEffect(() => {
     let cancelled = false
-    void Promise.all([initModelManager(), peekVoice()]).then(() => !cancelled && setChecked(true))
+    void initModelManager().then(() => !cancelled && setChecked(true))
     return () => {
       cancelled = true
     }
@@ -39,11 +33,6 @@ export function Setup() {
   const selected = model.candidates.find((candidate) => candidate.id === model.selectedId)
   const busy = model.status === 'downloading'
   const installed = model.status === 'ready' || model.status === 'cached'
-  const voice = VOICE_CANDIDATES.find((candidate) => candidate.id === model.voiceId)
-  const voiceBusy = model.voiceStatus === 'downloading'
-  const voiceInstalled = model.voiceStatus === 'ready' || model.voiceStatus === 'cached'
-  // Without WebGPU the speech model runs on WASM and downloads a smaller build.
-  const voiceBackend = model.status === 'unsupported' ? 'wasm' : 'webgpu'
 
   return (
     <div className="backdrop min-h-dvh pb-10">
@@ -156,99 +145,6 @@ export function Setup() {
                 </Button>
               </>
             )}
-          </Card>
-        )}
-
-        {checked && (
-          <Card className="p-4" data-testid="setup-voice" data-status={model.voiceStatus}>
-            <div className="flex items-center gap-3">
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-surface-warm text-brown-mid">
-                <Icon name="mic" />
-              </span>
-              <div className="min-w-0 flex-1">
-                <h2 className="font-display text-lg font-semibold">
-                  {voiceBusy
-                    ? copy.setup.voiceDownloading
-                    : voiceInstalled
-                      ? copy.setup.voiceReadyTitle
-                      : copy.setup.voiceTitle}
-                </h2>
-                <p className="text-sm text-ink-muted">{voiceInstalled ? copy.voice.privacy : copy.setup.voiceAbsentBody}</p>
-              </div>
-            </div>
-
-            {!voiceInstalled && !voiceBusy && (
-              <div className="mt-3 flex flex-col gap-2">
-                {VOICE_CANDIDATES.map((candidate) => (
-                  <label
-                    key={candidate.id}
-                    className="flex min-h-12 items-center gap-3 rounded-2xl border border-line px-3 py-2"
-                  >
-                    <input
-                      type="radio"
-                      name="voice-model"
-                      className="size-5 accent-brown-mid"
-                      checked={candidate.id === model.voiceId}
-                      onChange={() => selectVoice(candidate.id)}
-                    />
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-medium">{candidate.label}</span>
-                      <span className="block text-xs text-ink-muted">{candidate.license}</span>
-                    </span>
-                    <span className="shrink-0 text-sm text-ink-muted tabular-nums">
-                      {copy.setup.voiceApprox(candidate.approxMb[voiceBackend])}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            )}
-
-            {voiceBusy && (
-              <div className="mt-4">
-                <ProgressBar value={model.voiceProgress * 100} label={copy.setup.voiceDownloading} />
-                <p data-testid="setup-voice-progress" className="mt-1.5 text-xs text-ink-muted tabular-nums">
-                  {Math.round(model.voiceProgress * 100)}% · {model.voiceProgressText}
-                </p>
-              </div>
-            )}
-
-            {model.voiceStatus === 'error' && (
-              <p role="alert" className="mt-3 text-sm">
-                <Badge tone="caution">{copy.setup.errorTitle}</Badge>{' '}
-                <span className="text-ink-muted">{copy.setup.voiceError}</span>
-                <span className="mt-1 block text-xs break-words text-ink-muted">{model.voiceError}</span>
-              </p>
-            )}
-
-            {voiceInstalled && (
-              <dl className="mt-4 w-full space-y-1 text-sm">
-                <div className="flex justify-between gap-3">
-                  <dt className="text-ink-muted">{copy.setup.model}</dt>
-                  <dd data-testid="setup-voice-model" className="text-right font-medium">{voice?.label}</dd>
-                </div>
-                <div className="flex justify-between gap-3">
-                  <dt className="text-ink-muted">{copy.setup.license}</dt>
-                  <dd className="text-right">{voice?.license}</dd>
-                </div>
-                <div className="flex justify-between gap-3 tabular-nums">
-                  <dt className="text-ink-muted">{copy.setup.modelSize}</dt>
-                  <dd data-testid="setup-voice-size">
-                    {model.voiceBytes ? megabytes(model.voiceBytes) : copy.setup.unknownSize}
-                  </dd>
-                </div>
-              </dl>
-            )}
-
-            {!voiceBusy &&
-              (voiceInstalled ? (
-                <Button variant="dark" className="mt-4" onClick={() => void removeVoice()}>
-                  {copy.setup.voiceRemove}
-                </Button>
-              ) : (
-                <Button data-testid="setup-voice-start" className="mt-3 w-full" onClick={() => void downloadVoice()}>
-                  {copy.setup.voiceStart}
-                </Button>
-              ))}
           </Card>
         )}
 

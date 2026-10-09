@@ -4,8 +4,7 @@ Read this with `docs/LLM_MANUAL_TEST.md` and the pre-flight checklist at the bot
 
 **State of the build this script was written against (2026-10-09):**
 - The app runs on the **synthetic sample pack**. Place names are "SYN Alpha Terminal", "SYN Foxtrot Station" and so on. Fares and times are made up and labeled "SAMPLE DATA" on screen. Say so out loud. Once the ride-verified corridor pack is in, replace the place names in the lines below and re-time the script.
-- **Voice, trip mode, Paborito and Settings exist on branch `phases-7-9` only** (Phases 7, 8 and 9). They are not in `submission-v1` or on `main`. The two optional steps under the table need a build of that branch. The script has no step for Paborito or Settings; do not improvise one, they were verified in desktop Chrome only.
-- **Voice has not been tested by a human.** Only generated audio was used (`docs/voice-benchmark.md`). The voice step is optional and may be used only if the live voice test passes.
+- **Trip mode, Paborito and Settings exist on branch `phases-7-9` only** (Phases 7, 8 and 9). They are not in `submission-v1` or on `main`. The optional steps under the table need a build of that branch. The script has no step for Paborito or Settings; do not improvise one, they were verified in desktop Chrome only.
 - **The arrival alert in this demo runs on Simulated GPS**, and the screen says so. Real GPS was not tested on any device. Never present it as real location.
 - The expected fares below are the hand-computed values for the sample pack. If the screen shows anything else, stop and check: the router or the pack changed.
 
@@ -29,18 +28,6 @@ Read this with `docs/LLM_MANUAL_TEST.md` and the pre-flight checklist at the bot
 After the 2:25 step, go back to the chat and type `Paano pumunta sa Delta?`. The question has no origin, so the rules cannot finish it and the model is consulted: the thinking dots appear for a second or two, then Tsupher asks "Saan ka manggagaling?". Say: "Hindi nanghula ang AI ng pinanggalingan. Nagtanong siya." Then open Offline Mode: the "Huling sagot ng AI" row now shows the measured milliseconds and tokens per second.
 
 If Tsupher shows a route instead of asking, the model guessed. Do not use this step in the demo until that is understood.
-
-### Optional: voice (adds about 25 seconds). USE ONLY IF THE LIVE VOICE TEST PASSES
-
-Needs a build of branch `phases-7-9` and the voice model downloaded ("Gisingin si Tsupher", "I-download ang boses").
-
-**The live voice test.** On the demo laptop, with the demo microphone, in the demo room, within the hour before the demo, in airplane mode: the presenter taps the mic on Home and says the line below three times. It passes only if all three end with Tsupher showing options from SYN Alpha Terminal to SYN Foxtrot Station, first card ₱26.00. Any miss, or no chance to run the test: skip this step and type the question as in the main table. Voice has not been tested by a human as of 2026-10-09, so there is no result to rely on.
-
-| Time | Do | Say |
-|---|---|---|
-| replaces 0:35 to 1:00 | Tap the mic on Home. The "Makinig si Tsupher…" screen opens. Say clearly: "Paano pumunta sa Foxtrot galing Alpha?" and wait; it stops on silence. If "Ito ba ang ibig mong sabihin…?" appears, tap the correct line. | "Puwede ring magsalita. Naka-airplane mode pa rin: sa laptop mismo iniintindi ang boses, gamit ang Whisper. Walang audio na lumalabas, at binubura agad pagkatapos." Expected first card: Mas mura, ₱26.00. |
-
-If it mishears during the demo: tap "I-type na lang" or type the question, and say "Kapag hindi malinaw ang dinig, puwedeng i-type. Parehong parser ang dinadaanan." Do not retry by voice more than once.
 
 ### Optional: arrival alert on SIMULATED GPS (adds about 30 seconds)
 
@@ -72,7 +59,6 @@ The day before
 - [ ] If WebGPU is available: download the model on WiFi from "Gisingin si Tsupher" and wait for "Gising na si Tsupher!".
 - [ ] Run `docs/LLM_MANUAL_TEST.md` once, fully offline.
 - [ ] Run the manual checklist in `README.md`.
-- [ ] Only if using the optional voice step: download the voice model, tap the mic once and allow the microphone, then run `docs/voice-test/PHRASES.md` with the presenter.
 - [ ] Only if using the optional arrival-alert step: rehearse it once and time how long the alert takes at the fastest simulation speed.
 - [ ] Record a backup screen recording of one clean run of this script. Keep the file on the laptop and on a phone.
 - [ ] Do not clear browsing data after this point. Clearing it deletes the model and the offline copy.
@@ -83,7 +69,6 @@ One hour before
 - [ ] If using the optional model step: in the chat, send `Paano pumunta sa Delta?` once so the model is loaded into memory (that first load takes about 15 seconds on the test laptop; a complete question does not load the model). Answer its question (`galing Alpha`) to finish that exchange. Do not reload afterwards: a reload unloads the model, and there is no clear-chat button, so the warm-up exchange stays visible at the top of the chat during the demo.
 - [ ] Open devtools Network in a second window and clear it.
 - [ ] Practice the airplane-mode toggle. Know where it is without looking.
-- [ ] Run the live voice test (three clean takes, airplane mode, demo microphone). If it does not pass, the voice step is out. Decide now, not on stage.
 - [ ] Second device ready: a phone with the app opened once online. Expect the rules lane only on the phone.
 - [ ] Notifications off. Other tabs closed.
 

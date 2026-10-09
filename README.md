@@ -48,7 +48,6 @@ Team **git inet**: Daniel Aldreen Manjares, Justine Catapang, Elijah Emmanuel. P
 - **Fares are reference only**, with a date. The fare matrix posted in the vehicle is what applies. Discounts are not modeled.
 - **Waiting time is not modeled.** Times are ride and walk time only.
 - **GPS and trip mode are on branch `phases-7-9` only.** On `main` and `submission-v1` location is not used at all. On the branch, "Simulan ang Ruta" opens trip mode with an on-device arrival alert. It was verified only with **Simulated GPS** (a replayed track, always labeled on screen). Real GPS, the wake lock, vibration and the chime were never tried on any device.
-- **Voice is on branch `phases-7-9` only**, with on-device Whisper. Its accuracy on human speech is untested (`docs/voice-benchmark.md`). On `main` the mic buttons are disabled placeholders.
 - **Favorites, settings and the contribution queue are on branch `phases-7-9` only** (Paborito, Settings, "May mali ba?"). They are verified in headless desktop Chrome, not on a phone. **Wika (Taglish / English) does not exist**: Settings shows it as "Hindi pa available". The unit settings (Oras, Distansya) change only the route screens, not Tsupher's chat sentences. Reports are never sent anywhere: "sync now" is a file export that the rider hands over by hand. On `main` the Paborito tab is a placeholder and the Settings rows are not there.
 - **The map is a schematic** drawn from the route pack, not a street map.
 
@@ -70,7 +69,7 @@ npm run build      # type-check, then build to dist/ with sw.js and manifest.jso
 npm run preview    # serve dist/ at http://localhost:4173
 ```
 
-Development-only screens (not in production builds): `#/dev/router` (router harness), `#/dev/components` (component gallery), `#/dev/bench` (model benchmark), and on branch `phases-7-9` `#/voice-bench` (record the 15 phrases in `docs/voice-test/PHRASES.md` and see transcript, latency and pass or fail).
+Development-only screens (not in production builds): `#/dev/router` (router harness), `#/dev/components` (component gallery), `#/dev/bench` (model benchmark).
 
 ## Test
 
@@ -89,12 +88,11 @@ npm run check:migrate    # branch `phases-7-9`: the Dexie v1 to v2 migration on 
 npm run audit            # Lighthouse plus an accessibility sweep, written to docs/audit.md
 ```
 
-These need WebGPU and download models on first use (`check:voice` is on branch `phases-7-9` only, needs Windows for its test audio, and checks the plumbing with generated speech, not human speech):
+These need WebGPU and download models on first use :
 
 ```sh
 npm run bench            # on-device model benchmark, written to docs/model-benchmark.md
 npm run check:llm        # after a bench run: the LLM lane with every other host unreachable
-npm run check:voice      # branch `phases-7-9`: Whisper download, mic flow offline, LLM and Whisper loaded together
 ```
 
 ## Test airplane mode by hand
@@ -144,7 +142,6 @@ Resilience
 - [ ] Reduce Motion on: the mascot does not bob.
 
 Branch `phases-7-9` only (none of this was tried on a phone)
-- [ ] Voice: Gisingin si Tsupher, "I-download ang boses"; allow the microphone; say a phrase from `docs/voice-test/PHRASES.md` in airplane mode. Fill in `docs/voice-benchmark.md`. Accuracy on human speech is unknown until this is done.
 - [ ] Trip: Route detail, "Simulan ang Ruta", "Simulated GPS (pang-demo)". The "Simulated GPS" banner stays visible and the "Malapit na ang babaan!" alert appears.
 - [ ] Paborito: tap the heart on a result; it shows in Paborito, Mga Ruta, and is still there after a reload. Address tab: save a landmark.
 - [ ] Settings: Distansya to Milya changes the distances on Route detail. Wika shows "Hindi pa available".
@@ -163,7 +160,6 @@ src/match/       fuzzy landmark matching
 src/pack/        CSV route-pack loader and validator
 src/state/       in-memory plan, chat and recents (never written to disk); on branch `phases-7-9` also
                  favorites, settings and the contribution queue (IndexedDB)
-src/voice/       branch `phases-7-9`: Whisper runtime, microphone capture, transcript correction
 src/trip/        branch `phases-7-9`: trip mode logic and GPS hook
 src/screens/     Home, Ruta, Results, Detail, Mapa, Modes, Chat, Setup, Offline Mode, About
 src/components/  Tsupher, buttons, cards, bottom nav, sheet, route map, landmark picker

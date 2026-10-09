@@ -10,14 +10,6 @@ import {
   loadModel,
   type Candidate,
 } from './runtime.ts'
-import {
-  deleteVoiceModels,
-  getLoadedVoiceId,
-  isVoiceCached,
-  loadWhisper,
-  VOICE_CANDIDATES,
-  voiceCacheBytes,
-} from '../voice/whisper.ts'
 
 // Model download manager. The app stays usable through the rules lane whenever
 // the model is missing, still downloading, or failed to load.
@@ -26,8 +18,6 @@ const SELECTED_KEY = 'para.model'
 const SIZE_KEY = 'para.model.bytes'
 /** Id of the model last downloaded successfully. A hint only; Setup verifies it against the real cache. */
 const READY_KEY = 'para.model.ready'
-const VOICE_KEY = 'para.voice'
-const VOICE_READY_KEY = 'para.voice.ready'
 
 export type ModelStatus =
   | 'unknown'
@@ -37,9 +27,6 @@ export type ModelStatus =
   | 'cached' // on disk, not loaded into memory yet
   | 'ready'
   | 'error'
-
-/** The speech model. It needs no WebGPU (WASM fallback), so it has its own status. */
-export type VoiceStatus = 'unknown' | 'absent' | 'downloading' | 'cached' | 'ready' | 'error'
 
 export type ModelErrorKind = 'quota' | 'memory' | 'other'
 
@@ -68,13 +55,6 @@ export interface ModelState {
   /** Storage growth measured across the model download. */
   modelBytes: number | null
   persisted: boolean | null
-  voiceStatus: VoiceStatus
-  voiceId: string
-  voiceProgress: number
-  voiceProgressText: string
-  voiceError: string
-  /** Bytes the speech model and its runtime files take in the local cache. */
-  voiceBytes: number | null
 }
 
 let state: ModelState = {
@@ -89,12 +69,6 @@ let state: ModelState = {
   storageQuota: null,
   modelBytes: null,
   persisted: null,
-  voiceStatus: 'unknown',
-  voiceId: VOICE_CANDIDATES[0].id,
-  voiceProgress: 0,
-  voiceProgressText: '',
-  voiceError: '',
-  voiceBytes: null,
 }
 
 const listeners = new Set<() => void>()
@@ -271,63 +245,5 @@ export function getLlm(): LlmComplete | undefined {
       }
     }
     return complete(request)
-  }
-}
-
-// --- Speech model (Whisper) ---------------------------------------------------
-
-let voiceStarting: Promise<void> | null = null
-
-/** Reads the remembered speech model and checks it against the real cache. Does not import the runtime. */
-export function peekVoice(): Promise<void> {
-  voiceStarting ??= (async () => {
-    const stored = readStored(VOICE_KEY)
-    const voiceId = VOICE_CANDIDATES.find((candidate) => candidate.id === stored)?.id ?? VOICE_CANDIDATES[0].id
-    const cached = readStored(VOICE_READY_KEY) === voiceId && (await isVoiceCached(voiceId))
-    const voiceBytes = cached ? await voiceCacheBytes() : null
-    if (state.voiceStatus !== 'unknown') return
-    set({ voiceId, voiceStatus: cached ? 'cached' : 'absent', voiceBytes })
-  })().catch(() => set({ voiceStatus: 'absent' }))
-  return voiceStarting
-}
-
-export function selectVoice(voiceId: string) {
-  if (state.voiceStatus === 'downloading' || state.voiceStatus === 'cached' || state.voiceStatus === 'ready') return
-  set({ voiceId, voiceStatus: 'absent', voiceError: '' })
-}
-
-/** Downloads and loads the speech model. Network is used only here, when the rider asks. */
-export async function downloadVoice(): Promise<void> {
-  const voiceId = state.voiceId
-  if (state.voiceStatus === 'downloading') return
-  set({ voiceStatus: 'downloading', voiceProgress: 0, voiceProgressText: '', voiceError: '' })
-  try {
-    await loadWhisper(voiceId, true, (voiceProgress, voiceProgressText) => set({ voiceProgress, voiceProgressText }))
-    writeStored(VOICE_KEY, voiceId)
-    writeStored(VOICE_READY_KEY, voiceId)
-    set({ voiceStatus: 'ready', voiceProgress: 1, voiceBytes: await voiceCacheBytes() })
-  } catch (error) {
-    set({ voiceStatus: 'error', voiceError: error instanceof Error ? error.message : String(error), errorKind: classifyError(error) })
-  }
-  await refreshStorage()
-}
-
-export async function removeVoice(): Promise<void> {
-  if (state.voiceStatus === 'downloading') return
-  await deleteVoiceModels()
-  writeStored(VOICE_READY_KEY, null)
-  set({ voiceStatus: 'absent', voiceProgress: 0, voiceProgressText: '', voiceBytes: null, voiceError: '' })
-  await refreshStorage()
-}
-
-/** Loads the downloaded speech model from the local cache (no network). Throws if it cannot. */
-export async function ensureVoice(): Promise<void> {
-  if (getLoadedVoiceId() === state.voiceId) return
-  try {
-    await loadWhisper(state.voiceId, false)
-    set({ voiceStatus: 'ready' })
-  } catch (error) {
-    set({ voiceStatus: 'error', voiceError: error instanceof Error ? error.message : String(error), errorKind: classifyError(error) })
-    throw error
   }
 }

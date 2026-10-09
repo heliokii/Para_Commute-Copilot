@@ -6,7 +6,6 @@ import { Chip } from '../components/Chip'
 import { Icon } from '../components/Icon'
 import { StatusPill } from '../components/StatusPill'
 import { Tsupher } from '../components/Tsupher'
-import { VoiceButton } from '../components/VoiceButton'
 import { copy } from '../copy'
 import { duration, peso } from '../lib/format'
 import { MODES } from '../lib/modes'
@@ -272,7 +271,6 @@ export function Chat() {
           enterKeyHint="send"
           className="min-h-12 min-w-0 flex-1 rounded-full border border-line bg-white/60 px-4 text-base outline-none placeholder:text-ink-muted focus:border-brown-mid"
         />
-        <VoiceButton disabled={chat.thinking} onText={(text) => void sendMessage(text)} />
         <button
           type="submit"
           aria-label={copy.chat.send}

@@ -5,7 +5,6 @@ import { Card } from '../components/Card'
 import { Icon, type IconName } from '../components/Icon'
 import { StatusPill } from '../components/StatusPill'
 import { Tsupher } from '../components/Tsupher'
-import { VoiceButton } from '../components/VoiceButton'
 import { copy } from '../copy'
 import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { sendMessage } from '../state/chat'
@@ -105,7 +104,6 @@ export function Home() {
             enterKeyHint="go"
             className="min-w-0 flex-1 resize-none bg-transparent px-2 py-1 text-base text-ink-dark outline-none placeholder:text-ink-muted"
           />
-          <VoiceButton onText={ask} />
           <button
             type="submit"
             aria-label={copy.home.promptSubmit}
@@ -125,8 +123,8 @@ export function Home() {
         />
         <Tile
           icon="chat"
-          title={copy.home.voiceTitle}
-          sub={copy.home.voiceSub}
+          title={copy.home.chatTitle}
+          sub={copy.home.chatSub}
           href={`#${OVERLAY_PATHS.chat}`}
         />
       </div>

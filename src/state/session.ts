@@ -1,4 +1,4 @@
-import { removeModel, removeVoice } from '../ai/modelManager'
+import { removeModel } from '../ai/modelManager'
 import { db } from '../db/db.ts'
 import { resetChat } from './chat'
 import { resetPlan } from './plan'
@@ -16,7 +16,7 @@ export function resetSession() {
 const LOCAL_KEYS_PREFIX = 'para.'
 
 export interface EraseOptions {
-  /** Also delete the downloaded AI and voice models. Off by default: they are large and need internet to get back. */
+  /** Also delete the downloaded AI model. Off by default: they are large and need internet to get back. */
   models: boolean
 }
 
@@ -31,7 +31,6 @@ export async function eraseAllData({ models }: EraseOptions): Promise<void> {
   })
   if (models) {
     await removeModel()
-    await removeVoice()
     try {
       Object.keys(localStorage)
         .filter((key) => key.startsWith(LOCAL_KEYS_PREFIX))
