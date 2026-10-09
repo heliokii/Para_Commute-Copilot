@@ -52,5 +52,5 @@ One entry per phase: what passed, what failed, assumptions. Phase prompts are in
 - Extra types: `RoutePack`, `RouterConfig`, `RoundingRule`, `NoRouteReason`, `Leg`.
 
 **Open items for the team**
-- `design/reference/Para__Commute_Copilot_UI_Showcase.png` is not in the repo. Phase 3 needs it.
+- The showcase arrived during this phase as `design/reference/Para! Commute Copilot UI Showcase.png`, with `Para! Commute Copilot Dashboard.png`. Both were committed with Phase 2. File names differ from `BUILD_PHASES.md` 2.1.
 - Phase 3 asset prep (`BUILD_PHASES.md` 2.9) is not done: no `public/mascot/` sprites, no transparent hero, no wordmark.
