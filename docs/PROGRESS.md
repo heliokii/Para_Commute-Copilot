@@ -463,3 +463,32 @@ Not a numbered phase. Brings `design/reference/Para! Commute Copilot Dashboard.p
 - Tablets (768 to 1279 px) keep the phone column.
 - The wordmark is still live text: the wordmark art from BUILD_PHASES 2.9 was never exported, so the sidebar uses the same placeholder as Home.
 - No new dependency, no new network call, no new stored data.
+
+## Landing screen (2026-10-09, branch `ui-dashboard`)
+
+Not a numbered phase. Makes the cold-start screen look like the first tile of the UI Showcase.
+
+**What was built**
+- `src/screens/Splash.tsx`: an amber sun crown over the "Para!" wordmark, "Commute Copilot", the three-line tagline, a skyline with clouds behind, a large Tsupher cropped at the bottom-left, and a "Tsupher" label with an arrow.
+- The skyline, clouds, crown and arrow are inline SVG in the component, coloured from the existing tokens. No image file was added. The skyline is a generic one, not a drawing of a real place. One 400-unit strip is repeated sideways so a laptop screen is filled without stretching it.
+- **The screen now stays until the rider taps anywhere or presses any key** (the user asked for this; it used to close after 1.2 s). A "Simulan" button is the named, focused control for keyboard and screen-reader users. It still shows once per cold start only.
+- Tsupher's width is capped by screen height, so the art does not climb over the text on a short phone.
+
+**Changed from the plan**
+- The mascot does not bob on this screen. With the animation on the enlarged sprite the audit's Performance score fell to 67 and 74 in two runs (Total Blocking Time 780 ms and 580 ms); without it the score is 90. The mockup is a still image anyway.
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean (precache 29 entries, 7638 KiB). `npm test`: 184 of 184.
+- `npm run check:offline`: 31 of 31. `npm run test:e2e`: 98 of 98. `npm run check:update`: 8 of 8. `npm run check:llm`: 13 of 13. `npm run check:migrate`: 9 of 9. Every script already pressed Escape to leave the splash, so none needed the old auto-close.
+- `npm run audit`: Performance 90.
+- `npm run screenshots`: `splash.png` (390 x 844), plus new `splash-wide.png` (1440 x 900) and `splash-short.png` (360 x 640), compared by eye with the showcase tile.
+
+**Not tested**
+- `npm run check:voice` was not run after this change; only a comment in it was edited.
+- A real phone: safe-area insets, a tap on the art, and how the screen looks in landscape.
+- Screen readers, 200% text, and reduced-motion on this screen (it now has only the fade-in).
+- `check:update`, `check:llm` and `check:migrate` ran before the bob animation was removed and were not repeated; lint, `check:offline` and `test:e2e` were.
+
+**Assumptions**
+- One extra tap on every cold start is acceptable, as chosen.
+- The wordmark stays live text until the art from BUILD_PHASES 2.9 is exported. The "Tsupher" label uses Fredoka, not the handwriting of the mockup.

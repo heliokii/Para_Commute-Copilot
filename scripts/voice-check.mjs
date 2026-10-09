@@ -74,7 +74,7 @@ function gpuMb() {
 async function skipSplash(page) {
   await page.waitForSelector('#root > *', { timeout: 30000 })
   await page.keyboard.press('Escape')
-  // The splash also closes by itself after 1.2 s; wait it out so clicks never land on it.
+  // Give the splash a moment to leave so clicks never land on it.
   await new Promise((done) => setTimeout(done, 1500))
 }
 
