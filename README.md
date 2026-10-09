@@ -29,6 +29,8 @@ npm run check:offline    # after a build: headless Chrome, network off, then ser
 npm run test:e2e         # after a build: plan, results, detail and map with the network off
 npm run bench            # on-device model benchmark (downloads models on first run, needs WebGPU)
 npm run check:llm        # after a bench run: LLM lane with all outside requests blocked
+npm run check:update     # after a build: a new version waits for the rider and never reloads mid-chat
+npm run audit            # after a build: Lighthouse plus an accessibility sweep, written to docs/audit.md
 ```
 
 `check:offline` needs Chrome or Edge. Set `CHROME_PATH` if it is not in a default location.
@@ -66,5 +68,38 @@ npm run validate:pack -- some/dir  # checks another folder
 8. Open Higit Pa, then About. The library list and the sample data counts should still load (they come from IndexedDB).
 
 For a stricter check, stop the preview server and reload the installed app. It should still load.
+
+## Manual test checklist
+
+Run on the demo device, in the demo browser, from the production build (`npm run build`, `npm run preview`).
+
+Offline shell
+- [ ] Load once online, then go offline and reload. Home appears.
+- [ ] Higit Pa, Offline Mode: "Offline na kopya ng app" and "Route pack" are ticked; "Request sa ibang server" is 0; "Bytes sent" is 0.
+- [ ] Devtools Network shows no request to any other host.
+
+Plan flow
+- [ ] Ruta: type part of a place name with a typo. The right place is suggested.
+- [ ] Hanap shows options with a fare, a time, a fare "as of" date, and the "SAMPLE DATA" label while the sample pack is loaded.
+- [ ] Open an option. Each leg shows where to board and alight. "Paano nakuha ang pamasahe?" shows the base fare, the per-km part and the source.
+- [ ] Mapa shows the same route as a schematic. The zoom buttons work.
+- [ ] Mga Mode: turn on "Iwas Traffic / Iwas EDSA", search again. Every option is tagged "Simulated".
+
+Chat
+- [ ] Home: type a full question. The chat opens with options.
+- [ ] "May mas mura?" keeps or finds the cheapest option.
+- [ ] The "Iwas EDSA" chip gives a simulation, and Tsupher says so.
+- [ ] An off-topic question gets a polite refusal and no route.
+- [ ] Tap an option card, then Back. The conversation is still there.
+
+Model (only if the device has WebGPU)
+- [ ] Follow `docs/LLM_MANUAL_TEST.md`.
+
+Resilience
+- [ ] Deploy a new build while the app is open in the chat. No reload happens. Leaving the chat shows "May bagong bersyon ng Para!", and "I-update" reloads.
+- [ ] Browser text size at 200%: no sideways scrolling; every button is reachable.
+- [ ] Reduce Motion on: the mascot does not bob.
+
+iPhone and iPad: see `docs/IOS_NOTES.md`. None of it has been tested on a device.
 
 Note: while online, the browser itself re-checks `sw.js` for updates on navigation. That is the only request after first load, and it sends no app data.

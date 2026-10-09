@@ -85,6 +85,10 @@ try {
   check('Results: first card is labeled Mas mura and Pinili mo', first.includes('Mas mura') && first.includes('Pinili mo'))
   check('Results: unverified badge and fare as-of date shown', first.includes('Hindi pa verified') && first.includes('as of 2026-01-01'))
   check('Results: not marked simulated without an avoid', !first.includes('Simulated'))
+  const resultsText = await visibleText()
+  check('Results: route pack version shown', /Route pack: synthetic-pack, bersyon/.test(resultsText))
+  // The sample fare table is dated 2026-01-01, which is past the 180-day limit.
+  check('Results: stale-fare warning shown for an old fare table', (await page.$('[data-testid=stale-warning]')) !== null && resultsText.includes('Maaaring may bagong fare matrix'))
 
   // --- Detail ---
   await page.click('[data-testid=route-option]')
@@ -238,6 +242,31 @@ try {
   await page.waitForFunction(() => location.hash === '#/chat', { timeout: 5000 })
   check('Detail back button returns to the chat with the conversation intact', (await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)) >= 6)
   check('Chat: mic stays disabled', await page.evaluate(() => [...document.querySelectorAll('button[aria-disabled=true]')].some((button) => button.getAttribute('aria-label')?.includes('Boses'))))
+
+  // --- Error boundary: a crashing screen shows Tsupher and a retry, not a blank page ---
+  // navigator.onLine is read while rendering the status pill; make it throw once.
+  await page.evaluate(() => {
+    const original = Object.getOwnPropertyDescriptor(Navigator.prototype, 'onLine')
+    Object.defineProperty(Navigator.prototype, 'onLine', {
+      configurable: true,
+      get() {
+        if (window.__crash) throw new Error('simulated render failure')
+        return original.get.call(this)
+      },
+    })
+    window.__crash = true
+  })
+  await goTo('#/offline')
+  await page.waitForFunction(() => document.body.innerText.includes('Naku, may nasira'), { timeout: 5000 }).catch(() => {})
+  const crashed = await visibleText()
+  check('Error boundary: crash screen with Tsupher and a retry', crashed.includes('Naku, may nasira') && crashed.includes('Subukan ulit') && (await page.$('img[src*="tsupher-sad"]')) !== null)
+  await page.evaluate(() => {
+    window.__crash = false
+    ;[...document.querySelectorAll('button')].find((button) => button.textContent.includes('Subukan ulit'))?.click()
+  })
+  await page.waitForFunction(() => document.body.innerText.includes('Offline Mode'), { timeout: 5000 }).catch(() => {})
+  check('Error boundary: retry brings the screen back', (await visibleText()).includes('Offline Mode') && !(await visibleText()).includes('Naku, may nasira'))
+  consoleErrors.length = 0 // the simulated failure logs to the console on purpose
 
   // --- Model setup screen, still offline: it must not reach for the network ---
   await goTo('#/setup')

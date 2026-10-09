@@ -20,18 +20,20 @@ export function BottomNav({ active }: { active: Tab }) {
         {ITEMS.map((item) => {
           const current = item.tab === active
           return (
-            <li key={item.tab} className="flex-1">
+            <li key={item.tab} className="min-w-0 flex-1">
               <a
                 href={`#${TAB_PATHS[item.tab]}`}
                 aria-current={current ? 'page' : undefined}
                 className="flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-2xl text-[0.7rem] font-medium"
               >
                 <span
-                  className={`flex h-8 w-12 items-center justify-center rounded-full transition-colors ${current ? 'bg-accent-amber' : ''}`}
+                  className={`flex h-8 w-full max-w-12 items-center justify-center rounded-full transition-colors ${current ? 'bg-accent-amber' : ''}`}
                 >
                   <Icon name={item.icon} className="size-5.5" />
                 </span>
-                <span className={current ? 'font-semibold' : 'text-ink-muted'}>{item.label}</span>
+                <span className={`max-w-full truncate px-0.5 ${current ? 'font-semibold' : 'text-ink-muted'}`}>
+                  {item.label}
+                </span>
               </a>
             </li>
           )

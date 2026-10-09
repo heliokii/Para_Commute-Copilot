@@ -9,8 +9,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      // Registered by hand in src/main.tsx via virtual:pwa-register.
+      // A new version waits for the rider (see src/lib/swUpdate.ts); it never reloads mid-chat.
+      registerType: 'prompt',
+      // Registered by hand in src/lib/swUpdate.ts via virtual:pwa-register.
       injectRegister: false,
       manifestFilename: 'manifest.json',
       // Icons are already matched by workbox.globPatterns.

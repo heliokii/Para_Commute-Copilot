@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { createSession, handleUtterance, recordReply, type TsupherReply } from '../ai/chat.ts'
-import { summarizeWithLlm } from '../ai/explain.ts'
+import { LLM_SUMMARY_ENABLED, summarizeWithLlm } from '../ai/explain.ts'
 import { getLlm, getModelState, peekModel } from '../ai/modelManager.ts'
 import { getLastStats } from '../ai/runtime.ts'
 import { copy } from '../copy'
@@ -36,6 +36,7 @@ export interface ChatState {
 }
 
 let nextId = 1
+let toldModelFailed = false
 const session = createSession()
 
 let state: ChatState = {
@@ -131,8 +132,15 @@ export async function sendMessage(text: string): Promise<void> {
         destinationId: reply.intent?.destinationId ?? '',
       })
     }
+    // The model failed to load during this message: say so once, then carry on with rules.
+    const modelJustFailed = llm !== undefined && getModelState().status === 'error' && !toldModelFailed
+    if (modelJustFailed) toldModelFailed = true
     set({
-      messages: [...state.messages, message],
+      messages: [
+        ...state.messages,
+        ...(modelJustFailed ? [{ id: nextId++, from: 'tsupher' as const, text: copy.chat.modelFailed }] : []),
+        message,
+      ],
       thinking: false,
       thinkingNote: '',
       hasTrip: session.intent !== null,
@@ -141,7 +149,7 @@ export async function sendMessage(text: string): Promise<void> {
     // Optional friendlier summary from the on-device model. It appears only if
     // every number and name in it checks out against the RouteResult.
     const best = reply.kind === 'options' ? reply.options[Math.max(reply.chosenIndex, 0)] : null
-    if (best && llm) {
+    if (LLM_SUMMARY_ENABLED && best && llm && getModelState().status !== 'error') {
       set({ thinking: true, thinkingNote: '' })
       const summaryStarted = performance.now()
       const summary = await summarizeWithLlm(best, pack, llm)

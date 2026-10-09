@@ -34,7 +34,7 @@ export function Splash({ onDone }: { onDone: () => void }) {
           </span>
         ))}
       </span>
-      <Tsupher state="hero" size="xl" eager bob className="mt-auto mb-10 size-72" />
+      <Tsupher state="hero" size="xl" eager bob className="mt-auto mb-10 size-[288px]" />
     </button>
   )
 }

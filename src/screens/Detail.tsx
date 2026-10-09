@@ -10,6 +10,7 @@ import { copy } from '../copy'
 import { duration, km, peso } from '../lib/format'
 import { MODES } from '../lib/modes'
 import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
+import { daysSince, isFareStale } from '../lib/proof'
 import { fareBreakdown } from '../router/fare.ts'
 import type { Leg, RoutePack } from '../router/types.ts'
 import { landmarkName, routeName, selectedResult, usePlan } from '../state/plan'
@@ -152,7 +153,7 @@ export function Detail() {
                     <Icon name={mode.icon} className="size-5" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline justify-between gap-3">
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                       <p className="font-semibold">{mode.label}</p>
                       <p className="font-semibold tabular-nums">
                         {leg.mode === 'walk' ? copy.results.noFare : peso(leg.fare)}
@@ -184,6 +185,11 @@ export function Detail() {
           <p className="mt-0.5 text-sm text-ink-muted tabular-nums">
             {result.fareAsOf ? copy.results.asOf(result.fareAsOf) : copy.results.noFare}
           </p>
+          {isFareStale(result.fareAsOf) && result.fareAsOf && (
+            <p data-testid="stale-warning" className="mt-1 rounded-xl bg-surface-warm px-3 py-2 text-sm">
+              {copy.stale.long(result.fareAsOf, daysSince(result.fareAsOf) ?? 0)}
+            </p>
+          )}
           {rideLegs.length > 0 && (
             <button
               type="button"

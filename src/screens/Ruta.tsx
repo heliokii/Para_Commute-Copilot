@@ -87,7 +87,7 @@ export function Ruta() {
                 </button>
               </div>
 
-              <fieldset>
+              <fieldset className="min-w-0">
                 <legend className="text-sm font-semibold">{copy.plan.preference}</legend>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {PREFERENCES.map((preference) => (

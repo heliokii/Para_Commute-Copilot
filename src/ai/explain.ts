@@ -175,6 +175,15 @@ export function validateExplanation(
 
 // --- Optional model summary -------------------------------------------------
 
+/**
+ * Off by default. In real runs with the benchmarked models the summary took
+ * about 15 to 20 seconds per answer on a laptop GPU and its text was rejected
+ * by the checks below every time, so riders would wait for nothing. The
+ * template summary is always shown. Turn this on only after a model is found
+ * whose summaries pass.
+ */
+export const LLM_SUMMARY_ENABLED = false
+
 const SUMMARY_SCHEMA = {
   type: 'object',
   properties: { summary: { type: 'string', maxLength: 240 } },

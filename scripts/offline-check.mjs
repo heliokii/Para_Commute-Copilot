@@ -147,6 +147,25 @@ try {
     await page.evaluate(() => document.fonts.check('16px "Inter Variable"') && document.fonts.check('600 16px "Fredoka Variable"')),
   )
 
+  // --- Proof panel: every row is read from the running app ---
+  await page.waitForFunction(
+    () => document.querySelector('[data-testid=proof-sw]')?.dataset.ok === 'true' && document.querySelector('[data-testid=proof-pack]')?.dataset.ok === 'true',
+    { timeout: 10000, polling: 200 },
+  ).catch(() => {})
+  const proof = await page.evaluate(() =>
+    Object.fromEntries(
+      [...document.querySelectorAll('[data-testid^=proof-]')].map((row) => [
+        row.dataset.testid.replace('proof-', ''),
+        { ok: row.dataset.ok, text: row.innerText.replace(/\s+/g, ' ') },
+      ]),
+    ),
+  )
+  check('Proof: service worker row is true because a worker controls the page', proof.sw?.ok === 'true', proof.sw?.text)
+  check('Proof: route pack row shows the loaded version and fare date', proof.pack?.ok === 'true' && /Bersyon 0\.\d+\.\d+-synthetic/.test(proof.pack.text) && /as of \d{4}-\d{2}-\d{2}/.test(proof.pack.text), proof.pack?.text)
+  check('Proof: AI row is not ticked when no model is installed', proof.model?.ok === 'false' && /Hindi pa naka-install|Walang WebGPU/.test(proof.model.text), proof.model?.text)
+  check('Proof: no inference is claimed before one happens', proof.inference?.ok === 'null', proof.inference?.text)
+  check('Proof: zero requests to other servers, counted by the browser', proof['cross-origin']?.ok === 'true' && / 0 /.test(proof['cross-origin'].text + ' '), proof['cross-origin']?.text)
+
   // --- Local data, still offline ---
   await page.evaluate(() => {
     location.hash = '#/about'
@@ -154,6 +173,7 @@ try {
   await page.waitForFunction(() => document.body.innerText.includes('On this device'), { timeout: 5000 })
   const about = await page.evaluate(() => document.body.innerText)
   check('Offline: About lists libraries and the sample-data label', about.includes('dexie') && about.includes('SAMPLE DATA, not verified'))
+  check('About: shows the route pack version, fare date and model licences', /Route pack: synthetic-pack, bersyon/.test(about) && /Pamasahe as of \d{4}-\d{2}-\d{2}/.test(about) && about.includes('Apache-2.0'))
   check('Mascot is named Tsupher, never "Kuya Para"', !/kuya para/i.test(home.text + about) && home.text.includes('Tsupher'))
 
   const local = await page.evaluate(

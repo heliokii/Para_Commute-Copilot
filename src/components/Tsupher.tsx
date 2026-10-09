@@ -16,11 +16,12 @@ export type TsupherState =
   | 'love'
   | 'excited'
 
+// Pixel sizes on purpose: pictures should not grow when the rider scales text up.
 const SIZES = {
-  sm: 'size-12',
-  md: 'size-20',
-  lg: 'size-32',
-  xl: 'size-56',
+  sm: 'size-[48px]',
+  md: 'size-[80px]',
+  lg: 'size-[128px]',
+  xl: 'size-[224px]',
 } as const
 
 interface TsupherProps {

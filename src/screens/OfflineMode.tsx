@@ -1,83 +1,174 @@
-import { useEffect } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 import { peekModel, useModel } from '../ai/modelManager'
-import { CANDIDATES } from '../ai/runtime'
+import { CANDIDATES, getLastStats, subscribeStats } from '../ai/runtime'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 import { Icon } from '../components/Icon'
 import { StatusPill } from '../components/StatusPill'
 import { copy } from '../copy'
+import { megabytes } from '../lib/format'
 import { useBytesSent } from '../lib/hooks'
 import { backHref, OVERLAY_PATHS } from '../lib/nav'
+import { isFareStale, useCrossOriginRequests, useServiceWorkerState } from '../lib/proof'
+import { ensurePack, usePlan } from '../state/plan'
 
+interface Row {
+  id: string
+  label: string
+  value: string
+  /** true = verified now, false = not true now, null = still checking or nothing to show yet. */
+  ok: boolean | null
+  note?: string
+}
+
+/** Proof panel. Every row is read from the running app; none is hardcoded. */
 export function OfflineMode() {
   const bytesSent = useBytesSent()
   const model = useModel()
+  const plan = usePlan()
+  const serviceWorker = useServiceWorkerState()
+  const crossOrigin = useCrossOriginRequests()
+  const stats = useSyncExternalStore(subscribeStats, getLastStats)
 
   useEffect(() => {
     void peekModel()
+    void ensurePack()
   }, [])
 
-  // GPS and Search rows are still static; Phase 10 derives every check from real state.
+  const text = copy.offline
+  const pack = plan.pack
+  const fareDates = (pack?.fares ?? []).map((fare) => fare.effectiveDate).sort()
+  const oldestFare = fareDates[0]
   const installed = model.status === 'ready' || model.status === 'cached'
   const modelLabel = CANDIDATES.find((candidate) => candidate.id === model.selectedId)?.label
-  const rows = [
-    { ...copy.offline.rows.gps, ready: true },
-    { ...copy.offline.rows.search, ready: true },
+
+  const rows: Row[] = [
     {
-      label: copy.offline.rows.ai.label,
-      value: installed && modelLabel ? copy.offline.aiInstalled(modelLabel) : copy.offline.rows.ai.value,
-      ready: installed,
+      id: 'sw',
+      label: text.rows.sw,
+      value:
+        serviceWorker === null
+          ? text.checking
+          : serviceWorker === 'active'
+            ? text.swActive
+            : serviceWorker === 'installing'
+              ? text.swInstalling
+              : text.swNone,
+      ok: serviceWorker === null ? null : serviceWorker === 'active',
+      note: serviceWorker === 'none' || serviceWorker === 'unsupported' ? text.swNoneNote : undefined,
+    },
+    {
+      id: 'pack',
+      label: text.rows.pack,
+      value: plan.packError
+        ? text.packFailed
+        : pack
+          ? text.packLoaded(pack.version, pack.routes.length, oldestFare ?? '?')
+          : text.checking,
+      ok: plan.packError ? false : pack ? true : null,
+      note: pack
+        ? [pack.note ? copy.app.sampleData : '', isFareStale(oldestFare) ? copy.stale.short : '']
+            .filter(Boolean)
+            .join(' · ') || undefined
+        : undefined,
+    },
+    {
+      id: 'model',
+      label: text.rows.ai,
+      value:
+        model.status === 'unknown'
+          ? text.checking
+          : model.status === 'unsupported'
+            ? text.noWebGpu
+            : installed && modelLabel
+              ? text.aiInstalled(modelLabel, model.modelBytes ? megabytes(model.modelBytes) : null)
+              : model.status === 'downloading'
+                ? text.aiDownloading(Math.round(model.progress * 100))
+                : model.status === 'error'
+                  ? text.aiFailed
+                  : text.aiAbsent,
+      ok: model.status === 'unknown' ? null : installed,
+      note: installed ? text.backendWebGpu : model.status === 'unknown' ? undefined : text.rulesFallback,
+    },
+    {
+      id: 'inference',
+      label: text.rows.inference,
+      value: stats
+        ? text.inference(
+            Math.round(stats.latencyMs),
+            stats.tokensPerSecond ? Math.round(stats.tokensPerSecond) : null,
+          )
+        : text.noInference,
+      ok: stats ? true : null,
+    },
+    {
+      id: 'cross-origin',
+      label: text.rows.crossOrigin,
+      value: crossOrigin.supported ? String(crossOrigin.count) : text.notMeasurable,
+      ok: crossOrigin.supported ? crossOrigin.count === 0 : null,
+      note:
+        crossOrigin.count > 0
+          ? text.crossOriginHosts(crossOrigin.hosts.join(', '))
+          : text.crossOriginNote,
     },
   ]
 
   return (
-    <div className="flex min-h-dvh flex-col items-center bg-bg-deeper px-6 pt-[max(3rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center">
-      <span className="flex size-20 items-center justify-center rounded-full border-2 border-accent-amber text-accent-amber">
-        <Icon name="wifi-off" className="size-9" />
+    <div className="flex min-h-dvh flex-col items-center bg-bg-deeper px-5 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center">
+      <span className="flex size-16 items-center justify-center rounded-full border-2 border-accent-amber text-accent-amber">
+        <Icon name="wifi-off" className="size-8" />
       </span>
-      <h1 className="mt-5 font-display text-3xl font-semibold">{copy.offline.title}</h1>
-      <p className="mt-1 max-w-64 text-on-deep/90">{copy.offline.body}</p>
+      <h1 className="mt-4 font-display text-3xl font-semibold">{text.title}</h1>
+      <p className="mt-1 max-w-72 text-on-deep/90">{text.body}</p>
 
-      <Card tone="deep" className="mt-6 w-full text-left">
+      <Card tone="deep" className="mt-5 w-full text-left">
         <ul className="divide-y divide-line-on-deep">
           {rows.map((row) => (
-            <li key={row.label} className="flex min-h-12 items-center gap-3 px-4 py-2.5 text-sm">
+            <li
+              key={row.id}
+              data-testid={`proof-${row.id}`}
+              data-ok={String(row.ok)}
+              className="flex gap-3 px-4 py-3 text-sm"
+            >
               <span
-                className={`flex size-6 shrink-0 items-center justify-center rounded-full ${
-                  row.ready ? 'bg-accent-amber text-ink-dark' : 'border border-on-deep/60 text-on-deep/80'
+                className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full ${
+                  row.ok ? 'bg-accent-amber text-ink-dark' : 'border border-on-deep/60 text-on-deep/80'
                 }`}
               >
-                <Icon name={row.ready ? 'check' : 'dash'} className="size-4" />
-                <span className="sr-only">{row.ready ? copy.offline.yes : copy.offline.no}:</span>
+                <Icon name={row.ok ? 'check' : 'dash'} className="size-4" />
+                {row.ok !== null && <span className="sr-only">{row.ok ? text.yes : text.no}:</span>}
               </span>
-              <span className="flex-1 font-semibold">{row.label}</span>
-              <span className="text-on-deep/85">{row.value}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold">{row.label}</span>
+                <span className="block text-on-deep/90 tabular-nums">{row.value}</span>
+                {row.note && <span className="mt-0.5 block text-xs text-on-deep/75">{row.note}</span>}
+              </span>
             </li>
           ))}
         </ul>
       </Card>
 
-      {!installed && model.status !== 'unsupported' && (
+      {!installed && model.status !== 'unsupported' && model.status !== 'unknown' && (
         <a
           href={`#${OVERLAY_PATHS.setup}`}
-          className="mt-3 flex min-h-11 items-center text-sm font-semibold text-accent-amber underline underline-offset-2"
+          className="mt-2 flex min-h-11 items-center text-sm font-semibold text-accent-amber underline underline-offset-2"
         >
           {copy.setup.title}
         </a>
       )}
 
-      <div className="mt-4 flex items-center gap-2 text-sm text-on-deep/90">
-        {copy.offline.connection}: <StatusPill />
+      <div className="mt-3 flex items-center gap-2 text-sm text-on-deep/90">
+        {text.connection}: <StatusPill />
       </div>
 
-      <Button href={backHref()} className="mt-8 w-full">
-        {copy.offline.ok}
-      </Button>
-
-      <p data-testid="bytes-sent" className="mt-6 text-sm tabular-nums">
-        {copy.offline.bytesSent}: {bytesSent} ({copy.offline.bytesNote}) | {copy.offline.private}
+      <p data-testid="bytes-sent" className="mt-4 text-sm tabular-nums">
+        {text.bytesSent}: {bytesSent} ({text.bytesNote}) | {text.private}
       </p>
-      <p className="mt-1 max-w-72 text-xs text-on-deep/75">{copy.offline.bytesExplain}</p>
+      <p className="mt-1 max-w-80 text-xs text-on-deep/75">{text.bytesExplain}</p>
+
+      <Button href={backHref()} className="mt-6 w-full">
+        {text.ok}
+      </Button>
     </div>
   )
 }

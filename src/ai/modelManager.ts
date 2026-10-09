@@ -28,6 +28,17 @@ export type ModelStatus =
   | 'ready'
   | 'error'
 
+export type ModelErrorKind = 'quota' | 'memory' | 'other'
+
+/** Sorts a failure into storage-full, out-of-memory, or anything else. */
+export function classifyError(error: unknown): ModelErrorKind {
+  const name = error instanceof Error ? error.name : ''
+  const message = (error instanceof Error ? error.message : String(error)).toLowerCase()
+  if (name === 'QuotaExceededError' || /quota|storage (is )?full|not enough (disk )?space/.test(message)) return 'quota'
+  if (/out of memory|oom|device (was )?lost|allocation failed|memory/.test(message)) return 'memory'
+  return 'other'
+}
+
 export interface ModelState {
   status: ModelStatus
   candidates: Candidate[]
@@ -36,6 +47,8 @@ export interface ModelState {
   progress: number
   progressText: string
   error: string
+  /** Why the last download or load failed, for a plain-language message. */
+  errorKind: ModelErrorKind
   /** Bytes this origin stores, from navigator.storage.estimate(). */
   storageUsed: number | null
   storageQuota: number | null
@@ -51,6 +64,7 @@ let state: ModelState = {
   progress: 0,
   progressText: '',
   error: '',
+  errorKind: 'other',
   storageUsed: null,
   storageQuota: null,
   modelBytes: null,
@@ -191,7 +205,7 @@ export async function downloadModel(): Promise<void> {
     })
   } catch (error) {
     // Cached shards stay, so trying again resumes.
-    set({ status: 'error', error: error instanceof Error ? error.message : String(error) })
+    set({ status: 'error', error: error instanceof Error ? error.message : String(error), errorKind: classifyError(error) })
   }
   await refreshStorage()
 }
@@ -219,7 +233,7 @@ export function getLlm(): LlmComplete | undefined {
         await loadModel(state.selectedId, (progress, progressText) => set({ progress, progressText }))
         set({ status: 'ready' })
       } catch (error) {
-        set({ status: 'error', error: error instanceof Error ? error.message : String(error) })
+        set({ status: 'error', error: error instanceof Error ? error.message : String(error), errorKind: classifyError(error) })
         throw error
       }
     }

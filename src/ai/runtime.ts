@@ -37,7 +37,16 @@ let engine: MLCEngine | null = null
 let loadedModelId: string | null = null
 let lastStats: InferenceStats | null = null
 
+const statsListeners = new Set<() => void>()
+
 export const getLastStats = () => lastStats
+
+export function subscribeStats(listener: () => void) {
+  statsListeners.add(listener)
+  return () => {
+    statsListeners.delete(listener)
+  }
+}
 export const getLoadedModelId = () => loadedModelId
 
 /** True when the browser exposes WebGPU and an adapter can be obtained. */
@@ -112,5 +121,6 @@ export const complete: LlmComplete = async ({ system, user, schema, maxTokens = 
     tokensPerSecond: reply.usage?.extra?.decode_tokens_per_s ?? null,
     completionTokens: reply.usage?.completion_tokens ?? null,
   }
+  statsListeners.forEach((listener) => listener())
   return reply.choices[0]?.message?.content ?? ''
 }

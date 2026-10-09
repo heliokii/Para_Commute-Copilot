@@ -93,42 +93,57 @@ try {
     location.hash = '#/chat'
   })
   await page.waitForSelector('[data-testid=chat-input]', { visible: true, timeout: 15000 })
-  await page.focus('[data-testid=chat-input]')
-  await page.keyboard.type('Paano pumunta sa Foxtrot galing Alpha?')
-  await page.keyboard.press('Enter')
-  await page.waitForSelector('[data-testid=chat-option-fare]', { timeout: 30000 })
-  const sawTyping = await page
-    .waitForSelector('[data-testid=typing]', { timeout: 5000 })
-    .then(() => true)
-    .catch(() => false)
-  await page.waitForFunction(() => !document.querySelector('[data-testid=typing]'), { timeout: 120000, polling: 250 })
+  const say = async (text) => {
+    const before = await page.evaluate(() => document.querySelectorAll('[data-testid=tsupher-message]').length)
+    await page.focus('[data-testid=chat-input]')
+    await page.keyboard.type(text)
+    await page.keyboard.press('Enter')
+    const sawTyping = await page
+      .waitForSelector('[data-testid=typing]', { timeout: 3000 })
+      .then(() => true)
+      .catch(() => false)
+    await page.waitForFunction(
+      (count) => document.querySelectorAll('[data-testid=tsupher-message]').length > count && !document.querySelector('[data-testid=typing]'),
+      { timeout: 120000, polling: 250 },
+      before,
+    )
+    return page.evaluate((typing) => {
+      const nodes = [...document.querySelectorAll('[data-testid=tsupher-message]')]
+      const node = nodes[nodes.length - 1]
+      return {
+        sawTyping: typing,
+        kind: node.dataset.kind,
+        text: node.innerText.replace(/\s+/g, ' '),
+        fares: [...node.querySelectorAll('[data-testid=chat-option-fare]')].map((fare) => fare.textContent),
+        summary: Boolean(node.querySelector('[data-testid=llm-summary]')),
+      }
+    }, sawTyping)
+  }
 
-  const chat = await page.evaluate(async () => {
-    const { validateExplanation } = await import('/src/ai/explain.ts')
-    const { planRoute } = await import('/src/router/plan.ts')
-    const { SYNTHETIC_PACK: pack } = await import('/src/router/__fixtures__/synthetic-pack.ts')
-    const route = planRoute(pack, {
-      originId: 'A',
-      destinationId: 'F',
-      preference: 'cheapest',
-      avoid: { landmarkIds: [], routeIds: [], modes: [], tags: [] },
-    })
-    const summary = document.querySelector('[data-testid=llm-summary] .sr-only')?.textContent ?? null
-    return {
-      fares: [...document.querySelectorAll('[data-testid=chat-option-fare]')].map((fare) => fare.textContent),
-      summary,
-      // Anything on screen must pass the validator again here.
-      summaryValid: summary === null ? null : validateExplanation(summary, route, pack).valid,
-    }
+  // Rules cannot finish this one (no origin), so the model is consulted and must not invent one.
+  const unclear = await say('Paano pumunta sa Delta?')
+  check('Chat showed the thinking indicator while the model worked', unclear.sawTyping)
+  check('Chat with the model: an unclear request gets a question, not a guessed route', unclear.kind === 'clarify' && unclear.fares.length === 0, unclear.text)
+  const answered = await say('galing Alpha')
+  check('Chat with the model: fares still come from the router', answered.kind === 'options' && answered.fares[0] === '₱18.25', answered.fares.join(' '))
+  check('Model-written summary is off by default; the template is what shows', !answered.summary && answered.text.includes('Sige! Ito ang nahanap ko:'))
+
+  // --- Proof panel after real inference ---
+  await page.evaluate(() => {
+    location.hash = '#/offline'
   })
-  check('Chat with the model loaded: fares still come from the router', chat.fares.join(' ') === '₱26.00 ₱35.25 ₱30.25', chat.fares.join(' '))
-  check('Chat showed the thinking indicator while the model worked', sawTyping)
-  // Either outcome is correct behaviour; the detail records which one happened.
-  check(
-    'Model summary in chat: on screen only if it passes the validator',
-    chat.summary === null || chat.summaryValid === true,
-    chat.summary === null ? 'discarded, template shown instead' : `shown: ${chat.summary}`,
+  await page.waitForSelector('[data-testid=proof-model]', { timeout: 10000 })
+  const proof = await page.evaluate(() =>
+    Object.fromEntries(
+      [...document.querySelectorAll('[data-testid^=proof-]')].map((row) => [
+        row.dataset.testid.replace('proof-', ''),
+        { ok: row.dataset.ok, text: row.innerText.replace(/\s+/g, ' ') },
+      ]),
+    ),
   )
+  check('Proof panel: AI row names the installed model and the WebGPU backend', proof.model?.ok === 'true' && proof.model.text.includes('Qwen2.5') && proof.model.text.includes('WebGPU'), proof.model?.text)
+  check('Proof panel: last inference shows measured latency and tokens per second', proof.inference?.ok === 'true' && /\d+ ms/.test(proof.inference.text) && proof.inference.text.includes('tokens/s'), proof.inference?.text)
+  check('Proof panel: browser-counted requests to other servers is 0', proof['cross-origin']?.ok === 'true', proof['cross-origin']?.text)
 
   check('No request to any other host was attempted', outside.length === 0, outside.slice(0, 5).join(', '))
 } catch (error) {

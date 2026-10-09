@@ -59,9 +59,10 @@ export function Home() {
 
   return (
     <div className="flex flex-col gap-4 px-4 pt-[max(1rem,env(safe-area-inset-top))]">
-      <header className="flex items-center gap-3">
-        <img src="/icons/pwa-192.png" alt="" className="size-12 rounded-2xl shadow-card" />
-        <div className="min-w-0 flex-1 leading-none">
+      {/* Wraps so the status pill drops below the wordmark when text is scaled up. */}
+      <header className="flex flex-wrap items-center gap-3">
+        <img src="/icons/pwa-192.png" alt="" className="size-[48px] rounded-2xl shadow-card" />
+        <div className="flex-1 leading-none">
           {/* Wordmark placeholder: live text until the wordmark art is exported. */}
           <p className="font-display text-3xl font-bold tracking-tight">{copy.app.name}</p>
           <p className="mt-0.5 font-display text-sm font-medium text-on-deep/85">
@@ -104,12 +105,16 @@ export function Home() {
             aria-disabled="true"
             aria-label={copy.home.micDisabled}
             title={copy.home.micDisabled}
-            className="flex size-12 shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-brown-mid text-surface-cream opacity-50"
+            className="flex size-12 shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-surface-warm text-brown-mid opacity-60"
           >
             <Icon name="mic" />
           </button>
-          <button type="submit" className="sr-only">
-            {copy.home.promptSubmit}
+          <button
+            type="submit"
+            aria-label={copy.home.promptSubmit}
+            className="flex size-12 shrink-0 items-center justify-center rounded-full bg-brown-mid text-surface-cream"
+          >
+            <Icon name="send" />
           </button>
         </form>
       </Card>

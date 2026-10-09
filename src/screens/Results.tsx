@@ -8,6 +8,7 @@ import { copy } from '../copy'
 import { duration, peso } from '../lib/format'
 import { MODES } from '../lib/modes'
 import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
+import { daysSince, isFareStale } from '../lib/proof'
 import type { RouteResult } from '../router/types.ts'
 import { landmarkName, setPlan, usePlan } from '../state/plan'
 
@@ -66,6 +67,11 @@ export function Results() {
   const intent = plan.searched
   const found = plan.options.filter((option) => option.status === 'ok')
   const failure = plan.options.find((option) => option.status === 'no_route')
+  // Oldest fare date among the options shown, if it is past the freshness limit.
+  const staleDate = found
+    .map((option) => option.fareAsOf)
+    .filter((date): date is string => isFareStale(date))
+    .sort()[0]
 
   return (
     <div className="backdrop min-h-dvh pb-10">
@@ -84,6 +90,17 @@ export function Results() {
               {plan.pack?.note && <Badge tone="label">{copy.app.sampleData}</Badge>}
             </p>
           </div>
+        )}
+
+        {plan.pack && (
+          <p data-testid="pack-version" className="px-1 text-xs text-on-deep/80 tabular-nums">
+            {copy.about.packVersion(plan.pack.id, plan.pack.version)}
+          </p>
+        )}
+        {staleDate && (
+          <p data-testid="stale-warning" className="rounded-2xl border border-line-on-deep bg-black/15 px-4 py-2.5 text-sm">
+            {copy.stale.long(staleDate, daysSince(staleDate) ?? 0)}
+          </p>
         )}
 
         {found.some((option) => option.simulated) && (

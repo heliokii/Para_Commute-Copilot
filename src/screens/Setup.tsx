@@ -80,7 +80,7 @@ export function Setup() {
             </div>
 
             {!busy && (
-              <fieldset className="mt-4">
+              <fieldset className="mt-4 min-w-0">
                 <legend className="text-sm font-semibold">{copy.setup.choose}</legend>
                 <div className="mt-2 flex flex-col gap-2">
                   {model.candidates.map((candidate) => (
@@ -118,7 +118,13 @@ export function Setup() {
             {model.status === 'error' && (
               <p role="alert" className="mt-3 text-sm">
                 <Badge tone="caution">{copy.setup.errorTitle}</Badge>{' '}
-                <span className="text-ink-muted">{copy.setup.errorBody}</span>
+                <span className="text-ink-muted">
+                  {model.errorKind === 'quota'
+                    ? copy.setup.errorQuota
+                    : model.errorKind === 'memory'
+                      ? copy.setup.errorMemory
+                      : copy.setup.errorBody}
+                </span>
                 <span className="mt-1 block text-xs break-words text-ink-muted">{model.error}</span>
               </p>
             )}
@@ -142,6 +148,7 @@ export function Setup() {
             {model.persisted !== null && ` · ${model.persisted ? copy.setup.persisted : copy.setup.notPersisted}`}
           </p>
         )}
+        <p className="px-1 text-xs text-on-deep/80">{copy.setup.totalDownload}</p>
         <p className="px-1 text-xs text-on-deep/80">{copy.setup.privacy}</p>
       </div>
     </div>

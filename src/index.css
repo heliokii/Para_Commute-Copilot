@@ -89,6 +89,8 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  /* Long words wrap instead of pushing the page sideways at large text sizes. */
+  overflow-wrap: break-word;
 }
 
 /* Brown backdrop with the faint sunburst from the showcase. */

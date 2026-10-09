@@ -203,3 +203,49 @@ The explain validator rejects an invented fare (`rejects an invented fare`, `dis
 - Chat results also update the Ruta and Mapa tabs. The detail screen's back button returns to wherever it was opened from.
 - The session keeps the last 12 turns in memory only.
 - A dev-only line under each Tsupher message shows lane, latency and tokens per second.
+
+## Phase 10: proof + hardening (2026-10-09)
+
+Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on instruction, so nothing in this phase covers them.
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean. `npm test`: 122 of 122.
+- `npm run check:offline`: 29 of 29. New: every proof-panel row is checked against real state (service worker controlling the page, pack version and fare date, AI row unticked with no model, no inference claimed before one happens, zero cross-origin requests).
+- `npm run test:e2e`: 47 of 47, network off, rules lane. New: stale-fare warning, pack version on results, error boundary crash screen and retry.
+- `npm run check:update` (new): 8 of 8. A new service worker waits, shows no prompt during a chat, and applies only on "I-update".
+- `npm run check:llm`: 12 of 12 with the real model and every other host unreachable. The proof panel showed the model name, WebGPU backend, 1590 ms and 29 tokens/s for the last reply, and 0 requests to other servers.
+- `npm run audit` (new): Lighthouse 13.5 on a simulated slow phone: Performance 90, Accessibility 100, Best Practices 100, SEO 100. Full report in `docs/audit.md`.
+
+**Numbers**
+- App shell precache: 1112 KiB (790 KiB gzipped), 27 files.
+- AI runtime chunk: 5897 KiB (2089 KiB gzipped), lazy, precached for offline.
+- First-load page transfer (Lighthouse): 306 KiB in 14 requests. The service worker then precaches 2879 KiB gzipped in the background.
+- Throttled (slow 4G, 4x CPU): First Contentful Paint 2.2 s, Largest Contentful Paint 2.9 s, Time to Interactive 3.0 s, Total Blocking Time 100 ms.
+- Model download: 277 MB to 926 MB depending on the model; shown on the Setup screen after download.
+
+**Fixed in this phase (found by the audit)**
+- Invalid `robots.txt`; a terracotta-on-cream label at 3.6:1; a 1 px submit button; bottom nav, Home header, Setup card and Detail fare overflowing at 200% text; mascot images scaling with text.
+- The model-written summary pass is now off by default (`LLM_SUMMARY_ENABLED`). With the real model it took about 20 s per answer, blocked the input meanwhile, and its text was rejected every time.
+
+**Failed or not verified**
+- Nothing failed.
+- Not tested on any phone. `docs/IOS_NOTES.md` is written from documentation only, and says so on every point.
+- "Low memory" and "storage full" handling: the messages exist and errors are sorted by name and wording, but neither condition was produced for real.
+- The model-load failure path in the chat (Tsupher says the model did not open, then uses rules) was not triggered by a real failure.
+- No screen reader was used. The accessibility sweep is a custom script, not a full WCAG audit.
+- Lighthouse audits the Home screen only.
+- The E2E script uses headless Chrome through puppeteer-core, not Playwright as the phase prompt names. Same coverage, different tool (already in the repo).
+- "WASM" backend: WebLLM has no WASM path, so the backend row reads WebGPU or says rules are in use.
+
+**What remains risky**
+- Real data: the app still runs on the synthetic pack. Nothing about real routes or fares has been exercised.
+- Phones: model memory use, download size and speed are unknown on the devices riders have.
+- The model adds no measured accuracy over rules on the current test set.
+- Performance sits at about 90; the 393 KiB main bundle is not code-split.
+- OneDrive: the repo lives in a OneDrive folder, and one file write failed mid-edit with a sync lock during this phase. Consider moving the repo out of OneDrive.
+
+**Assumptions**
+- Fare tables older than 180 days get a stale warning (`FARE_STALE_DAYS`). The sample pack's date (2026-01-01) is past that, so the warning shows today.
+- Cross-origin requests are counted with the browser's resource timing, which also sees requests made by libraries.
+- GPS and Search rows from the mockup were dropped from the proof panel: the app does not use location at all in this build, and "search" is covered by the route pack row. Showing them ticked would not be derived from state.
+- New devDependency: `lighthouse`.
