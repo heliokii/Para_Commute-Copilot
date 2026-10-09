@@ -1,6 +1,6 @@
 # Para! Offline Commute Copilot
 
-Para! is a Taglish commute helper that keeps working with no signal. You ask where you want to go; Tsupher, the jeepney mascot, shows route options, where to board and alight, and a fare breakdown with an "as of" date. You can follow up ("may mas mura?") and declare what-ifs ("iwas EDSA"). It is a web app (PWA): after one visit it runs in airplane mode, and nothing you type leaves the device.
+Para! is a Taglish commute helper that keeps working with no signal. **The route and fare data in this build are a labeled synthetic sample network (made-up places, routes and fares, not a real corridor); no real route, terminal or fare is included, and every result says "SAMPLE DATA".** You ask where you want to go; Tsupher, the jeepney mascot, shows route options, where to board and alight, and a fare breakdown with an "as of" date. You can follow up ("may mas mura?") and declare what-ifs ("iwas EDSA"). It is a web app (PWA): after one visit it runs in airplane mode, and nothing you type leaves the device.
 
 | Home | Chat | Route detail |
 |---|---|---|
@@ -11,6 +11,8 @@ Para! is a Taglish commute helper that keeps working with no signal. You ask whe
 | ![Map](docs/screenshots/mapa-route.png) | ![Offline Mode](docs/screenshots/offline-mode.png) | ![Setup](docs/screenshots/setup-ready.png) |
 
 More in `docs/screenshots/`. The screenshots show the synthetic sample data described below.
+
+Team **git inet**: Daniel Aldreen Manjares, Justine Catapang, Elijah Emmanuel. Project name: Para! Offline Commute Copilot. Submission answers: `docs/SUBMISSION_FORM.md`. Demo checklist: `docs/DEMO_PREFLIGHT.md`.
 
 ## What is deterministic and what is AI
 
@@ -183,6 +185,8 @@ npm run validate:pack -- some/dir  # checks another folder
 ## Other documents
 
 - `DEMO.md`: three-minute demo script and pre-flight checklist
+- `docs/SUBMISSION_FORM.md`: final answers for the submission form
+- `docs/DEMO_PREFLIGHT.md`: demo laptop checklist and five queries only the model can parse
 - `DISCLOSURE.md`: models, libraries, data, fonts, art, AI-assisted development
 - `GAP.md`: airplane-mode comparison with other apps (test steps; results not filled in yet)
 - `docs/SUBMISSION.md`: description, feature status, hackathon timeline
