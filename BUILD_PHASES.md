@@ -31,6 +31,7 @@ Companion to `CLAUDE.md`. **App:** Para! · **Mascot / AI guide:** Tsupher · **
 ### 2.1 Reference images
 Put these in `design/reference/` (reference only, never shipped):
 - `Para__Commute_Copilot_UI_Showcase.png`: target look and screen inventory
+- `Para! Commute Copilot Dashboard.png`: wide-screen layout (sidebar plus Home, Ruta and Mapa columns), used at 1280 px and wider
 - `Para_.png`: hero mascot
 - `Appearances.png`: pose, emotion and interaction sheet
 - `Logo.png`: app icon art
@@ -108,6 +109,7 @@ Taglish, warm, short. Use the mockup strings where provided ("Kumusta!", "Ako si
 6. The mockups don't show first-run setup, but the model and route pack must be downloaded once. Phase 5 adds a "Gisingin si Tsupher" download screen.
 7. "Walang tracking" copy: Trip mode uses GPS on-device. Word it as "Nasa phone mo lang ang lokasyon mo."
 8. The "Bytes sent" figure is an in-app tally. Label it as app-measured; devtools Network is the real proof.
+9. Dashboard mockup: Nearby Stops, Popular Destinations, mode filter chips and timestamped chat history have no data behind them. The dashboard shows saved places and the in-memory "Kamakailang Hinanap" instead, and "Iwas Traffic" is the Iwas EDSA switch, labeled Simulated. Nav labels stay Home, Ruta, Mapa, Paborito, Higit Pa.
 
 ### 2.9 Asset prep checklist (you, before Phase 3)
 - [ ] Slice the 12 sprites from `Appearances.png` into transparent-background WebP files (the sheet has a beige background and baked-in labels). Max edge 512 px, ≤ 50 KB each.

@@ -133,7 +133,7 @@ export function VoiceButton({ onText, disabled = false }: VoiceButtonProps) {
           aria-label={title || copy.voice.mic}
           data-testid="listening"
           data-phase={phase.kind}
-          className="backdrop fixed inset-0 z-40 mx-auto flex max-w-md animate-fade flex-col items-center justify-center gap-4 px-6 text-center text-on-deep"
+          className="backdrop on-deep fixed inset-0 z-40 mx-auto flex max-w-md animate-fade flex-col items-center justify-center gap-4 px-6 text-center text-on-deep"
         >
           {(phase.kind === 'listening' || phase.kind === 'transcribing') && (
             <span className="relative flex size-40 items-center justify-center">

@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { ACTIVE_PACK_ID } from '../db/seed.ts'
-import { OVERLAY_PATHS } from '../lib/nav'
+import { go, OVERLAY_PATHS } from '../lib/nav'
 import { initRouter, planOptions, planRoute } from '../router/client.ts'
 import { orderOptions } from '../router/order.ts'
 import type { Intent, Preference, RoutePack, RouteResult, Weights } from '../router/types.ts'
@@ -134,6 +134,23 @@ export async function openIntent(intent: Intent): Promise<void> {
       : { customEnabled: false, preference: intent.preference }),
   })
   await searchRoutes(intent)
+}
+
+/** Runs the router again for a saved or recent trip, then shows the results. */
+export async function openTrip(intent: Intent): Promise<void> {
+  await openIntent(intent)
+  go(OVERLAY_PATHS.results)
+}
+
+export const hasAvoid = (intent: Intent) =>
+  intent.avoid.landmarkIds.length + intent.avoid.routeIds.length + intent.avoid.modes.length + intent.avoid.tags.length > 0
+
+/** True when both ends of a trip are in the loaded route pack. */
+export function knows(pack: RoutePack | null, intent: Intent): boolean {
+  return Boolean(
+    pack?.landmarks.some((landmark) => landmark.id === intent.originId) &&
+      pack.landmarks.some((landmark) => landmark.id === intent.destinationId),
+  )
 }
 
 /** Forgets the form and the last result. The loaded route pack stays. */

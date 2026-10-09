@@ -95,7 +95,7 @@ export function Settings() {
   }
 
   return (
-    <div className="backdrop min-h-dvh pb-10">
+    <div className="backdrop min-h-dvh xl:min-h-full pb-10">
       <TopBar title={copy.settings.title} backHref={backHref()} />
       <div className="flex flex-col gap-5 px-4 pt-2">
         <p className="px-1 text-sm text-on-deep/90">{copy.settings.storage}</p>

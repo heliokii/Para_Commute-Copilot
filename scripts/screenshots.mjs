@@ -117,6 +117,20 @@ try {
   await page.waitForFunction(() => /Tulog pa si Tsupher|Walang WebGPU|Gising na/.test(document.body.innerText), { timeout: 30000 })
   await shot('setup')
 
+  // Wide-screen dashboard, with the route planned above (SAMPLE data).
+  await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 })
+  await goTo('#/ruta/detail')
+  await page.waitForSelector('[data-testid=leg]', { visible: true })
+  await shot('dashboard')
+  await goTo('#/')
+  await shot('dashboard-plan')
+  await goTo('#/offline')
+  await shot('dashboard-offline')
+  await goTo('#/chat')
+  await shot('dashboard-chat')
+  await goTo('#/ruta/trip')
+  await shot('dashboard-trip')
+
   // The proof panel only tells the truth about the service worker in a production
   // build, so that one screenshot is retaken from "vite preview" when dist/ exists.
   if (existsSync('dist/sw.js')) {

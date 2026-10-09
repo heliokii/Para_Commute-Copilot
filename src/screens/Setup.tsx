@@ -46,7 +46,7 @@ export function Setup() {
   const voiceBackend = model.status === 'unsupported' ? 'wasm' : 'webgpu'
 
   return (
-    <div className="backdrop min-h-dvh pb-10">
+    <div className="backdrop min-h-dvh xl:min-h-full pb-10">
       <TopBar title={copy.setup.title} backHref={backHref()} />
       <div className="flex flex-col gap-3 px-4 pt-2">
         {!checked && <p className="px-1 text-sm text-on-deep/85">{copy.setup.checking}</p>}

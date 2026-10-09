@@ -2,14 +2,16 @@ import { useEffect } from 'react'
 import { Badge } from '../components/Badge'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
+import { Icon } from '../components/Icon'
 import { RouteMap } from '../components/RouteMap'
 import { TopBar } from '../components/TopBar'
 import { copy } from '../copy'
 import { duration, peso } from '../lib/format'
 import { LEGEND_MODES, MODES } from '../lib/modes'
 import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
-import { ensurePack, landmarkName, selectedResult, usePlan } from '../state/plan'
+import { ensurePack, landmarkName, searchRoutes, selectedResult, setPlan, usePlan } from '../state/plan'
 import { useSettings } from '../state/settings'
+import { ToggleRow } from './Modes'
 
 export function Mapa() {
   const plan = usePlan()
@@ -81,6 +83,40 @@ export function Mapa() {
           ) : (
             <Button href={`#${TAB_PATHS.ruta}`}>{copy.map.planFirst}</Button>
           ))}
+
+        {/* Dashboard only: on a phone these live in Mga Mode and Route detail. */}
+        <section className="hidden flex-col gap-3 xl:flex">
+          <h2 className="px-1 font-display font-semibold">{copy.map.features}</h2>
+          <ToggleRow
+            icon="route"
+            testId="map-avoid-edsa"
+            label={copy.modes.avoidEdsa.label}
+            sub={copy.modes.avoidEdsa.sub}
+            checked={plan.avoidEdsa}
+            onChange={(avoidEdsa) => {
+              setPlan({ avoidEdsa })
+              // The map sits next to the switch, so it re-plans right away.
+              if (plan.searched) void searchRoutes()
+            }}
+          >
+            <p className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
+              <Badge tone="caution">{copy.badge.simulated}</Badge>
+              {copy.modes.avoidEdsa.note}
+            </p>
+          </ToggleRow>
+          {result && (
+            <Card>
+              <a href={`#${OVERLAY_PATHS.trip}`} className="flex min-h-14 items-center gap-3 px-4 py-2">
+                <Icon name="flag" className="size-5.5 shrink-0 text-brown-mid" />
+                <span className="min-w-0 flex-1">
+                  <span className="block font-semibold">{copy.map.alertTitle}</span>
+                  <span className="block text-sm text-ink-muted">{copy.map.alertSub}</span>
+                </span>
+                <Icon name="chevron-right" className="size-5 shrink-0 text-ink-muted" />
+              </a>
+            </Card>
+          )}
+        </section>
       </div>
     </div>
   )

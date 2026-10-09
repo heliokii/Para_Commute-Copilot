@@ -4,12 +4,12 @@ import { Card } from '../components/Card'
 import { HeartButton } from '../components/HeartButton'
 import { Icon } from '../components/Icon'
 import { LandmarkPicker } from '../components/LandmarkPicker'
+import { RecentTrips, TripLine } from '../components/RecentTrips'
 import { TopBar } from '../components/TopBar'
 import { Tsupher } from '../components/Tsupher'
 import { copy } from '../copy'
-import { FavoriteToggle } from '../components/FavoriteToggle'
-import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
-import type { Intent, RoutePack } from '../router/types.ts'
+import { go, TAB_PATHS } from '../lib/nav'
+import type { RoutePack } from '../router/types.ts'
 import {
   asPlaceFavorite,
   asRouteFavorite,
@@ -18,36 +18,9 @@ import {
   useFavorites,
   type RouteFavorite,
 } from '../state/favorites'
-import { ensurePack, landmarkName, openIntent, setPlan, usePlan } from '../state/plan'
+import { ensurePack, hasAvoid, knows, landmarkName, openTrip, setPlan, usePlan } from '../state/plan'
 import { useRecents } from '../state/recents'
 import { showToast } from '../state/toast'
-
-const hasAvoid = (intent: Intent) =>
-  intent.avoid.landmarkIds.length + intent.avoid.routeIds.length + intent.avoid.modes.length + intent.avoid.tags.length > 0
-
-function knows(pack: RoutePack | null, intent: Intent) {
-  return Boolean(
-    pack?.landmarks.some((landmark) => landmark.id === intent.originId) &&
-      pack.landmarks.some((landmark) => landmark.id === intent.destinationId),
-  )
-}
-
-/** Runs the router again for a saved or recent trip, then shows the results. */
-async function openTrip(intent: Intent) {
-  await openIntent(intent)
-  go(OVERLAY_PATHS.results)
-}
-
-function TripLine({ pack, intent }: { pack: RoutePack | null; intent: Intent }) {
-  return (
-    <>
-      {landmarkName(pack, intent.originId)}
-      <span aria-hidden="true"> → </span>
-      <span className="sr-only"> papuntang </span>
-      {landmarkName(pack, intent.destinationId)}
-    </>
-  )
-}
 
 function RouteRow({ favorite, pack }: { favorite: RouteFavorite; pack: RoutePack | null }) {
   const { intent } = favorite
@@ -216,22 +189,7 @@ export function Paborito() {
               {copy.paborito.recentEmpty}
             </p>
           ) : (
-            <ul className="divide-y divide-line">
-              {recents.map((recent) => (
-                <li key={recent.key} data-testid="recent" className="flex items-center gap-1 py-1 pl-4 pr-2">
-                  <button type="button" disabled={!knows(plan.pack, recent.intent)} onClick={() => void openTrip(recent.intent)} className="min-h-12 min-w-0 flex-1 text-left disabled:opacity-60">
-                    <span className="block font-semibold">
-                      <TripLine pack={plan.pack} intent={recent.intent} />
-                    </span>
-                    <span className="mt-0.5 flex flex-wrap items-center gap-1.5">
-                      <Badge>{copy.pref[recent.intent.preference]}</Badge>
-                      {hasAvoid(recent.intent) && <Badge tone="caution">{copy.badge.simulated}</Badge>}
-                    </span>
-                  </button>
-                  <FavoriteToggle intent={recent.intent} pack={plan.pack} />
-                </li>
-              ))}
-            </ul>
+            <RecentTrips pack={plan.pack} recents={recents} testId="recent" />
           )}
         </Card>
       </div>

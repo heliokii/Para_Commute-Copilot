@@ -425,3 +425,41 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 - Favorite ids are built from content, so two hearts for the same trip and preference always agree.
 - The contribution payload has a random `uid` made on the device so an import can skip a report it already has.
 - No new dependency. `liveQuery` comes from Dexie.
+
+## Dashboard layout + Home polish (2026-10-09, branch `ui-dashboard`, from `main`)
+
+Not a numbered phase. Brings `design/reference/Para! Commute Copilot Dashboard.png` into the app as a wide-screen layout, and closes the remaining Home gaps against the UI Showcase.
+
+**What was built**
+- **Dashboard at 1280 px and wider** (Tailwind `xl`): a brown sidebar (`SideNav`: wordmark placeholder, the five nav items, the 100% Offline card, the hero mascot) and one cream panel with three columns. Home is always in the first column, the schematic map is always in the third, and the middle column holds Plan a Route, or Paborito / Higit Pa, or whichever overlay is open (results, detail, trip, chat, modes, settings, setup, offline, about). Below 1280 px the app is the same phone column as before.
+- **One set of screens.** Nothing is duplicated: `App.tsx` shows more of the already-mounted tabs when `useWide()` is true. Hash routes are unchanged.
+- **Cream panel by token remap.** Inside `.panel`, `src/index.css` remaps the on-brown tokens (`on-deep`, `line-on-deep`) to ink and makes cards white, so screens were not restyled one by one. Screens that are dark on purpose carry `.on-deep` (Offline Mode, the trip alert, the listening overlay).
+- **Home:** a "Tsupher Tip!" banner that opens Mga Mode; "Kamakailang Hinanap" (the same in-memory session list as Paborito, shown only when it has rows); "Mga Na-save na Lugar" (saved landmarks that the loaded pack still has; tapping one sets the destination). A third tile, "My Saved Routes", shows on the dashboard only.
+- **Map column (dashboard only):** "Opsyonal na Feature" with the Iwas EDSA switch (labeled Simulated; re-runs the router when a trip is already planned) and a Drop-off Alert row that opens Trip mode when a route is selected.
+- `RecentTrips` / `TripLine` moved out of `Paborito.tsx` so Home and Paborito render the same rows; `openTrip`, `hasAvoid`, `knows` moved to `src/state/plan.ts`. `NAV_ITEMS` moved to `src/lib/nav.ts` for both navs.
+
+**Left out on purpose, and why**
+- Nearby Stops (no stop-proximity feature), Street View and map tiles (BUILD_PHASES 2.8), bell and avatar (2.8), mode filter chips (the plan form has no mode-include filter), a second Mas Mura toggle (the "Mas mura" preference chip is that control), Popular Destinations (no popularity data; saved places stand in), timestamps on recents (the session list holds no times and is never persisted).
+- The mockup's English nav labels: CLAUDE.md section 12 names the tabs Home, Ruta, Mapa, Paborito, Higit Pa.
+- A per-leg mode badge on Route detail (in the plan): the leg title already is the mode name and the icon already carries the mode colour, so a badge would repeat it.
+
+**Changed from the plan**
+- The breakpoint is 1280 px, not 1024 px. Three columns beside a 240 px sidebar are about 250 px each at 1024 px, narrower than the phone layout the screens were built for.
+- "My Saved Routes" is dashboard only. As a full-width third tile on the phone it pushed the 100% Offline banner below the first screen.
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean (precache 29 entries, 7635 KiB).
+- `npm test`: 184 of 184. `npm run check:offline`: 31 of 31. `npm run test:e2e`: 98 of 98. `npm run check:update`: 8 of 8. `npm run check:llm`: 13 of 13.
+- `npm run audit`: Performance 86 (89 in the Phase 9 run; earlier runs ranged 83 to 89 on this machine), accessibility sweep unchanged. All of these run at 390 x 844, so they cover the phone layout only.
+- `npm run screenshots`: new 1440 x 900 shots `dashboard`, `dashboard-plan`, `dashboard-offline`, `dashboard-chat`, `dashboard-trip`, compared by eye with the reference.
+
+**Not tested**
+- No automated test runs at the wide size. The dashboard was checked through the five screenshots only.
+- On the dashboard: Results, Modes, Settings, Setup and About in the middle column; the trip alert and listening overlays (they stay a centred phone-width panel); bottom sheets; the Iwas EDSA switch in the map column; resizing across 1280 px with a filled form; keyboard order through the sidebar; 200% text; screen readers.
+- Widths between 1280 and 1440 px, and anything wider than 1440 px.
+- A real phone, tablet or laptop. Everything above is headless Chrome.
+
+**Assumptions**
+- Tablets (768 to 1279 px) keep the phone column.
+- The wordmark is still live text: the wordmark art from BUILD_PHASES 2.9 was never exported, so the sidebar uses the same placeholder as Home.
+- No new dependency, no new network call, no new stored data.
