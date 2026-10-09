@@ -8,6 +8,7 @@ import { Icon } from '../components/Icon'
 import { LandmarkPicker } from '../components/LandmarkPicker'
 import { TopBar } from '../components/TopBar'
 import { copy } from '../copy'
+import { isMockRoute } from '../lib/modes'
 import { go, OVERLAY_PATHS } from '../lib/nav'
 import { ensurePack, searchRoutes, setPlan, usePlan, type StandardPreference } from '../state/plan'
 
@@ -57,6 +58,12 @@ export function Ruta() {
             {plan.pack.note && (
               <p className="mb-3">
                 <Badge tone="caution">{copy.app.sampleData}</Badge>
+              </p>
+            )}
+            {plan.pack.routes.some((route) => isMockRoute(route.id)) && (
+              <p className="mb-3 flex flex-wrap items-center gap-2 text-sm text-ink-muted">
+                <Badge tone="caution">{copy.badge.mock}</Badge>
+                {copy.fares.introWithMock}
               </p>
             )}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -119,6 +126,12 @@ export function Ruta() {
               </p>
             </form>
           </Card>
+        )}
+        {/* A pack with routes and train fares: the published train fare for the pair, when there is one. */}
+        {plan.pack && plan.pack.routes.length > 0 && (
+          <div className="mt-3">
+            <FareLookup pack={plan.pack} pickers={false} />
+          </div>
         )}
       </div>
     </div>

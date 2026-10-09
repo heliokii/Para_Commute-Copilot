@@ -30,6 +30,8 @@ const root = resolve(rootArg === -1 ? DEFAULT_ROOT : args[rootArg + 1])
 const fieldDir = join(root, 'field')
 const packDir = join(root, 'pack')
 const railDir = join(root, 'rail-pack')
+// Made-up jeepney routes, labeled as mock in the data and in the app (see mock-pack/README.md).
+const mockDir = join(root, 'mock-pack')
 const bundlePath = root === resolve(DEFAULT_ROOT) ? resolve('src/db/generated/metro-manila-pack.json') : join(root, 'generated-pack.json')
 
 const inventory = JSON.parse(readFileSync(INVENTORY, 'utf8'))
@@ -50,10 +52,10 @@ console.log(`Worksheets in ${fieldDir}`)
 if (args.includes('--init')) process.exit(0)
 
 const result = buildPackFiles(inventory, sheets)
-// Append the rail-pack rows (same headers, no routes) under the bus rows.
-if (existsSync(railDir)) {
+// Append the rail-pack rows (same headers, no routes) and the mock-pack rows under the bus rows.
+for (const extraDir of [railDir, mockDir].filter((dir) => existsSync(dir))) {
   for (const name of Object.keys(result.files)) {
-    const path = join(railDir, `${name}.csv`)
+    const path = join(extraDir, `${name}.csv`)
     if (!existsSync(path)) continue
     const extra = readFileSync(path, 'utf8').split(/\r?\n/).slice(1).filter(Boolean)
     if (extra.length) result.files[name] = `${result.files[name].replace(/\n*$/, '\n')}${extra.join('\n')}\n`

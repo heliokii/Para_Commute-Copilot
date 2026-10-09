@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent, type WheelEvent } from 'react'
 import { copy } from '../copy'
 import { railColor, railLineOf, RAIL_LINES } from '../fares/lines.ts'
-import { MODES } from '../lib/modes'
+import { isMockRoute, MODES } from '../lib/modes'
 import { getBasemap, MAP_ATTRIBUTION, project, WORLD_HEIGHT, WORLD_WIDTH } from '../map/basemap.ts'
 import type { RoutePack, RouteResult } from '../router/types.ts'
 import { WALK_ROUTE_ID } from '../router/types.ts'
@@ -267,7 +267,7 @@ export function RouteMap({ pack, result, marked, onStationClick }: RouteMapProps
         {pack.routes.length > 0 && (
           <g opacity={result ? 0.28 : 0.75}>
             {pack.routes.map((route) => (
-              <polyline key={route.id} points={line(route.stops.map((stop) => stop.landmarkId))} fill="none" stroke={MODES[route.mode].color} strokeWidth={3.5 * px} strokeLinecap="round" strokeLinejoin="round" />
+              <polyline key={route.id} data-route={route.id} points={line(route.stops.map((stop) => stop.landmarkId))} fill="none" stroke={MODES[route.mode].color} strokeWidth={(isMockRoute(route.id) ? 4.5 : 3.5) * px} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={isMockRoute(route.id) ? `${8 * px} ${7 * px}` : undefined} />
             ))}
           </g>
         )}

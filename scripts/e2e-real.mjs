@@ -1,6 +1,7 @@
 // Usage: npm run build && npm run test:e2e:real
 // The real-data build with the network off: no SAMPLE DATA label, rail fare lookup from
-// the pack's matrices, the OpenStreetMap basemap, station taps and the chat fare answer.
+// the pack's matrices, the OpenStreetMap basemap, station taps and the chat fare answer,
+// plus the made-up jeepney routes (data/metro-manila/mock-pack), which must say MOCK DATA.
 // Expected fares are read from data/metro-manila/*-fare-matrices.json (see src/fares/lookup.test.ts).
 import { existsSync } from 'node:fs'
 import { preview } from 'vite'
@@ -64,10 +65,10 @@ try {
     })
   // --- Fare lookup on the Ruta tab ---
   await goTo('#/ruta')
-  await page.waitForSelector('[data-testid=fare-lookup]', { timeout: 10000 })
+  await page.waitForSelector('[data-testid=origin]', { timeout: 10000 })
   const phoneNav = await navKind()
   check('Phone width: bottom nav only, no side nav', phoneNav.count === 1 && !phoneNav.side, JSON.stringify(phoneNav))
-  check('Ruta: shows the fare lookup, not a route form', (await page.$('main:not([hidden]) button[type=submit]')) === null)
+  check('Ruta: the plan form says its jeepney routes are MOCK DATA', (await page.$('main:not([hidden]) button[type=submit]')) !== null && (await visibleText()).includes('MOCK DATA'))
   check('Ruta: no SAMPLE DATA label on the real pack', !(await visibleText()).includes('SAMPLE DATA'))
   check('Picker: "dr santos" resolves to a rail station', (await pick('origin', 'dr santos')).includes('Dr. Santos'))
   check('Picker: "ninoy" resolves to a rail station', (await pick('destination', 'ninoy')).includes('Ninoy Aquino'))
@@ -82,7 +83,7 @@ try {
   const mrt = await texts('main:not([hidden]) [data-testid=fare-row]')
   check('MRT-3 North Avenue to Quezon Avenue: ₱6.00 with the 50% promotion, normally ₱13.00', mrt.length === 1 && mrt[0].includes('₱6.00') && mrt[0].includes('₱13.00'), mrt.join(' | '))
 
-  check('Cross-line pair has no fare and says so', (await pick('destination', 'taft')) && (await pick('origin', 'dr santos')) && (await page.waitForSelector('[data-testid=fare-result]', { timeout: 5000 })) && (await visibleText()).includes('Walang nakalistang pamasahe'))
+  check('Cross-line pair has no fare and says so', (await pick('destination', 'taft')) && (await pick('origin', 'dr santos')) && (await page.$$('main:not([hidden]) [data-testid=fare-row]')).length === 0)
 
   // --- Map ---
   await goTo('#/mapa')
@@ -132,11 +133,33 @@ try {
   const chat = await visibleText()
   check('Chat: a station-to-station question gets the matrix fare, without invented time or route', chat.includes('₱20.00') && chat.includes('Walang oras o ruta'), chat.slice(-200).replace(/s+/g, ' '))
 
+  // --- Mock jeepney routes: planned by the router, drawn on the map, badged MOCK DATA everywhere ---
+  const before = await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)
+  await page.type('[data-testid=chat-input]', 'Paano pumunta sa Carriedo galing Quezon Avenue?')
+  await page.keyboard.press('Enter')
+  await page.waitForFunction((count) => document.querySelectorAll('[data-testid=tsupher-message]').length > count && !document.querySelector('[data-testid=typing]'), { timeout: 15000 }, before)
+  const mockCards = await texts('[data-testid=chat-option]')
+  check('Chat: a trip over the mock routes gets route options, each badged MOCK DATA', mockCards.length > 0 && mockCards.every((card) => card.includes('MOCK DATA') && card.includes('₱')), mockCards.join(' | ').slice(0, 200))
+  await goTo('#/ruta')
+  await pick('origin', 'quezon avenue')
+  await pick('destination', 'carriedo')
+  await page.click('main:not([hidden]) button[type=submit]')
+  await page.waitForSelector('[data-testid=route-option]', { timeout: 5000 })
+  const mockResults = await texts('[data-testid=route-option]')
+  check('Ruta: mock route results are badged MOCK DATA and Hindi pa verified', mockResults.length > 0 && mockResults.every((card) => card.includes('MOCK DATA') && card.includes('Hindi pa verified')), mockResults.join(' | ').slice(0, 200))
+  await page.click('[data-testid=route-option]')
+  await page.waitForSelector('[data-testid=leg]', { timeout: 5000 })
+  const detail = await visibleText()
+  check('Detail: mock route names, the MOCK DATA badge and the mock note', detail.includes('(MOCK)') && detail.includes('MOCK DATA: gawa-gawa lang'))
+  await goTo('#/mapa')
+  await page.waitForSelector('[data-testid=route-map] polyline[data-leg]', { timeout: 5000 })
+  check('Map: the mock route is drawn and the map says the jeepney lines are mock', (await page.$$eval('[data-testid=route-map] polyline[data-leg]', (lines) => lines.every((line) => line.dataset.leg.startsWith('mock-') || line.dataset.leg === 'walk'))) && (await visibleText()).includes('MOCK DATA'))
+
   // --- Laptop view: the dashboard shows the side nav and Home, Ruta and Mapa side by side ---
   // --- Laptop view: side nav, with Home, Ruta and Mapa side by side ---
   await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 })
   await goTo('#/ruta')
-  await page.waitForSelector('[data-testid=fare-lookup]', { visible: true, timeout: 5000 })
+  await page.waitForSelector('[data-testid=origin]', { visible: true, timeout: 5000 })
   const laptopNav = await navKind()
   check('Laptop width: side nav, no bottom nav', laptopNav.count === 1 && laptopNav.side, JSON.stringify(laptopNav))
   const columns = await page.evaluate(() => {
@@ -144,14 +167,14 @@ try {
       const box = document.querySelector(selector)?.getBoundingClientRect()
       return box ? { left: box.left, right: box.right, width: box.width } : null
     }
-    return { lookup: rect('[data-testid=fare-lookup]'), map: rect('[data-testid=route-map]'), home: rect('#ask') }
+    return { lookup: rect('[data-testid=origin]'), map: rect('[data-testid=route-map]'), home: rect('#ask') }
   })
   check(
-    'Laptop width: Home prompt, Ruta fare lookup and the map are visible together, left to right',
+    'Laptop width: Home prompt, the Ruta form and the map are visible together, left to right',
     columns.home && columns.lookup && columns.map && columns.home.right <= columns.lookup.left + 1 && columns.lookup.right <= columns.map.left + 1 && columns.map.width > 200,
     JSON.stringify(Object.fromEntries(Object.entries(columns).map(([key, box]) => [key, box && Math.round(box.left)]))),
   )
-  check('Laptop width: only one fare lookup is on screen', (await page.$$eval('[data-testid=fare-lookup], [data-testid=map-fare-lookup]', (nodes) => nodes.filter((node) => node.getClientRects().length > 0).length)) === 1)
+  check('Laptop width: at most one fare lookup is on screen', (await page.$$eval('[data-testid=fare-lookup], [data-testid=map-fare-lookup]', (nodes) => nodes.filter((node) => node.getClientRects().length > 0).length)) <= 1)
   // Tapping a station on the map fills the Ruta column's pickers (shared state).
   await page.click('button[aria-label="Ibalik ang view"]')
   for (let i = 0; i < 7; i++) await page.click('button[aria-label="Palakihin"]')

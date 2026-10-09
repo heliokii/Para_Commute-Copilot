@@ -9,8 +9,10 @@ import { RouteMap } from '../components/RouteMap'
 import { TopBar } from '../components/TopBar'
 import { copy } from '../copy'
 import { duration, peso } from '../lib/format'
-import { LEGEND_MODES, MODES } from '../lib/modes'
+import { fareStations } from '../fares/lookup.ts'
+import { isMockRoute, LEGEND_MODES, MODES } from '../lib/modes'
 import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
+import type { Mode } from '../router/types.ts'
 import { ensurePack, landmarkName, searchRoutes, selectedResult, setPlan, usePlan } from '../state/plan'
 import { useSettings } from '../state/settings'
 import { ToggleRow } from './Modes'
@@ -18,6 +20,13 @@ import { ToggleRow } from './Modes'
 export function Mapa() {
   const plan = usePlan()
   const fareOnly = plan.pack !== null && plan.pack.routes.length === 0
+  // Train stations with published fares can be tapped whether or not the pack also has routes.
+  const hasStations = plan.pack !== null && fareStations(plan.pack).length > 0
+  const hasMock = plan.pack !== null && plan.pack.routes.some((route) => isMockRoute(route.id))
+  // Next to the train lines, list only the modes the pack really has routes for.
+  const legendModes: Mode[] = hasStations
+    ? [...new Set((plan.pack?.routes ?? []).map((route) => route.mode)), 'walk']
+    : LEGEND_MODES
   const result = selectedResult(plan)
   // This tab stays mounted: re-render when a unit setting changes.
   useSettings()
@@ -56,27 +65,27 @@ export function Mapa() {
                 </p>
               </div>
             ) : (
-              <p className="mb-2 px-1 text-sm text-ink-muted">{fareOnly ? copy.fares.mapHint : copy.map.noRoute}</p>
+              <p className="mb-2 px-1 text-sm text-ink-muted">{hasStations ? copy.fares.mapHint : copy.map.noRoute}</p>
             )}
 
             <RouteMap
               pack={plan.pack}
               result={result}
               marked={{ originId: plan.originId, destinationId: plan.destinationId }}
-              onStationClick={fareOnly ? pickStation : undefined}
+              onStationClick={hasStations ? pickStation : undefined}
             />
 
             <div className="mt-3 px-1">
               <h3 className="sr-only">{copy.map.legend}</h3>
               <ul className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
-                {fareOnly &&
+                {hasStations &&
                   RAIL_LINES.map((railLine) => (
                     <li key={railLine.id} className="flex items-center gap-1.5">
                       <span aria-hidden="true" className="h-1.5 w-5 rounded-full" style={{ backgroundColor: railLine.color }} />
                       {railLine.label}
                     </li>
                   ))}
-                {!fareOnly && LEGEND_MODES.map((mode) => (
+                {!fareOnly && legendModes.map((mode) => (
                   <li key={mode} className="flex items-center gap-1.5">
                     <span
                       aria-hidden="true"
@@ -89,6 +98,8 @@ export function Mapa() {
               </ul>
               <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-ink-muted">
                 {plan.pack.note && <Badge tone="caution">{copy.app.sampleData}</Badge>}
+                {hasMock && <Badge tone="caution">{copy.badge.mock}</Badge>}
+                {hasMock && <span>{copy.map.mockNote}</span>}
                 {result?.simulated && <Badge tone="caution">{copy.badge.simulated}</Badge>}
                 {copy.map.schematic}
               </p>
@@ -97,7 +108,7 @@ export function Mapa() {
         )}
 
         {/* On the dashboard the Ruta column beside the map already holds the lookup (same state). */}
-        {plan.pack && fareOnly && (
+        {plan.pack && hasStations && (
           <div className="xl:hidden">
             <FareLookup pack={plan.pack} testPrefix="map-" />
           </div>

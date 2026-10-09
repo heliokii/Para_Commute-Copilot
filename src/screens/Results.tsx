@@ -6,7 +6,7 @@ import { TopBar } from '../components/TopBar'
 import { Tsupher } from '../components/Tsupher'
 import { copy } from '../copy'
 import { duration, peso } from '../lib/format'
-import { MODES } from '../lib/modes'
+import { isMockRoute, MODES } from '../lib/modes'
 import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { daysSince, isFareStale } from '../lib/proof'
 import type { Intent, RouteResult } from '../router/types.ts'
@@ -33,6 +33,7 @@ function OptionCard({ result, index, chosen, intent }: { result: RouteResult; in
       <span className="flex flex-wrap items-center gap-2 pr-11">
         <Badge>{copy.pref[result.preference]}</Badge>
         {chosen && <Badge tone="strong">{copy.badge.chosen}</Badge>}
+        {result.legs.some((leg) => isMockRoute(leg.routeId)) && <Badge tone="caution">{copy.badge.mock}</Badge>}
         {result.usedUnverifiedData && <Badge tone="caution">{copy.badge.unverified}</Badge>}
         {result.simulated && <Badge tone="caution">{copy.badge.simulated}</Badge>}
       </span>

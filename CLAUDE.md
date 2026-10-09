@@ -2,6 +2,7 @@
 
 > "Para!" is a working name. Check it is not already taken before branding.
 > Update 2026-10-10: speech-to-text (Whisper) was removed from the app; input is typed text only. Mentions of voice below are historical.
+> Update 2026-10-10: at the team's request the app carries made-up jeepney routes, stops and fares (`data/metro-manila/mock-pack/`), labeled "MOCK DATA" in the data and on screen. This is the one exception to ground rule 3; do not add other invented data, and never remove the labels.
 > Plan compiled October 9, 2026. Part A is the concept; Part B merges in the Tarsi-style offline-first PWA blueprint and agent skills.
 
 ## 1. One-line pitch

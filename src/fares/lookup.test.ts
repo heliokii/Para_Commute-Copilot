@@ -9,7 +9,9 @@ const AS_OF = '2026-10-10'
 describe('station fare lookup on the real pack', () => {
   it('lists rail stations only', () => {
     const stations = fareStations(pack)
-    expect(stations.length).toBe(pack.landmarks.length)
+    // The rest of the landmarks are the mock jeepney stops, which have no published fare.
+    expect(stations.length).toBe(pack.landmarks.filter((landmark) => landmark.tags.includes('train')).length)
+    expect(stations.length).toBeGreaterThan(0)
     expect(stations.every((station) => station.tags.includes('train'))).toBe(true)
   })
 

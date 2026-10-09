@@ -1,0 +1,3 @@
+id,mode,product,vehicle_class,rule,base_fare,base_km,per_km,effective_date,expires_at,rounding_rule,source_note,source_url,photo_ref,conflict_note
+mock-jeepney-fare,jeepney,mock-fare,standard,distance,12,4,1.5,2026-10-10,,nearest_0.25,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe.",https://github.com/heliokii/AppBuilder2026/blob/main/data/metro-manila/mock-pack/README.md,,
+mock-modern-jeepney-fare,modern_jeepney,mock-fare,standard,distance,16,4,2.25,2026-10-10,,nearest_0.25,"MOCK DATA: gawa-gawa lang para sa demo. Hindi totoong ruta, hintuan o pamasahe.",https://github.com/heliokii/AppBuilder2026/blob/main/data/metro-manila/mock-pack/README.md,,

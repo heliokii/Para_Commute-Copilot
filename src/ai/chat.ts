@@ -86,6 +86,8 @@ export interface TsupherReply {
     | 'answer'
   /** Deterministic text built from the RouteResult (summary, steps, why). */
   facts: string[]
+  /** With route options: the published train fare for the same two stations, when the pack has one. */
+  trainFare?: string
   options: RouteResult[]
   chosenIndex: number
   candidates?: ParseCandidate[]
@@ -151,14 +153,12 @@ export async function handleUtterance(
     const { options, chosenIndex } = await plan(session, intent, deps)
     const found = options.filter((option) => option.status === 'ok')
     const simulated = options.some((option) => option.simulated)
+    // Two stations on one line have a published fare, whether or not a route joins them.
+    const fares = lookupStationFares(pack, intent.originId, intent.destinationId, intent.fareEligibility)
+    const name = (id: string) => pack.landmarks.find((landmark) => landmark.id === id)?.name ?? id
+    const trainFare = fares.length > 0 ? describeStationFares(fares, name(intent.originId), name(intent.destinationId)).join(' ') : undefined
     if (found.length === 0) {
-      // No route to plan, but two stations on one line still have a published fare.
-      const fares = lookupStationFares(pack, intent.originId, intent.destinationId, intent.fareEligibility)
-      if (fares.length > 0) {
-        const name = (id: string) => pack.landmarks.find((landmark) => landmark.id === id)?.name ?? id
-        const facts = describeStationFares(fares, name(intent.originId), name(intent.destinationId))
-        return reply({ kind: 'answer', message: 'answer', facts: [facts.join(' ')], lane, intent })
-      }
+      if (trainFare) return reply({ kind: 'answer', message: 'answer', facts: [trainFare], lane, intent })
       return reply({ kind: 'no_route', message: 'noRoute', options, simulated, lane, intent })
     }
     const best = options[Math.max(chosenIndex, 0)]
@@ -166,6 +166,7 @@ export async function handleUtterance(
       kind: 'options',
       message: simulated && message !== 'found' ? 'whatIf' : message,
       facts: [explainSummary(best, pack)],
+      trainFare,
       options,
       chosenIndex,
       simulated,

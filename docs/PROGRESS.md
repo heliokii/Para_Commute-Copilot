@@ -524,3 +524,25 @@ Not a numbered phase. Makes the cold-start screen look like the first tile of th
 **Assumptions**
 - One extra tap on every cold start is acceptable, as chosen.
 - The wordmark stays live text until the art from BUILD_PHASES 2.9 is exported. The "Tsupher" label uses Fredoka, not the handwriting of the mockup.
+
+## Mock jeepney routes (2026-10-10, branch `mock-jeepney`)
+
+The team asked for jeepney routes next to the trains and accepted made-up data as long as it is labeled.
+
+**Built**
+- `scripts/mock-jeepney-pack.mjs` writes `data/metro-manila/mock-pack/`: 19 mock stops, 10 mock routes (5 lines, both directions), 2 mock fare tables. `npm run import:ncr` now appends that folder like `rail-pack`; the bundled pack has 69 landmarks, 10 routes, 7 fare tables.
+- The app now handles a pack with train fares and routes together: Ruta shows the plan form plus the train fare for the chosen pair when there is one; Mapa keeps station taps and the fare lookup, draws mock lines dashed, and lists only the modes the pack has; the chat gives route options and, for two stations on one line, the published train fare above them.
+- "MOCK DATA" badge on results, route detail, chat cards, the Ruta form and the map; mock route notes appear under "Tandaan".
+
+**Passed**
+- `npm run lint`, `npm test` (209), `npm run build`, `npm run test:e2e:real` (29, with new checks for the mock routes and their badges), `npm run check:offline` (30), `npm run build:sample` then `npm run test:e2e` (96).
+
+**Not run**
+- `check:update`, `check:llm`, `check:migrate`, `audit`, `screenshots` (the screenshots in `docs/screenshots/` do not show the mock routes).
+- Anything on a phone.
+
+**Assumptions**
+- Mock stop coordinates were placed by hand from memory of the area, so the dashed lines only roughly follow roads.
+- Mock rows carry no tags, so there is no "Iwas ..." what-if chip for them in the real build. "Iwas EDSA" still works only in the sample build.
+- A train question between two stations that a mock route also joins (for example Quezon Ave to Ayala) shows the real train fare first, then the mock jeepney options.
+- The promo video on branch `promo-video` was recorded before this change and does not show the mock routes.

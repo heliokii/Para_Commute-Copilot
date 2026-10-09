@@ -146,8 +146,8 @@ export async function sendMessage(text: string): Promise<void> {
       })
       if (reply.kind === 'options' && reply.intent) recordRecent(reply.intent)
     }
-    // A fare-only answer (no routes in the pack): keep the Ruta and Mapa pickers on the same stations.
-    if (reply.kind === 'answer' && reply.intent && pack.routes.length === 0) {
+    // A fare-only answer (no route between the two): keep the Ruta and Mapa pickers on the same stations.
+    if (reply.kind === 'answer' && reply.intent) {
       setPlan({ originId: reply.intent.originId, destinationId: reply.intent.destinationId })
     }
     // The model failed to load during this message: say so once, then carry on with rules.

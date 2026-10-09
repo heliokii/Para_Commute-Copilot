@@ -18,5 +18,8 @@ export const MODES: Record<Mode, ModeMeta> = {
   walk: { label: copy.mode.walk, icon: 'walk', color: '#76655F' },
 }
 
+/** Made-up routes from data/metro-manila/mock-pack. Anything that uses one is badged "MOCK DATA". */
+export const isMockRoute = (routeId: string) => routeId.startsWith('mock-')
+
 /** Legend order from the showcase, plus walking. */
 export const LEGEND_MODES: Mode[] = ['jeepney', 'uv', 'bus', 'train', 'walk']

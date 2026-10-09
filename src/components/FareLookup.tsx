@@ -5,6 +5,7 @@ import { LandmarkPicker } from './LandmarkPicker'
 import { copy } from '../copy'
 import { fareStations, lookupStationFares, productLabel } from '../fares/lookup.ts'
 import { peso } from '../lib/format'
+import { isMockRoute } from '../lib/modes'
 import type { RoutePack } from '../router/types.ts'
 import { setPlan, usePlan } from '../state/plan'
 import { useSettings } from '../state/settings'
@@ -13,17 +14,24 @@ import { useSettings } from '../state/settings'
  * Station-to-station fares from the pack's exact matrices. Shown while the pack has
  * no routes to plan with, so nothing here is a route, a time or an estimate.
  */
-/** `testPrefix` keeps test ids unique when two tabs that stay mounted both show a lookup. */
-export function FareLookup({ pack, testPrefix = '' }: { pack: RoutePack; testPrefix?: string }) {
+/**
+ * `testPrefix` keeps test ids unique when two tabs that stay mounted both show a lookup.
+ * `pickers={false}` shows only the fare rows, for a screen that already has its own pickers.
+ */
+export function FareLookup({ pack, testPrefix = '', pickers = true }: { pack: RoutePack; testPrefix?: string; pickers?: boolean }) {
   const plan = usePlan()
   const settings = useSettings()
   const stations = fareStations(pack)
   const rows = lookupStationFares(pack, plan.originId, plan.destinationId, settings.fareEligibility)
   const both = Boolean(plan.originId && plan.destinationId && plan.originId !== plan.destinationId)
+  const hasMock = pack.routes.some((route) => isMockRoute(route.id))
+  if (!pickers && rows.length === 0) return null
 
   return (
     <Card className="p-4" data-testid={`${testPrefix}fare-lookup`}>
-      <p className="text-sm text-ink-muted">{copy.fares.intro}</p>
+      {!pickers && <h2 className="font-display font-semibold">{copy.fares.trainFare}</h2>}
+      {pickers && <p className="text-sm text-ink-muted">{hasMock ? copy.fares.introWithMock : copy.fares.intro}</p>}
+      {pickers && (
       <div className="mt-4 flex items-end gap-2">
         <div className="flex min-w-0 flex-1 flex-col gap-3">
           <LandmarkPicker
@@ -50,9 +58,10 @@ export function FareLookup({ pack, testPrefix = '' }: { pack: RoutePack; testPre
           <Icon name="swap" className="size-5" />
         </button>
       </div>
+      )}
 
       <div aria-live="polite" className="mt-4" data-testid={`${testPrefix}fare-result`}>
-        {!both && <p className="text-sm text-ink-muted">{copy.fares.pickBoth}</p>}
+        {pickers && !both && <p className="text-sm text-ink-muted">{copy.fares.pickBoth}</p>}
         {both && rows.length === 0 && <p className="text-sm">{copy.fares.noFare}</p>}
         {rows.length > 0 && (
           <ul className="flex flex-col gap-3">

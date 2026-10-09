@@ -8,7 +8,7 @@ import { StatusPill } from '../components/StatusPill'
 import { Tsupher } from '../components/Tsupher'
 import { copy } from '../copy'
 import { duration, peso } from '../lib/format'
-import { MODES } from '../lib/modes'
+import { isMockRoute, MODES } from '../lib/modes'
 import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import type { RouteResult } from '../router/types.ts'
 import { sendMessage, useChat, type ChatMessage } from '../state/chat'
@@ -34,6 +34,7 @@ function OptionCard({ result, number, index, chosen }: { result: RouteResult; nu
           <span className="font-semibold">{copy.pref[result.preference]}</span>
           {chosen && <Badge tone="strong">{copy.badge.chosen}</Badge>}
           {result.simulated && <Badge tone="caution">{copy.badge.simulated}</Badge>}
+          {result.legs.some((leg) => isMockRoute(leg.routeId)) && <Badge tone="caution">{copy.badge.mock}</Badge>}
           {result.usedUnverifiedData && <Badge tone="caution">{copy.badge.unverified}</Badge>}
         </span>
         <span className="mt-0.5 block text-sm">
@@ -86,6 +87,14 @@ function ReplyBody({ reply, onPick }: { reply: TsupherReply; onPick: (text: stri
             <li key={index}>{reply.facts.length > 1 ? `${index + 1}. ${fact}` : fact}</li>
           ))}
         </ul>
+      )}
+      {reply.kind === 'options' && reply.trainFare && (
+        <p data-testid="chat-train-fare" className="mt-2 rounded-2xl bg-surface-warm p-3 text-sm">
+          <span className="font-semibold">{copy.chat.trainFare}</span> {reply.trainFare}
+        </p>
+      )}
+      {reply.kind === 'options' && found.some((result) => result.legs.some((leg) => isMockRoute(leg.routeId))) && (
+        <p className="mt-2 text-sm font-semibold">{copy.chat.mockRoutes}</p>
       )}
       {reply.kind === 'options' && (
         <div className="mt-2 flex flex-col gap-2">

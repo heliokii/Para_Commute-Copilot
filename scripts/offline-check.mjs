@@ -209,7 +209,8 @@ try {
   check(
     'Dexie: unverified data is marked',
     routes.every((route) => route.verified === true || route.verified === false) &&
-      (routes.every((route) => route.verified) || /not verified/i.test(routePacks[0]?.note ?? '')),
+      // Marked for the whole pack (sample pack) or on each unverified route (the mock jeepney routes).
+      (/not verified/i.test(routePacks[0]?.note ?? '') || routes.filter((route) => !route.verified).every((route) => /mock data|not verified/i.test(route.note ?? ''))),
   )
 
   // --- Server stopped: nothing left to answer on the network ---

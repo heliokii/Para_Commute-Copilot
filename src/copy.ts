@@ -229,6 +229,8 @@ export const copy = {
     thinking: 'Nag-iisip si Tsupher',
     wakingModel: 'Ginigising ang model…',
     found: 'Sige! Ito ang nahanap ko:',
+    trainFare: 'Tren (totoong data):',
+    mockRoutes: 'Jeep (MOCK DATA, gawa-gawa lang para sa demo):',
     refined: 'Ayan, inayos ko na:',
     whatIf: 'Simulation lang ito, batay sa sinabi mong iwasan. Hindi ko alam ang totoong sarado o traffic.',
     askOrigin: 'Saan ka manggagaling?',
@@ -305,6 +307,7 @@ export const copy = {
   },
   badge: {
     unverified: 'Hindi pa verified',
+    mock: 'MOCK DATA',
     simulated: 'Simulated',
     chosen: 'Pinili mo',
   },
@@ -329,6 +332,9 @@ export const copy = {
   fares: {
     intro:
       'Pamasahe lang ng LRT-1, LRT-2 at MRT-3 ang may totoong data ngayon. Wala pang oras o ruta ng bus at jeep, kaya hindi pa makakapag-plan ng biyahe.',
+    introWithMock:
+      'Pamasahe ng LRT-1, LRT-2 at MRT-3 ang totoong data. Ang mga ruta at pamasahe ng jeep dito ay MOCK DATA: gawa-gawa lang para sa demo.',
+    trainFare: 'Pamasahe ng tren (totoong data)',
     origin: 'Sakayan',
     destination: 'Babaan',
     pickBoth: 'Pumili ng sakayan at babaan sa iisang linya.',
@@ -454,6 +460,7 @@ export const copy = {
     title: 'Mapa ng Ruta',
     schematic: 'Mapa mula sa OpenStreetMap, nasa phone mo na. Ang mga linya ng tren ay galing sa track data nito; hindi ito opisyal na mapa ng operator.',
     noRoute: 'Wala pang napiling ruta. Ipinapakita ang buong network.',
+    mockNote: 'Ang mga linya ng jeep sa mapa ay gawa-gawa lang para sa demo. Hindi totoong ruta.',
     planFirst: 'Mag-plan ng ruta',
     zoomIn: 'Palakihin',
     zoomOut: 'Paliitin',
@@ -482,7 +489,7 @@ export const copy = {
     dataLoading: 'Binabasa ang local database…',
     dataNote: 'Synthetic na test network lang. Walang totoong ruta, terminal o pamasahe.',
     realDataNote:
-      'Pamasahe ng LRT-1, LRT-2 at MRT-3 mula sa mga opisyal na matrix na nakalista sa data/metro-manila/SOURCES.md. Mapa at lokasyon ng istasyon: © OpenStreetMap contributors (ODbL). Wala pang ruta o oras ng bus at jeep.',
+      'Pamasahe ng LRT-1, LRT-2 at MRT-3 mula sa mga opisyal na matrix na nakalista sa data/metro-manila/SOURCES.md. Mapa at lokasyon ng istasyon: © OpenStreetMap contributors (ODbL). Wala pang totoong ruta o oras ng bus at jeep: ang mga ruta at pamasahe ng jeep sa app ay MOCK DATA, gawa-gawa lang para sa demo.',
     packVersion: (id: string, version: string) => `Route pack: ${id}, bersyon ${version}`,
     fareAsOf: (date: string) => `Pamasahe as of ${date}`,
     fonts: 'Mga font',

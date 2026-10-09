@@ -10,7 +10,7 @@ import { TopBar } from '../components/TopBar'
 import { Tsupher } from '../components/Tsupher'
 import { copy } from '../copy'
 import { duration, km, peso } from '../lib/format'
-import { MODES } from '../lib/modes'
+import { isMockRoute, MODES } from '../lib/modes'
 import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { daysSince, isFareStale } from '../lib/proof'
 import { fareBreakdown } from '../router/fare.ts'
@@ -146,6 +146,7 @@ export function Detail() {
           </p>
           <p className="mt-2 flex flex-wrap gap-2">
             <Badge>{copy.pref[result.preference]}</Badge>
+            {result.legs.some((leg) => isMockRoute(leg.routeId)) && <Badge tone="caution">{copy.badge.mock}</Badge>}
             {result.usedUnverifiedData && <Badge tone="caution">{copy.badge.unverified}</Badge>}
             {result.simulated && <Badge tone="caution">{copy.badge.simulated}</Badge>}
             {pack.note && <Badge tone="caution">{copy.app.sampleData}</Badge>}
