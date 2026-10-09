@@ -1,16 +1,36 @@
-# React + Vite
+# Para! Offline Commute Helper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Taglish commute helper that works with no signal. Offline-first PWA: Vite, React, TypeScript, Tailwind, Dexie. See `CLAUDE.md` for the full plan.
 
-Currently, two official plugins are available:
+Current state: Phase 1, the PWA shell. No router, LLM, Whisper or voice yet. The local database holds placeholder rows labeled "SAMPLE DATA, not verified".
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run
 
-## React Compiler
+```sh
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The service worker is not active in `npm run dev`. Use the build and preview steps below to test offline behavior.
 
-## Expanding the ESLint configuration
+## Build
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```sh
+npm run build     # type-check, then build to dist/ with sw.js and manifest.json
+npm run preview   # serve dist/ at http://localhost:4173
+npm run lint
+```
+
+## Test airplane mode
+
+1. `npm run build`
+2. `npm run preview`, then open http://localhost:4173 in Chrome or Edge.
+3. Install the app: use the install icon in the address bar (or menu, then "Install Para!").
+4. Open devtools. In Application, then Service workers, confirm `sw.js` is "activated and is running".
+5. In Network, set throttling to **Offline**.
+6. Reload. The Home screen should load, the status chip should read "Offline", and `bytes sent` should stay at 0.
+7. Open About. The library list and the sample data counts should still load (they come from IndexedDB).
+
+For a stricter check, stop the preview server and reload the installed app. It should still load.
+
+Note: while online, the browser itself re-checks `sw.js` for updates on navigation. That is the only request after first load, and it sends no app data.
