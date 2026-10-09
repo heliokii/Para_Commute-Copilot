@@ -113,3 +113,48 @@ One entry per phase: what passed, what failed, assumptions. Phase prompts are in
 - Wika and Unit rows are visual stubs. No aircon option exists.
 - The heart button is a disabled stub.
 - Mode colours for the map are chosen for contrast on cream, not sampled from the showcase.
+
+## Phase 5: understand layer (2026-10-09)
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean.
+- `npm test`: 118 of 118. New: parser 20, explanation validator 20, plus Phase 6 groundwork already in the tree.
+- `npm run check:offline`: 23 of 23. App shell precache 1072 KiB. The lazy WebLLM runtime chunk (5897 KiB, 2.2 MB gzipped) is precached separately so the LLM lane works offline. No cloud AI endpoint in the bundle.
+- `npm run test:e2e`: 31 of 31 with the network off, rules lane, including the Setup screen.
+- `npm run check:llm` (new): 6 of 6. With every request off this machine blocked, the cached model loaded, the parser used the LLM lane, and zero requests were attempted.
+- Setup screen "Gisingin si Tsupher" exercised by hand-script with a real download (Qwen2.5 0.5B): progress shown, ready state, 277 MB measured from `navigator.storage.estimate()`, state survives reload, delete returns storage to 0.
+- `npm run bench`: four models run on-device over 50 queries. Results in `docs/model-benchmark.md`, raw data in `docs/benchmark/`.
+
+**Benchmark (real runs, laptop RTX 4050, headless Chrome 155, WebLLM 0.2.85)**
+
+| Model | O/D exact | Preference | Avoid | Asks when unclear | All fields | p50 | Load (cached) | Download |
+|---|---|---|---|---|---|---|---|---|
+| Qwen2.5 1.5B Instruct | 41% | 41% | 93% | 100% | 48% | 1729 ms | 14.8 s | 840 MB |
+| SmolLM2 1.7B Instruct | 80% | 86% | 91% | 33% | 62% | 1931 ms | 10.6 s | 926 MB |
+| Llama 3.2 1B Instruct | 43% | 32% | 7% | 33% | 6% | 1409 ms | 10.1 s | 677 MB |
+| Qwen2.5 0.5B Instruct | 0% | 0% | 48% | 50% | 6% | 808 ms | 4.1 s | 277 MB |
+
+These are the "LLM lane alone" rows. Rules alone scored 100% on the same set, and the app sends only 6 of the 50 queries to the model.
+
+**Recommended model:** Qwen2.5 1.5B Instruct, now the default. It was the only model that always asked instead of guessing on unclear queries. Full reasoning and caveats are in `docs/model-benchmark.md`.
+
+**Failed or not verified**
+- Gemma 3 1B IT is not in WebLLM 0.2.85's model list, so it was not benchmarked.
+- The 50 queries are a seed set I wrote against the synthetic pack, and I tuned the rules on that same set (two rule fixes after the first run took it from 48 to 50). The 100% rules score is a regression guard, not an accuracy claim. The team still owes real rider phrasings.
+- On this set the model adds no accuracy over rules. Its value is unproven.
+- Only one prompt design was benchmarked for all models (after one revision: the first prompt let the 0.5B model write run-on lists, 32 invalid replies out of 100; the schema now restricts places to an enum of pack names).
+- The summary pass in `check:llm` was discarded by the validator (the model's JSON was cut off at the token limit), so the template was used. That is the designed fallback, but it means no model-written summary has been shown yet.
+- `navigator.storage.persist()` was not granted in headless Chrome. Behaviour on real browsers is untested.
+- No phone was tested. Model licences are as listed on the model cards and should be checked before submission.
+- WASM fallback does not exist in WebLLM; without WebGPU the app uses the rules lane only.
+
+**Assumptions**
+- Network use: the model download is the one runtime network use, started by the rider from the Setup screen. It goes to the model host WebLLM is configured for (Hugging Face and GitHub raw). The in-app "bytes sent" tally will count those request URLs during a download.
+- The model runs on the main thread through WebLLM's async API, not in a worker, to avoid shipping the 6 MB runtime twice.
+- Chosen model id and its measured size are kept in `localStorage` (three small keys). No user text is stored anywhere.
+- Parser never guesses: two bare places with no cue word, a missing place, or two places for one slot all return `needs_clarification`.
+- A typo-level landmark match counts only when the text also has a cue or travel word, so "kanta" does not become "Kanto".
+- LLM output is re-resolved through the fuzzy matcher. A place the pack does not know is dropped, never passed on.
+- `ParseResult` gained `missing` and `partial` beyond the phase spec, for follow-up questions in Phase 6.
+- New dependency: `@mlc-ai/web-llm` (Apache-2.0).
+- Benchmark downloads live in `.cache/bench-profile` (about 2.8 GB, git-ignored). Delete the folder to reclaim the space.

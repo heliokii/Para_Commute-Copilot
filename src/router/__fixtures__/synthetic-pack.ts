@@ -41,16 +41,16 @@ export const SYNTHETIC_LABEL = 'SYNTHETIC SAMPLE DATA, not verified'
 export const SYNTHETIC_PACK: RoutePack = {
   id: 'synthetic-pack',
   corridor: 'SYNTHETIC corridor',
-  version: '0.1.0-synthetic',
+  version: '0.2.0-synthetic',
   note: SYNTHETIC_LABEL,
   landmarks: [
-    { id: 'A', name: 'SYN Alpha Terminal', aliases: ['Alpha'], tags: [], lat: 0, lon: 0 },
-    { id: 'B', name: 'SYN Bravo Market', aliases: ['Bravo'], tags: [], lat: 0, lon: 0.02 },
-    { id: 'C', name: 'SYN Charlie Junction', aliases: ['Charlie'], tags: [], lat: 0, lon: 0.05 },
-    { id: 'D', name: 'SYN Delta Plaza', aliases: ['Delta'], tags: [], lat: 0, lon: 0.08 },
+    { id: 'A', name: 'SYN Alpha Terminal', aliases: ['Alpha', 'Alpha Terminal'], tags: [], lat: 0, lon: 0 },
+    { id: 'B', name: 'SYN Bravo Market', aliases: ['Bravo', 'Palengke ng Bravo'], tags: [], lat: 0, lon: 0.02 },
+    { id: 'C', name: 'SYN Charlie Junction', aliases: ['Charlie', 'Kanto Charlie'], tags: [], lat: 0, lon: 0.05 },
+    { id: 'D', name: 'SYN Delta Plaza', aliases: ['Delta', 'Plaza Delta'], tags: [], lat: 0, lon: 0.08 },
     { id: 'E', name: 'SYN Echo Mall', aliases: ['Echo'], tags: [], lat: 0.02, lon: 0.05 },
-    { id: 'F', name: 'SYN Foxtrot Station', aliases: ['Foxtrot'], tags: [], lat: 0.03, lon: 0.08 },
-    { id: 'G', name: 'SYN Golf Chapel', aliases: ['Golf'], tags: [], lat: 0.002, lon: 0.08 },
+    { id: 'F', name: 'SYN Foxtrot Station', aliases: ['Foxtrot', 'Istasyon ng Foxtrot'], tags: [], lat: 0.03, lon: 0.08 },
+    { id: 'G', name: 'SYN Golf Chapel', aliases: ['Golf', 'Kapilya ng Golf'], tags: [], lat: 0.002, lon: 0.08 },
     { id: 'H', name: 'SYN Hotel Island', aliases: ['Hotel'], tags: [], lat: 0.2, lon: 0.2 },
   ],
   routes: [

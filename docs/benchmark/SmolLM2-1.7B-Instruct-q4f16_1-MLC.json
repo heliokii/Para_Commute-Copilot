@@ -1,0 +1,66 @@
+{
+  "modelId": "SmolLM2-1.7B-Instruct-q4f16_1-MLC",
+  "label": "SmolLM2 1.7B Instruct",
+  "license": "Apache-2.0",
+  "ranAt": "2026-10-09T10:18:41.345Z",
+  "queries": 50,
+  "wasCached": true,
+  "loadMs": 10578.29999999702,
+  "downloadBytes": 970793216,
+  "p50Ms": 1930.6000000089407,
+  "p95Ms": 2154,
+  "tokensPerSecond": 37.78442682242508,
+  "invalidJson": 0,
+  "rulesOnly": {
+    "places": 1,
+    "preference": 1,
+    "avoid": 1,
+    "clarification": 1,
+    "exact": 1,
+    "misses": []
+  },
+  "llmOnly": {
+    "places": 0.7954545454545454,
+    "preference": 0.8636363636363636,
+    "avoid": 0.9090909090909091,
+    "clarification": 0.3333333333333333,
+    "exact": 0.62,
+    "misses": [
+      6,
+      9,
+      10,
+      12,
+      19,
+      30,
+      35,
+      36,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ]
+  },
+  "hybrid": {
+    "places": 1,
+    "preference": 1,
+    "avoid": 1,
+    "clarification": 0.3333333333333333,
+    "exact": 0.92,
+    "misses": [
+      45,
+      46,
+      47,
+      48
+    ]
+  },
+  "hybridLlmCalls": 6,
+  "gpu": "nvidia lovelace",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36"
+}

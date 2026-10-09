@@ -9,10 +9,12 @@ export type Overlay =
   | 'detail'
   | 'trip'
   | 'modes'
+  | 'setup'
   | 'offline'
   | 'about'
   | 'dev-router'
   | 'dev-components'
+  | 'dev-bench'
 
 export const TAB_PATHS: Record<Tab, string> = {
   home: '/',
@@ -27,10 +29,12 @@ export const OVERLAY_PATHS: Record<Overlay, string> = {
   detail: '/ruta/detail',
   trip: '/ruta/trip',
   modes: '/modes',
+  setup: '/setup',
   offline: '/offline',
   about: '/about',
   'dev-router': '/dev/router',
   'dev-components': '/dev/components',
+  'dev-bench': '/dev/bench',
 }
 
 export interface Route {

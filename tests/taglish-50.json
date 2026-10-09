@@ -1,0 +1,534 @@
+{
+  "note": "SEED SET written by the coding agent against the SYNTHETIC sample pack. Landmark ids A to H are made up. Replace or extend with real rider phrasings once the corridor pack exists.",
+  "pack": "synthetic-pack",
+  "queries": [
+    {
+      "id": 1,
+      "category": "clean",
+      "text": "Paano pumunta sa Foxtrot galing Alpha?",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 2,
+      "category": "clean",
+      "text": "Galing ako sa Alpha Terminal, papunta sa Delta Plaza",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 3,
+      "category": "clean",
+      "text": "Mula Bravo papuntang Foxtrot Station",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 4,
+      "category": "clean",
+      "text": "Paano makapunta sa Golf Chapel mula sa Alpha?",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "G"
+      }
+    },
+    {
+      "id": 5,
+      "category": "clean",
+      "text": "Papunta akong Charlie galing Alpha",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "C"
+      }
+    },
+    {
+      "id": 6,
+      "category": "clean",
+      "text": "Nasa Bravo ako, pa-Delta ako",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 7,
+      "category": "clean",
+      "text": "Galing Charlie Junction papuntang Echo Mall",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "E"
+      }
+    },
+    {
+      "id": 8,
+      "category": "clean",
+      "text": "Paano po pumunta sa Delta galing sa Bravo Market?",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 9,
+      "category": "typo",
+      "text": "pano pmunta sa Foxtort galing Alhpa",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 10,
+      "category": "typo",
+      "text": "galing bravoo papunta chalie",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "C"
+      }
+    },
+    {
+      "id": 11,
+      "category": "typo",
+      "text": "mula alfa terminal papuntang delta plza",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 12,
+      "category": "typo",
+      "text": "papnta sa ecko mall galing charle",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "E"
+      }
+    },
+    {
+      "id": 13,
+      "category": "typo",
+      "text": "galing delat papunta foxtrott",
+      "expected": {
+        "status": "ok",
+        "originId": "D",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 14,
+      "category": "typo",
+      "text": "Alpah to Golff",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "G"
+      }
+    },
+    {
+      "id": 15,
+      "category": "typo",
+      "text": "pano papunta ng Brvo mula sa Dleta",
+      "expected": {
+        "status": "ok",
+        "originId": "D",
+        "destinationId": "B"
+      }
+    },
+    {
+      "id": 16,
+      "category": "tagalog",
+      "text": "Saan ako sasakay papuntang Kapilya ng Golf mula sa Plaza Delta?",
+      "expected": {
+        "status": "ok",
+        "originId": "D",
+        "destinationId": "G"
+      }
+    },
+    {
+      "id": 17,
+      "category": "tagalog",
+      "text": "Manggagaling ako sa Palengke ng Bravo, pupunta ako sa Istasyon ng Foxtrot",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 18,
+      "category": "tagalog",
+      "text": "Paano makakarating sa Kanto Charlie buhat sa Alpha Terminal?",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "C"
+      }
+    },
+    {
+      "id": 19,
+      "category": "tagalog",
+      "text": "Nandito ako sa Charlie, gusto kong pumunta sa Delta",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 20,
+      "category": "tagalog",
+      "text": "Mula Alpha hanggang Echo",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "E"
+      }
+    },
+    {
+      "id": 21,
+      "category": "tagalog",
+      "text": "Pauwi na ako sa Bravo galing Delta",
+      "expected": {
+        "status": "ok",
+        "originId": "D",
+        "destinationId": "B"
+      }
+    },
+    {
+      "id": 22,
+      "category": "english",
+      "text": "How do I get from Alpha Terminal to Foxtrot Station?",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 23,
+      "category": "english",
+      "text": "Route from Bravo to Delta please",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 24,
+      "category": "english",
+      "text": "I'm at Charlie, going to Foxtrot",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 25,
+      "category": "english",
+      "text": "Alpha to Delta",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 26,
+      "category": "english",
+      "text": "directions to Golf Chapel from Delta Plaza",
+      "expected": {
+        "status": "ok",
+        "originId": "D",
+        "destinationId": "G"
+      }
+    },
+    {
+      "id": 27,
+      "category": "english",
+      "text": "What's the way from Charlie Junction to Echo Mall?",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "E"
+      }
+    },
+    {
+      "id": 28,
+      "category": "code-switched",
+      "text": "From Alpha papuntang Foxtrot, anong sasakyan?",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 29,
+      "category": "code-switched",
+      "text": "Galing ako ng Bravo, how do I get to Charlie?",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "C"
+      }
+    },
+    {
+      "id": 30,
+      "category": "code-switched",
+      "text": "Punta ako Delta from Alpha Terminal",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "D"
+      }
+    },
+    {
+      "id": 31,
+      "category": "code-switched",
+      "text": "Need to go to Foxtrot Station, galing akong Charlie",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "F"
+      }
+    },
+    {
+      "id": 32,
+      "category": "code-switched",
+      "text": "Pa-Echo ako, from Charlie",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "E"
+      }
+    },
+    {
+      "id": 33,
+      "category": "preference",
+      "text": "Pinakamura na ruta galing Alpha papuntang Foxtrot",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "preference": "cheapest"
+      }
+    },
+    {
+      "id": 34,
+      "category": "preference",
+      "text": "Mabilis na way from Alpha to Foxtrot",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "preference": "fastest"
+      }
+    },
+    {
+      "id": 35,
+      "category": "preference",
+      "text": "Galing Alpha pa-Foxtrot, yung walang lipat",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "preference": "fewest_transfers"
+      }
+    },
+    {
+      "id": 36,
+      "category": "preference",
+      "text": "Nagmamadali ako, Alpha to Delta",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "D",
+        "preference": "fastest"
+      }
+    },
+    {
+      "id": 37,
+      "category": "preference",
+      "text": "Tipid lang, mula Bravo hanggang Foxtrot",
+      "expected": {
+        "status": "ok",
+        "originId": "B",
+        "destinationId": "F",
+        "preference": "cheapest"
+      }
+    },
+    {
+      "id": 38,
+      "category": "preference",
+      "text": "Alpha to Foxtrot, fewest transfers please",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "preference": "fewest_transfers"
+      }
+    },
+    {
+      "id": 39,
+      "category": "avoid",
+      "text": "Galing Alpha papuntang Foxtrot, iwas EDSA",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "avoid": {
+          "tags": [
+            "EDSA"
+          ]
+        }
+      }
+    },
+    {
+      "id": 40,
+      "category": "avoid",
+      "text": "Alpha to Foxtrot pero huwag dumaan sa EDSA",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "avoid": {
+          "tags": [
+            "EDSA"
+          ]
+        }
+      }
+    },
+    {
+      "id": 41,
+      "category": "avoid",
+      "text": "From Alpha to Foxtrot, avoid bus",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "avoid": {
+          "modes": [
+            "bus"
+          ]
+        }
+      }
+    },
+    {
+      "id": 42,
+      "category": "avoid",
+      "text": "Mula Alpha papunta Foxtrot, wag sa Charlie",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "avoid": {
+          "landmarkIds": [
+            "C"
+          ]
+        }
+      }
+    },
+    {
+      "id": 43,
+      "category": "avoid",
+      "text": "Paano kung sarado ang Echo? Galing Charlie papuntang Foxtrot",
+      "expected": {
+        "status": "ok",
+        "originId": "C",
+        "destinationId": "F",
+        "avoid": {
+          "landmarkIds": [
+            "E"
+          ]
+        }
+      }
+    },
+    {
+      "id": 44,
+      "category": "avoid",
+      "text": "Pinakamabilis galing Alpha pa-Foxtrot, iwas EDSA at walang bus",
+      "expected": {
+        "status": "ok",
+        "originId": "A",
+        "destinationId": "F",
+        "preference": "fastest",
+        "avoid": {
+          "tags": [
+            "EDSA"
+          ],
+          "modes": [
+            "bus"
+          ]
+        }
+      }
+    },
+    {
+      "id": 45,
+      "category": "ambiguous",
+      "text": "Paano pumunta sa Delta?",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": 46,
+      "category": "ambiguous",
+      "text": "Galing ako sa Alpha",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": 47,
+      "category": "ambiguous",
+      "text": "Papunta sa Sierra galing Alpha",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": 48,
+      "category": "ambiguous",
+      "text": "Alpha Foxtrot",
+      "expected": {
+        "status": "needs_clarification"
+      }
+    },
+    {
+      "id": 49,
+      "category": "out-of-scope",
+      "text": "Anong oras na?",
+      "expected": {
+        "status": "unsupported"
+      }
+    },
+    {
+      "id": 50,
+      "category": "out-of-scope",
+      "text": "Kumusta ka Tsupher, ano ang paborito mong kanta?",
+      "expected": {
+        "status": "unsupported"
+      }
+    }
+  ]
+}

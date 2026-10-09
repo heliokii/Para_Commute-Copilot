@@ -41,16 +41,33 @@ const distJs = readdirSync('dist/assets')
   .join('\n')
 check(
   'Production build has no dev screens',
-  !distJs.includes('Router harness (dev only)') && !distJs.includes('Components (dev only)'),
+  !distJs.includes('Router harness (dev only)') &&
+    !distJs.includes('Components (dev only)') &&
+    !distJs.includes('Model benchmark (dev only)'),
 )
 
 const mascotBytes = readdirSync('dist/mascot').reduce((sum, file) => sum + statSync(join('dist/mascot', file)).size, 0)
 check('Mascot assets under 1 MB', mascotBytes < 1024 * 1024, `${(mascotBytes / 1024).toFixed(0)} KiB`)
 
-const precacheBytes = [...readFileSync('dist/sw.js', 'utf8').matchAll(/url:"([^"]+)"/g)]
-  .map((match) => statSync(join('dist', match[1])).size)
-  .reduce((sum, size) => sum + size, 0)
-check('Precache under 2 MB', precacheBytes < 2 * 1024 * 1024, `${(precacheBytes / 1024).toFixed(0)} KiB`)
+// The lazy WebLLM runtime chunk is large by nature and only loads when the model is used.
+// It is reported on its own; the shell budget covers everything else.
+const precached = [...readFileSync('dist/sw.js', 'utf8').matchAll(/url:"([^"]+)"/g)].map((match) => ({
+  url: match[1],
+  size: statSync(join('dist', match[1])).size,
+}))
+const runtimeChunks = precached.filter((entry) => entry.url.endsWith('.js') && entry.size > 2 * 1024 * 1024)
+const shellBytes = precached.filter((entry) => !runtimeChunks.includes(entry)).reduce((sum, entry) => sum + entry.size, 0)
+const runtimeBytes = runtimeChunks.reduce((sum, entry) => sum + entry.size, 0)
+check('App shell precache under 2 MB', shellBytes < 2 * 1024 * 1024, `${(shellBytes / 1024).toFixed(0)} KiB`)
+check(
+  'AI runtime chunk is precached for offline use, and is the only large chunk',
+  runtimeChunks.length === 1,
+  `${runtimeChunks.map((entry) => entry.url).join(', ')} ${(runtimeBytes / 1024).toFixed(0)} KiB`,
+)
+check(
+  'No cloud AI endpoint in the bundle',
+  !/api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com/.test(distJs),
+)
 
 const server = await preview({ preview: { port: PORT, strictPort: true }, logLevel: 'silent' })
 const browser = await puppeteer.launch({ executablePath: chromePath, headless: true })

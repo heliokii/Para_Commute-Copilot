@@ -159,6 +159,20 @@ try {
   const reason = await text('[data-testid=no-route-reason]')
   check('No route: Confused state shows the router reason in Taglish', reason.startsWith('Walang rutang nagdudugtong'), reason)
 
+  // --- Model setup screen, still offline: it must not reach for the network ---
+  await goTo('#/setup')
+  await page.waitForFunction(
+    () => /Tulog pa si Tsupher|Walang WebGPU|Gising na si Tsupher/.test(document.body.innerText),
+    { timeout: 15000 },
+  )
+  const setup = await visibleText()
+  check(
+    'Setup screen works offline and reports the real model state',
+    /Tulog pa si Tsupher|Walang WebGPU/.test(setup),
+    setup.includes('Walang WebGPU') ? 'no WebGPU' : 'model not downloaded',
+  )
+  check('Setup screen warns to use WiFi or explains the fallback', /Mag-WiFi muna|Gumagana pa rin ang Plan a Route/.test(setup))
+
   check('Offline: every response served by service worker or cache', fromNetwork.length === 0, fromNetwork.join(', '))
   check('Offline: no failed requests', failed.length === 0, failed.join(', '))
   check('No console errors', consoleErrors.length === 0, consoleErrors.join(' | '))

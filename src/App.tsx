@@ -11,6 +11,7 @@ import { Modes } from './screens/Modes'
 import { OfflineMode } from './screens/OfflineMode'
 import { Results } from './screens/Results'
 import { Ruta } from './screens/Ruta'
+import { Setup } from './screens/Setup'
 import { Splash } from './screens/Splash'
 import { StubScreen } from './screens/StubScreen'
 import { Trip } from './screens/Trip'
@@ -18,6 +19,7 @@ import { Trip } from './screens/Trip'
 // Dev-only screens. The DEV check is static, so production builds drop the imports.
 const RouterHarness = import.meta.env.DEV ? lazy(() => import('./dev/RouterHarness')) : null
 const ComponentGallery = import.meta.env.DEV ? lazy(() => import('./dev/ComponentGallery')) : null
+const Bench = import.meta.env.DEV ? lazy(() => import('./dev/Bench')) : null
 
 const TABS: Record<Tab, ReactNode> = {
   home: <Home />,
@@ -37,6 +39,8 @@ function overlayScreen(overlay: Overlay): ReactNode {
       return <Trip />
     case 'modes':
       return <Modes />
+    case 'setup':
+      return <Setup />
     case 'offline':
       return <OfflineMode />
     case 'about':
@@ -45,6 +49,8 @@ function overlayScreen(overlay: Overlay): ReactNode {
       return RouterHarness ? <RouterHarness /> : null
     case 'dev-components':
       return ComponentGallery ? <ComponentGallery /> : null
+    case 'dev-bench':
+      return Bench ? <Bench /> : null
   }
 }
 

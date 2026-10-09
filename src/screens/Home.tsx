@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+import { peekModel, useModel } from '../ai/modelManager'
 import { Banner } from '../components/Banner'
 import { BottomSheet } from '../components/BottomSheet'
 import { Button } from '../components/Button'
@@ -44,6 +45,11 @@ export function Home() {
   const [query, setQuery] = useState('')
   const [notice, setNotice] = useState('')
   const [voiceOpen, setVoiceOpen] = useState(false)
+  const model = useModel()
+
+  useEffect(() => {
+    void peekModel()
+  }, [])
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -126,6 +132,15 @@ export function Home() {
           onClick={() => setVoiceOpen(true)}
         />
       </div>
+
+      {model.status === 'absent' && (
+        <Banner
+          title={copy.setup.homeTitle}
+          body={copy.setup.homeBody}
+          href={`#${OVERLAY_PATHS.setup}`}
+          art={<Tsupher state="driving" size="md" decorative />}
+        />
+      )}
 
       <Banner
         title={copy.home.offlineTitle}

@@ -42,6 +42,8 @@ export default defineConfig({
         // Whole app shell plus self-hosted fonts.
         globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
         navigateFallback: 'index.html',
+        // The lazy WebLLM runtime chunk is about 6 MB and must be cached for offline use.
+        maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         cleanupOutdatedCaches: true,
       },
     }),

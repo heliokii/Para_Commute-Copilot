@@ -1,21 +1,34 @@
+import { useEffect } from 'react'
+import { peekModel, useModel } from '../ai/modelManager'
+import { CANDIDATES } from '../ai/runtime'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 import { Icon } from '../components/Icon'
 import { StatusPill } from '../components/StatusPill'
 import { copy } from '../copy'
 import { useBytesSent } from '../lib/hooks'
-import { backHref } from '../lib/nav'
-
-// Static rows for now. Phase 10 derives every check from real state.
-// The AI row stays unchecked because no model ships in this build.
-const ROWS = [
-  { ...copy.offline.rows.gps, ready: true },
-  { ...copy.offline.rows.search, ready: true },
-  { ...copy.offline.rows.ai, ready: false },
-]
+import { backHref, OVERLAY_PATHS } from '../lib/nav'
 
 export function OfflineMode() {
   const bytesSent = useBytesSent()
+  const model = useModel()
+
+  useEffect(() => {
+    void peekModel()
+  }, [])
+
+  // GPS and Search rows are still static; Phase 10 derives every check from real state.
+  const installed = model.status === 'ready' || model.status === 'cached'
+  const modelLabel = CANDIDATES.find((candidate) => candidate.id === model.selectedId)?.label
+  const rows = [
+    { ...copy.offline.rows.gps, ready: true },
+    { ...copy.offline.rows.search, ready: true },
+    {
+      label: copy.offline.rows.ai.label,
+      value: installed && modelLabel ? copy.offline.aiInstalled(modelLabel) : copy.offline.rows.ai.value,
+      ready: installed,
+    },
+  ]
 
   return (
     <div className="flex min-h-dvh flex-col items-center bg-bg-deeper px-6 pt-[max(3rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center">
@@ -27,7 +40,7 @@ export function OfflineMode() {
 
       <Card tone="deep" className="mt-6 w-full text-left">
         <ul className="divide-y divide-line-on-deep">
-          {ROWS.map((row) => (
+          {rows.map((row) => (
             <li key={row.label} className="flex min-h-12 items-center gap-3 px-4 py-2.5 text-sm">
               <span
                 className={`flex size-6 shrink-0 items-center justify-center rounded-full ${
@@ -43,6 +56,15 @@ export function OfflineMode() {
           ))}
         </ul>
       </Card>
+
+      {!installed && model.status !== 'unsupported' && (
+        <a
+          href={`#${OVERLAY_PATHS.setup}`}
+          className="mt-3 flex min-h-11 items-center text-sm font-semibold text-accent-amber underline underline-offset-2"
+        >
+          {copy.setup.title}
+        </a>
+      )}
 
       <div className="mt-4 flex items-center gap-2 text-sm text-on-deep/90">
         {copy.offline.connection}: <StatusPill />

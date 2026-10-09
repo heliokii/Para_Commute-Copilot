@@ -2,7 +2,7 @@
 
 Taglish commute helper that works with no signal. Offline-first PWA: Vite, React, TypeScript, Tailwind, Dexie. See `CLAUDE.md` for the full plan.
 
-Current state: typed plan flow (Ruta, results, detail, schematic map, modes) on the deterministic router. No LLM, Whisper or voice yet. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
+Current state: typed plan flow (Ruta, results, detail, schematic map, modes) on the deterministic router. On-device LLM runtime and Taglish parser are in (see `docs/model-benchmark.md`); chat and voice are not. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
 
 ## Run
 
@@ -27,6 +27,8 @@ npm run lint
 npm test                 # router and data-validator unit tests (Vitest)
 npm run check:offline    # after a build: headless Chrome, network off, then server stopped
 npm run test:e2e         # after a build: plan, results, detail and map with the network off
+npm run bench            # on-device model benchmark (downloads models on first run, needs WebGPU)
+npm run check:llm        # after a bench run: LLM lane with all outside requests blocked
 ```
 
 `check:offline` needs Chrome or Edge. Set `CHROME_PATH` if it is not in a default location.
