@@ -107,10 +107,31 @@ try {
   check('Fare sheet: base, per-km, effective date and source', sheet.includes('Base (unang 4 km)') && sheet.includes('₱1.50') && sheet.includes('2026-01-01') && sheet.includes('SYNTHETIC, not a real fare'))
   await page.keyboard.press('Escape')
 
-  // --- Trip placeholder ---
+  // --- Trip mode (simulated GPS) ---
+  // Real GPS cannot run here; the replay feeds the same code path as watchPosition.
   await goTo('#/ruta/trip')
-  await page.waitForFunction(() => document.body.innerText.includes('Trip mode'), { timeout: 5000 })
-  check('Simulan ang Ruta opens the Trip placeholder', true)
+  await page.waitForSelector('[data-testid=trip-use-sim]', { timeout: 5000 })
+  const consent = await visibleText()
+  check('Trip: location explained in Taglish before any permission', consent.includes('Nasa phone mo lang ang lokasyon mo') && consent.includes('Hindi gumagana ang app sa background'))
+  await page.click('[data-testid=trip-use-sim]')
+  await page.waitForSelector('[data-testid=sim-banner]', { timeout: 5000 })
+  check('Trip: Simulated GPS banner shown', (await text('[data-testid=sim-banner]')).includes('Simulated GPS'))
+  const tripFirst = await visibleText()
+  check('Trip: current leg, next landmark and distance shown', tripFirst.includes('Baba sa SYN Charlie Junction') && tripFirst.includes('Susunod na landmark') && (await page.$('[role=progressbar]')) !== null)
+  await page.click('[data-testid=trip-speed-3600]')
+  await page.waitForSelector('[data-testid=trip-alert]', { timeout: 20000 })
+  const alertText = await text('[data-testid=trip-alert]')
+  check('Trip: alert screen says Malapit na ang babaan with the Para po! bubble', alertText.includes('Malapit na ang babaan!') && alertText.includes('Para po!') && alertText.includes('Sige, Tsupher!'))
+  check('Trip: alert names the stop and a distance', /\d+(\.\d)? (km|m) na lang bago ang SYN Charlie Junction/.test(alertText), alertText)
+  check('Trip: alert uses the Jumping sprite', (await page.$('[data-testid=trip-alert] img[src*="tsupher-jumping"]')) !== null)
+  check('Trip: Simulated GPS banner stays on the alert screen', (await page.$('[data-testid=trip-alert] [data-testid=sim-banner]')) !== null)
+  await page.click('[data-testid=trip-dismiss]')
+  check('Trip: dismiss closes the alert', (await page.$('[data-testid=trip-alert]')) === null)
+  await page.waitForFunction(() => document.querySelector('[data-testid=trip-leg]')?.textContent.includes('SYN Foxtrot Station'), { timeout: 20000 })
+  check('Trip: passing the alight point advances to leg 2', (await visibleText()).includes('Leg 2 sa 2'))
+  await page.evaluate(() => document.querySelector('[data-testid=trip-alighted]').click())
+  await page.waitForSelector('[data-testid=trip-done]', { timeout: 5000 })
+  check('Trip: Nakababa na ako on the last leg finishes the trip', (await text('[data-testid=trip-done]')).includes('Nakarating ka na!'))
 
   // --- Map ---
   await goTo('#/mapa')

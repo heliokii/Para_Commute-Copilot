@@ -280,3 +280,29 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 6. Check the name "Para!".
 7. Add real Taglish queries and rerun the benchmark.
 8. Phases 7, 8 and 9 are not started.
+
+## Phase 8: trip mode (2026-10-09, branch `phases-7-9`, from tag `submission-v1`)
+
+**Built**
+- Trip screen from "Simulan ang Ruta": Taglish location explainer first, then current leg, next landmark, distance to the alight point, progress bar, wake-lock note.
+- Pure logic in `src/trip/trip.ts` (haversine distance, accuracy filter, alert levels, leg advance, simulated track). Thresholds 1000 / 300 / 100 m, accuracy limit 50 m and pass radius 40 m are constants in `TRIP_CONFIG`.
+- `src/trip/useTrip.ts`: `watchPosition`, simulated replay, Wake Lock (re-acquired when the page is visible again), WebAudio chime, `navigator.vibrate`. Only the distance to the alight point is kept in state; no position is stored or sent.
+- Alert screen: "Malapit na ang babaan!", distance, "Para po!" bubble, Jumping sprite, "Sige, Tsupher!". Ride legs only; walking legs advance silently.
+- Simulated GPS: speeds 30 / 120 / 600 / 3600 km/h, "Simulated GPS" banner on the trip screen and on the alert screen.
+- Multi-leg: advances when within 40 m of the alight point, or on "Nakababa na ako". Last leg shows a finish card.
+
+**Passed**
+- `npm run lint`, `npm run build`, `npm test` (138 of 138, 16 new in `src/trip/trip.test.ts`), `npm run check:offline` (29 of 29), `npm run test:e2e` (56 of 56, network off, includes a simulated trip to both alerts and the finish), `npm run check:update` (8 of 8), `npm run check:llm` (12 of 12), `npm run audit` (Performance 89, Accessibility 100, Best Practices 100, SEO 100).
+- Precache: 28 entries, 7019.65 KiB (previous build: shell 1112 KiB + AI chunk 5897 KiB).
+
+**Not tested**
+- Real GPS on any device: `watchPosition` error and permission-denied paths, accuracy values, fix rate, and the 40 m pass radius with real jitter.
+- Wake Lock, vibration and chime on a phone. The e2e run does not assert Wake Lock. Vibration does not exist on iOS.
+- Screen readers on the alert dialog.
+- The audit still loads `#/ruta/trip` with no plan, so it sees the "no route selected" card, not the consent or trip screens.
+- Performance moved from 90 to 89 in the audit; not investigated (may be run-to-run noise).
+
+**Known limits**
+- "Passed the alight point" is a 40 m radius check. A sparse GPS stream can skip it; "Nakababa na ako" covers that.
+- The simulated track runs through the pack's stops in straight lines; it is not a road path.
+- No background operation: the screen must stay on. `DEMO.md` still marks the arrival alert as a slot to skip (unchanged on this branch).
