@@ -20,7 +20,7 @@ function OptionCard({ result, index, chosen }: { result: RouteResult; index: num
       type="button"
       data-testid="route-option"
       onClick={() => {
-        setPlan({ selectedIndex: index })
+        setPlan({ selectedIndex: index, detailBack: OVERLAY_PATHS.results })
         go(OVERLAY_PATHS.detail)
       }}
       className="surface w-full rounded-card bg-surface-cream p-4 text-left text-ink-dark shadow-card"

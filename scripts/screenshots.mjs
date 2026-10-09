@@ -107,6 +107,26 @@ try {
   await shot('mapa-route')
   await goTo('#/ruta/trip')
   await shot('trip')
+
+  // Chat (rules lane unless a model is cached in this browser profile).
+  await goTo('#/chat')
+  await page.waitForSelector('[data-testid=chat-input]', { visible: true })
+  for (const line of ['Paano pumunta sa Foxtrot galing Alpha?', 'iwas EDSA']) {
+    const count = await page.evaluate(() => document.querySelectorAll('[data-testid=tsupher-message]').length)
+    await page.focus('[data-testid=chat-input]')
+    await page.keyboard.type(line)
+    await page.keyboard.press('Enter')
+    await page.waitForFunction(
+      (before) => document.querySelectorAll('[data-testid=tsupher-message]').length > before && !document.querySelector('[data-testid=typing]'),
+      { timeout: 15000, polling: 100 },
+      count,
+    )
+  }
+  await page.evaluate(() => document.activeElement?.blur())
+  await shot('chat')
+  await goTo('#/setup')
+  await page.waitForFunction(() => /Tulog pa si Tsupher|Walang WebGPU|Gising na/.test(document.body.innerText), { timeout: 30000 })
+  await shot('setup')
 } finally {
   await browser.close()
   await server.close()

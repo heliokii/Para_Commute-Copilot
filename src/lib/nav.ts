@@ -9,6 +9,7 @@ export type Overlay =
   | 'detail'
   | 'trip'
   | 'modes'
+  | 'chat'
   | 'setup'
   | 'offline'
   | 'about'
@@ -29,6 +30,7 @@ export const OVERLAY_PATHS: Record<Overlay, string> = {
   detail: '/ruta/detail',
   trip: '/ruta/trip',
   modes: '/modes',
+  chat: '/chat',
   setup: '/setup',
   offline: '/offline',
   about: '/about',

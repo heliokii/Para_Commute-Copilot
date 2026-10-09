@@ -95,7 +95,7 @@ export async function deleteModel(modelId: string): Promise<void> {
 }
 
 /** Temperature 0, JSON constrained by schema. Throws if no model is loaded. */
-export const complete: LlmComplete = async ({ system, user, schema }) => {
+export const complete: LlmComplete = async ({ system, user, schema, maxTokens = 200 }) => {
   if (!engine) throw new Error('No model loaded')
   const started = performance.now()
   const reply = await engine.chat.completions.create({
@@ -104,7 +104,7 @@ export const complete: LlmComplete = async ({ system, user, schema }) => {
       { role: 'user', content: user },
     ],
     temperature: 0,
-    max_tokens: 200,
+    max_tokens: maxTokens,
     response_format: { type: 'json_object', schema: JSON.stringify(schema) },
   })
   lastStats = {

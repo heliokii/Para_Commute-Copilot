@@ -177,19 +177,20 @@ export function validateExplanation(
 
 const SUMMARY_SCHEMA = {
   type: 'object',
-  properties: { summary: { type: 'string' } },
+  properties: { summary: { type: 'string', maxLength: 240 } },
   required: ['summary'],
   additionalProperties: false,
 }
 
 export function buildSummaryPrompt(result: RouteResult, pack: RoutePack) {
   const system = [
-    'Ikaw si Tsupher, isang masayahing gabay sa commute. Sumulat ng 2 hanggang 3 maikling pangungusap sa Taglish.',
+    'Ikaw si Tsupher, isang masayahing gabay sa commute. Sumulat ng 2 maikling pangungusap sa Taglish, hindi lalampas ng 35 salita.',
     'Gamitin LAMANG ang mga facts sa ibaba. Huwag magdagdag ng numero, lugar, ruta o tip na wala rito. Huwag mag-compute.',
     'Sumagot ng JSON: {"summary": "..."}',
   ].join('\n')
   const user = ['Facts:', explainSummary(result, pack), ...explainSteps(result, pack)].join('\n')
-  return { system, user, schema: SUMMARY_SCHEMA }
+  // Room for the sentences plus the JSON wrapper, so the reply is not cut mid-string.
+  return { system, user, schema: SUMMARY_SCHEMA, maxTokens: 480 }
 }
 
 /**
@@ -207,7 +208,12 @@ export async function summarizeWithLlm(
     const summary = (JSON.parse(raw) as { summary?: unknown }).summary
     if (typeof summary !== 'string') return { text: null, rejected: ['reply has no summary text'] }
     const check = validateExplanation(summary, result, pack)
-    return check.valid ? { text: summary.trim() } : { text: null, rejected: check.problems }
+    if (!check.valid) return { text: null, rejected: check.problems }
+    // Fact-free filler passes the fact check but tells the rider nothing. A summary must state the total fare.
+    if (!summary.includes(result.totalFare.toFixed(2)) && !summary.includes(`₱${result.totalFare}`)) {
+      return { text: null, rejected: ['does not state the total fare'] }
+    }
+    return { text: summary.trim() }
   } catch (error) {
     return { text: null, rejected: [error instanceof Error ? error.message : String(error)] }
   }

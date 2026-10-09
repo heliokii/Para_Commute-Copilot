@@ -159,6 +159,86 @@ try {
   const reason = await text('[data-testid=no-route-reason]')
   check('No route: Confused state shows the router reason in Taglish', reason.startsWith('Walang rutang nagdudugtong'), reason)
 
+  // --- Tsupher chat, rules lane (no model in this profile) ---
+  const say = async (textToSend) => {
+    const before = await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)
+    await page.waitForSelector('[data-testid=chat-input]', { visible: true, timeout: 5000 })
+    await page.focus('[data-testid=chat-input]')
+    await page.keyboard.type(textToSend)
+    await page.keyboard.press('Enter')
+    await page.waitForFunction(
+      (count) =>
+        document.querySelectorAll('[data-testid=tsupher-message]').length > count &&
+        !document.querySelector('[data-testid=typing]'),
+      { timeout: 10000, polling: 100 },
+      before,
+    )
+    return lastReply()
+  }
+  const lastReply = () =>
+    page.evaluate(() => {
+      const nodes = [...document.querySelectorAll('[data-testid=tsupher-message]')]
+      const node = nodes[nodes.length - 1]
+      return {
+        kind: node.dataset.kind,
+        text: node.innerText,
+        fares: [...node.querySelectorAll('[data-testid=chat-option-fare]')].map((fare) => fare.textContent),
+      }
+    })
+
+  // The Home prompt card opens the chat and sends the question.
+  await goTo('#/')
+  await page.waitForSelector('#ask', { visible: true, timeout: 5000 })
+  await page.focus('#ask')
+  await page.keyboard.type('Paano pumunta sa Foxtrot galing Alpha?')
+  await page.keyboard.press('Enter')
+  await page.waitForFunction(
+    () => location.hash === '#/chat' && document.querySelector('[data-testid=chat-option-fare]') && !document.querySelector('[data-testid=typing]'),
+    { timeout: 10000 },
+  )
+  let chatReply = await lastReply()
+  check('Chat: Home prompt opens the chat with route options', chatReply.kind === 'options' && chatReply.fares.join(' ') === '₱26.00 ₱35.25 ₱30.25', chatReply.fares.join(' '))
+  check('Chat: header names Tsupher, never "Kuya Para"', await page.evaluate(() => [...document.querySelectorAll('h1')].find((heading) => heading.offsetParent)?.textContent === 'Tsupher' && !/kuya para/i.test(document.body.innerText)))
+  check('Chat: summary line comes from the RouteResult', chatReply.text.includes('Sige! Ito ang nahanap ko:') && !chatReply.text.includes('Simulation'))
+
+  chatReply = await say('may mas mura?')
+  check('Chat follow-up "may mas mura?": cheapest stays first', chatReply.fares[0] === '₱26.00' && chatReply.text.includes('Pinili mo'), chatReply.fares.join(' '))
+
+  // Quick-reply chip: a what-if, labeled as a simulation.
+  const before = await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)
+  await page.evaluate(() => {
+    ;[...document.querySelectorAll('button')].find((button) => button.textContent.trim() === 'Iwas EDSA')?.click()
+  })
+  await page.waitForFunction(
+    (count) => document.querySelectorAll('[data-testid=tsupher-message]').length > count && !document.querySelector('[data-testid=typing]'),
+    { timeout: 10000, polling: 100 },
+    before,
+  )
+  chatReply = await lastReply()
+  check('Chat what-if "Iwas EDSA": new cheapest is ₱30.25', chatReply.fares[0] === '₱30.25', chatReply.fares.join(' '))
+  check('Chat what-if: Tsupher says it is a simulation and every card is tagged', chatReply.text.includes('Simulation lang ito') && (chatReply.text.match(/Simulated/g) ?? []).length >= chatReply.fares.length)
+
+  chatReply = await say('bakit ito?')
+  check('Chat "bakit ito?": answered from the RouteResult', chatReply.kind === 'answer' && chatReply.text.includes('₱30.25'), chatReply.text)
+
+  chatReply = await say('Anong ulam mamaya?')
+  check('Chat out-of-scope: polite refusal, no invented answer', chatReply.kind === 'unsupported' && chatReply.fares.length === 0 && chatReply.text.includes('ruta at pamasahe lang'))
+
+  chatReply = await say('okay na ang EDSA, mas mabilis')
+  check('Chat: lifting the avoid removes the simulation label and applies "mas mabilis"', chatReply.kind === 'options' && !chatReply.text.includes('Simulated') && chatReply.fares[0] === '₱35.25', chatReply.fares.join(' '))
+
+  // Option card -> Route detail -> back to the chat.
+  await page.evaluate(() => {
+    const cards = [...document.querySelectorAll('[data-testid=chat-option]')]
+    cards[cards.length - 1].click()
+  })
+  await page.waitForSelector('[data-testid=leg]', { timeout: 5000 })
+  check('Chat option card opens Route detail', (await texts('[data-testid=leg]')).length > 0)
+  await page.click('a[aria-label=Bumalik]')
+  await page.waitForFunction(() => location.hash === '#/chat', { timeout: 5000 })
+  check('Detail back button returns to the chat with the conversation intact', (await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)) >= 6)
+  check('Chat: mic stays disabled', await page.evaluate(() => [...document.querySelectorAll('button[aria-disabled=true]')].some((button) => button.getAttribute('aria-label')?.includes('Boses'))))
+
   // --- Model setup screen, still offline: it must not reach for the network ---
   await goTo('#/setup')
   await page.waitForFunction(
@@ -177,7 +257,16 @@ try {
   check('Offline: no failed requests', failed.length === 0, failed.join(', '))
   check('No console errors', consoleErrors.length === 0, consoleErrors.join(' | '))
 } catch (error) {
-  check('E2E ran to completion', false, error.message)
+  // Leave a trace of where the flow stopped.
+  const pages = await browser.pages()
+  const where = await pages
+    .at(-1)
+    ?.evaluate(
+      () =>
+        `${location.hash} | focus: ${document.activeElement?.tagName}#${document.activeElement?.id} | ${document.body.innerText.slice(-200).replace(/\s+/g, ' ')}`,
+    )
+    .catch(() => '')
+  check('E2E ran to completion', false, `${error.message} @ ${where}`)
 } finally {
   await browser.close()
   await new Promise((resolve) => {

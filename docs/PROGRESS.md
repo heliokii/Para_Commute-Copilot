@@ -158,3 +158,48 @@ These are the "LLM lane alone" rows. Rules alone scored 100% on the same set, an
 - `ParseResult` gained `missing` and `partial` beyond the phase spec, for follow-up questions in Phase 6.
 - New dependency: `@mlc-ai/web-llm` (Apache-2.0).
 - Benchmark downloads live in `.cache/bench-profile` (about 2.8 GB, git-ignored). Delete the folder to reclaim the space.
+
+## Phase 6: Tsupher chat (2026-10-09)
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean.
+- `npm test`: 119 of 119.
+- `npm run check:offline`: 23 of 23.
+- `npm run test:e2e`: 43 of 43 with the network off (rules lane). New chat steps: Home prompt opens the chat, "may mas mura?", the "Iwas EDSA" chip (simulated), "bakit ito?", out-of-scope refusal, lifting the avoid, option card to Route detail and back, mic disabled.
+- `npm run check:llm`: 8 of 8 with the real model (Qwen2.5 1.5B) and every other host unreachable. The chat showed router fares, the thinking indicator, and no outside request was attempted.
+
+**The 10 scripted conversations (rules lane, `src/ai/chat.test.ts`): all pass**
+
+| # | Conversation | Asserted result |
+|---|---|---|
+| 1 | ask A to F, "May mas mura?" | 26.00 stays first, not simulated |
+| 2 | ask, "mas mabilis naman" | R2 A>C + R3 C>F, 35.25, 27 min |
+| 3 | ask, "yung walang lipat" | R1 A>F, 0 transfers |
+| 4 | ask, "iwas EDSA" | simulated, 30.25, every option simulated |
+| 5 | ask, "Paano kung sarado ang Echo?" | simulated, landmark E avoided, R1 A>F |
+| 6 | ask, "iwas EDSA", "mas mabilis", "okay na ang EDSA" | 50.00 simulated, then 35.25 and no longer simulated |
+| 7 | "Paano pumunta sa Delta?", "galing Alpha" | asks for origin, then 18.25 |
+| 8 | bare place answers the question asked | origin or destination filled correctly |
+| 9 | "magkano?", "bakit ito?", "ulitin mo" | answers built from the RouteResult only |
+| 10 | out of scope, no route, "sa Delta na lang", "bagong ruta", "mas mura" | refusal, `no_path`, new destination, reset, then asks instead of inventing |
+
+The explain validator rejects an invented fare (`rejects an invented fare`, `discards text with an invented fare`), plus invented times, distances, places and routes.
+
+**Failed or not verified**
+- Nothing failed.
+- No model-written summary has reached the screen in a kept run. In one real run the model's summary passed the fact check but was poorly worded and stated no fare; I added a rule that a summary must state the total fare, and the same model's text is now discarded and the template shown. Treat the summary pass as unproven for the demo.
+- The LLM follow-up lane (`mapFollowup` with a model) was not exercised with a real model; only its validator was tested with hand-written JSON.
+- The first chat message after a reload waits for the model to load from disk (about 12 to 15 s on the test laptop). A "Ginigising ang model…" note is shown.
+- Not tested on a phone.
+
+**Deviation from the phase prompt**
+- "Streamed tokens": model text is never shown as it is generated, because it must pass the validator first. Validated text is revealed a few words at a time, which is cosmetic. Showing raw tokens would let an unchecked fare appear on screen.
+
+**Assumptions**
+- Order of understanding: answer to a pending question, then a complete new trip (rules), then a follow-up on the current trip (rules, then model), then a model read of a new trip, then ask or refuse.
+- The validator is unit-aware: pesos, times, distances and counts are checked against separate sets, so a real minute count cannot pass as a fare. A test caught the first version accepting `₱15.00` because 15 was a valid minute count.
+- Tsupher's lead sentences come from `src/copy.ts`; route facts come from templates over the RouteResult.
+- Quick-reply chips are built from the pack's own tags ("Iwas EDSA" appears because the sample pack has that tag).
+- Chat results also update the Ruta and Mapa tabs. The detail screen's back button returns to wherever it was opened from.
+- The session keeps the last 12 turns in memory only.
+- A dev-only line under each Tsupher message shows lane, latency and tokens per second.

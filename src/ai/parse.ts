@@ -36,6 +36,8 @@ export type LlmComplete = (request: {
   system: string
   user: string
   schema: object
+  /** Reply length limit in tokens. Default 200. */
+  maxTokens?: number
 }) => Promise<string>
 
 // --- Vocabulary -------------------------------------------------------------

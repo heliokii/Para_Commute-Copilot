@@ -2,7 +2,7 @@
 
 Taglish commute helper that works with no signal. Offline-first PWA: Vite, React, TypeScript, Tailwind, Dexie. See `CLAUDE.md` for the full plan.
 
-Current state: typed plan flow (Ruta, results, detail, schematic map, modes) on the deterministic router. On-device LLM runtime and Taglish parser are in (see `docs/model-benchmark.md`); chat and voice are not. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
+Current state: typed plan flow (Ruta, results, detail, schematic map, modes) on the deterministic router. Tsupher chat with follow-ups and what-ifs works on rules and templates, with an optional on-device model (see `docs/model-benchmark.md`). Voice is not built. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
 
 ## Run
 

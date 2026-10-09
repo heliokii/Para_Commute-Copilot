@@ -149,6 +149,13 @@ describe('summarizeWithLlm', () => {
     expect(reply.rejected).toEqual(['fare 15.00 is not in the route result'])
   })
 
+  it('discards filler that states no fare, even when nothing in it is wrong', async () => {
+    const reply = await summarizeWithLlm(cheapest, pack, async () =>
+      JSON.stringify({ summary: 'Mula SYN Alpha Terminal hanggang SYN Foxtrot Station, ingat sa biyahe!' }),
+    )
+    expect(reply).toEqual({ text: null, rejected: ['does not state the total fare'] })
+  })
+
   it('discards malformed replies and model errors', async () => {
     expect((await summarizeWithLlm(cheapest, pack, async () => 'not json')).text).toBeNull()
     expect((await summarizeWithLlm(cheapest, pack, async () => '{"other": 1}')).text).toBeNull()

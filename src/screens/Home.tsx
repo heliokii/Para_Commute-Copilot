@@ -1,14 +1,13 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { peekModel, useModel } from '../ai/modelManager'
 import { Banner } from '../components/Banner'
-import { BottomSheet } from '../components/BottomSheet'
-import { Button } from '../components/Button'
 import { Card } from '../components/Card'
 import { Icon, type IconName } from '../components/Icon'
 import { StatusPill } from '../components/StatusPill'
 import { Tsupher } from '../components/Tsupher'
 import { copy } from '../copy'
-import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
+import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
+import { sendMessage } from '../state/chat'
 
 interface TileProps {
   icon: IconName
@@ -43,8 +42,6 @@ function Tile({ icon, title, sub, href, onClick }: TileProps) {
 
 export function Home() {
   const [query, setQuery] = useState('')
-  const [notice, setNotice] = useState('')
-  const [voiceOpen, setVoiceOpen] = useState(false)
   const model = useModel()
 
   useEffect(() => {
@@ -53,9 +50,11 @@ export function Home() {
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    if (!query.trim()) return
-    // The chat arrives in Phase 6. Until then, point to the plan screen.
-    setNotice(copy.home.promptNotYet)
+    const text = query.trim()
+    if (!text) return
+    setQuery('')
+    go(OVERLAY_PATHS.chat)
+    void sendMessage(text)
   }
 
   return (
@@ -89,12 +88,12 @@ export function Home() {
             id="ask"
             rows={2}
             value={query}
-            onChange={(event) => {
-              setQuery(event.target.value)
-              setNotice('')
-            }}
+            onChange={(event) => setQuery(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey) event.currentTarget.form?.requestSubmit()
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault()
+                event.currentTarget.form?.requestSubmit()
+              }
             }}
             placeholder={copy.home.promptPlaceholder}
             enterKeyHint="go"
@@ -113,9 +112,6 @@ export function Home() {
             {copy.home.promptSubmit}
           </button>
         </form>
-        <p aria-live="polite" className="px-2 text-sm text-ink-muted empty:hidden">
-          {notice}
-        </p>
       </Card>
 
       <div className="grid grid-cols-2 gap-3">
@@ -128,8 +124,8 @@ export function Home() {
         <Tile
           icon="chat"
           title={copy.home.voiceTitle}
-          sub={copy.home.voiceSub}
-          onClick={() => setVoiceOpen(true)}
+          sub={`${copy.home.voiceSub}. ${copy.home.voiceSoon}.`}
+          href={`#${OVERLAY_PATHS.chat}`}
         />
       </div>
 
@@ -149,19 +145,6 @@ export function Home() {
         art={<Tsupher state="thumbs-up" size="md" decorative />}
       />
 
-      <BottomSheet
-        open={voiceOpen}
-        onClose={() => setVoiceOpen(false)}
-        title={copy.home.voiceSheetTitle}
-      >
-        <div className="mt-2 flex items-center gap-3">
-          <Tsupher state="thinking" size="md" decorative />
-          <p className="text-sm text-ink-dark/85">{copy.home.voiceSheetBody}</p>
-        </div>
-        <Button variant="dark" className="mt-5 w-full" onClick={() => setVoiceOpen(false)}>
-          {copy.home.voiceSheetOk}
-        </Button>
-      </BottomSheet>
     </div>
   )
 }

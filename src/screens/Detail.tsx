@@ -57,7 +57,7 @@ export function Detail() {
   const [fareOpen, setFareOpen] = useState(false)
   const result = selectedResult(plan)
   const pack = plan.pack
-  const backHref = `#${OVERLAY_PATHS.results}`
+  const backHref = `#${plan.detailBack}`
 
   if (!result || !pack) {
     return (

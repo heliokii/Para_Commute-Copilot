@@ -3,6 +3,7 @@ import { BottomNav } from './components/BottomNav'
 import { copy } from './copy'
 import { useRoute, type Overlay, type Tab } from './lib/nav'
 import { About } from './screens/About'
+import { Chat } from './screens/Chat'
 import { Detail } from './screens/Detail'
 import { HigitPa } from './screens/HigitPa'
 import { Home } from './screens/Home'
@@ -39,6 +40,8 @@ function overlayScreen(overlay: Overlay): ReactNode {
       return <Trip />
     case 'modes':
       return <Modes />
+    case 'chat':
+      return <Chat />
     case 'setup':
       return <Setup />
     case 'offline':

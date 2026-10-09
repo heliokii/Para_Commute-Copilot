@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from 'react'
 import { ACTIVE_PACK_ID } from '../db/seed.ts'
+import { OVERLAY_PATHS } from '../lib/nav'
 import { initRouter, planOptions, planRoute } from '../router/client.ts'
+import { orderOptions } from '../router/order.ts'
 import type { Intent, Preference, RoutePack, RouteResult, Weights } from '../router/types.ts'
 
 // The plan session: what the rider asked for and the last result. In memory
@@ -27,6 +29,8 @@ export interface PlanState {
   selectedIndex: number
   /** The intent behind `options`, so screens can show what was asked. */
   searched: Intent | null
+  /** Where the detail screen's back button goes: the results list or the chat. */
+  detailBack: string
 }
 
 let state: PlanState = {
@@ -43,6 +47,7 @@ let state: PlanState = {
   chosenIndex: -1,
   selectedIndex: 0,
   searched: null,
+  detailBack: OVERLAY_PATHS.results,
 }
 
 const listeners = new Set<() => void>()
@@ -93,9 +98,6 @@ export function currentIntent(from: PlanState = state): Intent {
   }
 }
 
-const sequenceKey = (result: RouteResult) =>
-  result.legs.map((leg) => `${leg.routeId}:${leg.boardId}>${leg.alightId}`).join('|')
-
 /** Runs the router for the current form values. Every number comes from the router. */
 export async function searchRoutes(): Promise<void> {
   const intent = currentIntent()
@@ -104,17 +106,14 @@ export async function searchRoutes(): Promise<void> {
     await ensurePack()
     const [options, chosen] = await Promise.all([planOptions(intent), planRoute(intent)])
     // Show the option that answers the rider's own preference first.
-    const chosenKey = chosen.status === 'ok' ? sequenceKey(chosen) : null
-    const index = options.findIndex(
-      (option) => option.status === 'ok' && sequenceKey(option) === chosenKey,
-    )
-    const ordered = index > 0 ? [options[index], ...options.filter((_, i) => i !== index)] : options
+    const ordered = orderOptions(options, chosen)
     setPlan({
       status: 'done',
-      options: ordered,
-      chosenIndex: index >= 0 ? 0 : -1,
+      options: ordered.options,
+      chosenIndex: ordered.chosenIndex,
       selectedIndex: 0,
       searched: intent,
+      detailBack: OVERLAY_PATHS.results,
     })
   } catch (error) {
     console.error('Route search failed', error)
