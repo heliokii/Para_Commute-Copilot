@@ -1,0 +1,38 @@
+{
+ "name": "real-about",
+ "build": "real",
+ "viewport": {
+  "width": 390,
+  "height": 844,
+  "deviceScaleFactor": 3
+ },
+ "offlineAtEnd": true,
+ "frames": [
+  0,
+  1.4499,
+  1.6142,
+  1.6454,
+  1.7817,
+  1.8272,
+  1.9614,
+  1.9775,
+  2.1446,
+  2.1891,
+  2.2064,
+  2.4247
+ ],
+ "marks": [
+  {
+   "t": 1.399,
+   "label": "scroll"
+  },
+  {
+   "t": 4.332,
+   "label": "end"
+  }
+ ],
+ "facts": {
+  "credit": "Pamasahe ng LRT-1, LRT-2 at MRT-3 mula sa mga opisyal na matrix na nakalista sa data/metro-manila/SOURCES.md. Mapa at lokasyon ng istasyon: © OpenStreetMap contributors (ODbL). Wala pang ruta o oras ng bus at jeep.",
+  "pack": "Route pack: metro-manila, bersyon 2026-10-10-a719aa84 · Pamasahe as of 2023-08-02"
+ }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "para-video",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "60-second promo video for Para!, built with Remotion from real captures of the app.",
+  "scripts": {
+    "capture": "node capture.mjs",
+    "sfx": "node make-sfx.mjs",
+    "studio": "remotion studio src/index.ts",
+    "render:16x9": "remotion render src/index.ts Para16x9 out/para-demo-60s-16x9.mp4",
+    "render:9x16": "remotion render src/index.ts Para9x16 out/para-demo-60s-9x16.mp4",
+    "poster": "remotion still src/index.ts Para16x9 out/poster-16x9.png --frame=255",
+    "render": "npm run render:16x9 && npm run render:9x16 && npm run poster",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "typescript": "^6.0.3"
+  }
+}

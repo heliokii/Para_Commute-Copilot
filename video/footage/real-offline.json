@@ -1,0 +1,71 @@
+{
+ "name": "real-offline",
+ "build": "real",
+ "viewport": {
+  "width": 390,
+  "height": 844,
+  "deviceScaleFactor": 3
+ },
+ "offlineAtEnd": true,
+ "frames": [
+  0,
+  2.1192,
+  2.1478,
+  2.2605,
+  2.2863,
+  2.3982,
+  2.4262
+ ],
+ "marks": [
+  {
+   "t": 2.09,
+   "label": "scroll"
+  },
+  {
+   "t": 5.27,
+   "label": "end"
+  }
+ ],
+ "facts": {
+  "rows": [
+   {
+    "id": "sw",
+    "ok": "true",
+    "label": "Offline na kopya ng app",
+    "value": "Aktibo ang service worker",
+    "note": null
+   },
+   {
+    "id": "pack",
+    "ok": "true",
+    "label": "Route pack",
+    "value": "Bersyon 2026-10-10-a719aa84 · 0 ruta · pamasahe as of 2023-08-02",
+    "note": "Maaaring luma na ang pamasahe"
+   },
+   {
+    "id": "model",
+    "ok": "false",
+    "label": "AI Assistant",
+    "value": "Hindi pa naka-install",
+    "note": "Simpleng pag-intindi (rules) ang gamit, walang AI model."
+   },
+   {
+    "id": "inference",
+    "ok": "null",
+    "label": "Huling sagot ng AI",
+    "value": "Wala pa sa session na ito",
+    "note": null
+   },
+   {
+    "id": "cross-origin",
+    "ok": "true",
+    "label": "Request sa ibang server mula nang buksan",
+    "value": "0",
+    "note": "Bilang ng browser mismo, kasama ang mga library."
+   }
+  ],
+  "bytesSent": "Bytes sent: 0 (sukat ng app) | Pribado at Ligtas",
+  "connection": "Offline",
+  "requestsToOtherHosts": 0
+ }
+}

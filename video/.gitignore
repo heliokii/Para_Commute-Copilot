@@ -1,0 +1,6 @@
+node_modules
+.build
+# Recorded frames are large; the clip .json files and MANIFEST.json are kept.
+footage/*/
+!footage/manual/
+out/frames

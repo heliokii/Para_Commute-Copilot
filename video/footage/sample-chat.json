@@ -1,0 +1,142 @@
+{
+ "name": "sample-chat",
+ "build": "sample",
+ "viewport": {
+  "width": 390,
+  "height": 844,
+  "deviceScaleFactor": 3
+ },
+ "offlineAtEnd": true,
+ "frames": [
+  0,
+  0.5757,
+  0.6137,
+  0.6384,
+  0.6932,
+  0.7637,
+  0.8216,
+  0.8891,
+  0.9441,
+  1.016,
+  1.0711,
+  1.1418,
+  1.1959,
+  1.2594,
+  1.3327,
+  1.3875,
+  1.4204,
+  1.4565,
+  1.5207,
+  1.5781,
+  1.6412,
+  1.7024,
+  1.7893,
+  1.8301,
+  1.8921,
+  1.9521,
+  2.0204,
+  2.0788,
+  2.1023,
+  2.1393,
+  2.2115,
+  2.2664,
+  2.3371,
+  2.3938,
+  2.4558,
+  2.5235,
+  2.587,
+  2.6446,
+  2.718,
+  2.7739,
+  2.8327,
+  2.9064,
+  3.3462,
+  3.3959,
+  3.4293,
+  3.4456,
+  3.9843,
+  4.5113,
+  4.8379,
+  4.9048,
+  4.9718,
+  5.0324,
+  5.091,
+  5.1592,
+  5.2156,
+  5.2786,
+  5.3515,
+  5.4081,
+  5.4678,
+  5.536,
+  5.6015,
+  6.0326,
+  6.0684,
+  6.0928,
+  6.1409,
+  6.6754,
+  7.1985,
+  7.5297,
+  7.5585,
+  7.5748,
+  7.5967,
+  7.6199,
+  7.6412,
+  7.6579
+ ],
+ "marks": [
+  {
+   "t": 0.555,
+   "label": "type:q1"
+  },
+  {
+   "t": 2.954,
+   "label": "typed:q1"
+  },
+  {
+   "t": 3.309,
+   "label": "send:q1"
+  },
+  {
+   "t": 3.387,
+   "label": "reply:q1"
+  },
+  {
+   "t": 4.824,
+   "label": "type:q2"
+  },
+  {
+   "t": 5.646,
+   "label": "typed:q2"
+  },
+  {
+   "t": 6.005,
+   "label": "send:q2"
+  },
+  {
+   "t": 6.076,
+   "label": "reply:q2"
+  },
+  {
+   "t": 7.506,
+   "label": "tap:iwas-edsa",
+   "x": 173.1953125,
+   "y": 742
+  },
+  {
+   "t": 7.529,
+   "label": "reply:whatif"
+  },
+  {
+   "t": 10.064,
+   "label": "end"
+  }
+ ],
+ "facts": {
+  "question": "Paano pumunta sa Foxtrot galing Alpha?",
+  "options": "Sige! Ito ang nahanap ko: 1 Mas mura Pinili mo Hindi pa verified Jeepney → Jeepney ₱26.00 · 45 min · 2 sakay · Pamasahe as of 2026-01-01 2 Mas mabilis Hindi pa verified Bus → Jeepney ₱35.25 · 27 min · 2 sakay · Pamasahe as of 2026-01-01 3 Pinakakaunting sakay Hindi pa verified Jeepney ₱30.25 · 1 oras 20 min · 1 sakay · Pamasahe as of 2026-01-01",
+  "cheaper": "Ayan, inayos ko na: 1 Mas mura Pinili mo Hindi pa verified Jeepney → Jeepney ₱26.00 · 45 min · 2 sakay · Pamasahe as of 2026-01-01 2 Mas mabilis Hindi pa verified Bus → Jeepney ₱35.25 · 27 min · 2 sakay · Pamasahe as of 2026-01-01 3 Pinakakaunting sakay Hindi pa verified Jeepney ₱30.25 · 1 oras 20 min · 1 sakay · Pamasahe as of 2026-01-01",
+  "whatIf": "Simulation lang ito, batay sa sinabi mong iwasan. Hindi ko alam ang totoong sarado o traffic. 1 Mas mura Pinili mo Simulated Hindi pa verified Jeepney ₱30.25 · 1 oras 20 min · 1 sakay · Pamasahe as of 2026-01-01 2 Mas mabilis Simulated Hindi pa verified Bus → Bus ₱50.00 · 35 min · 2 sakay · Pamasahe as of 2026-02-01",
+  "sampleLabelVisible": true,
+  "simulatedBadge": true
+ }
+}

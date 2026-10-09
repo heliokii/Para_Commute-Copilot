@@ -1,0 +1,73 @@
+{
+ "name": "real-ruta",
+ "build": "real",
+ "viewport": {
+  "width": 390,
+  "height": 844,
+  "deviceScaleFactor": 3
+ },
+ "offlineAtEnd": true,
+ "frames": [
+  0,
+  0.0722,
+  0.6855,
+  0.7136,
+  0.7303,
+  0.8886,
+  0.9696,
+  1.0518,
+  1.1234,
+  1.1936,
+  1.2689,
+  1.3459,
+  1.4257,
+  1.5029,
+  1.5808,
+  1.6633,
+  2.1954,
+  2.2631,
+  2.4442,
+  2.7735,
+  2.8358,
+  2.9458,
+  3.0088,
+  3.0885,
+  3.1724,
+  3.7206,
+  3.7471,
+  4.2753
+ ],
+ "marks": [
+  {
+   "t": 0.674,
+   "label": "type:origin"
+  },
+  {
+   "t": 1.708,
+   "label": "typed:origin"
+  },
+  {
+   "t": 2.825,
+   "label": "type:destination"
+  },
+  {
+   "t": 3.228,
+   "label": "typed:destination"
+  },
+  {
+   "t": 4.263,
+   "label": "fare"
+  },
+  {
+   "t": 7.306,
+   "label": "end"
+  }
+ ],
+ "facts": {
+  "origin": "Araneta-Cubao (MRT-3)",
+  "destination": "Ayala (MRT-3)",
+  "rows": [
+   "Regular ₱10.00 50% all-passenger discount karaniwan ₱20.00 Pamasahe as of 2026-03-23 Pinagkunan"
+  ]
+ }
+}
