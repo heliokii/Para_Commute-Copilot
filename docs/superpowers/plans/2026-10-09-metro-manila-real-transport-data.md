@@ -14,7 +14,7 @@
 
 ## User-directed exclusions
 
-- Do not pursue or import any railway routes or fares.
+- Railway routes stay excluded. 2026-10-10: user reversed the fare exclusion for rail fares only. `scripts/rail-fares-to-csv.mjs` writes LRT-1/LRT-2/MRT-3 fare matrices to `data/metro-manila/rail-pack/` (separate from the Q City Bus pack so `npm run import:ncr` cannot overwrite it). No rail routes: stations have coordinates but no segment times.
 - Do not pursue or import the EDSA Carousel.
 - Continue with road PUVs and other in-scope non-rail bus services. Existing rail research artifacts remain historical work and are not active-pack candidates.
 

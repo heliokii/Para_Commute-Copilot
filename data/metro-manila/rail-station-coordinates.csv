@@ -1,0 +1,52 @@
+line,station_id,name,lat,lon,osm_element,source_url,captured_date
+lrt1,dr_santos,Dr. Santos,14.4852337,120.9895723,w923624587,https://www.openstreetmap.org/way/923624587,2026-10-10
+lrt1,ninoy_aquino,Ninoy Aquino Avenue,14.4988903,120.9943732,w798212098,https://www.openstreetmap.org/way/798212098,2026-10-10
+lrt1,pitx,PITX,14.5083101,120.9912791,w586033800,https://www.openstreetmap.org/way/586033800,2026-10-10
+lrt1,mia_road,MIA Road,14.5184318,120.9929872,w797744977,https://www.openstreetmap.org/way/797744977,2026-10-10
+lrt1,redemptorist_aseana,Redemptorist–Aseana,14.5302786,120.9929379,w900558095,https://www.openstreetmap.org/way/900558095,2026-10-10
+lrt1,baclaran,Baclaran,14.5342877,120.9983980,w290189159,https://www.openstreetmap.org/way/290189159,2026-10-10
+lrt1,edsa,EDSA,14.5388434,121.0006192,w222628891,https://www.openstreetmap.org/way/222628891,2026-10-10
+lrt1,libertad,Libertad,14.5477514,120.9986373,w290088413,https://www.openstreetmap.org/way/290088413,2026-10-10
+lrt1,gil_puyat,Gil Puyat,14.5541814,120.9971661,w288127159,https://www.openstreetmap.org/way/288127159,2026-10-10
+lrt1,vito_cruz,Vito Cruz,14.5634699,120.9947509,w288126518,https://www.openstreetmap.org/way/288126518,2026-10-10
+lrt1,quirino,Quirino,14.5702879,120.9915257,w288126517,https://www.openstreetmap.org/way/288126517,2026-10-10
+lrt1,pedro_gil,Pedro Gil,14.5765754,120.9880197,w288126519,https://www.openstreetmap.org/way/288126519,2026-10-10
+lrt1,un_avenue,UN Avenue,14.5825264,120.9846244,r14288640,https://www.openstreetmap.org/relation/14288640,2026-10-10
+lrt1,central,Central,14.5927962,120.9816199,w179251377,https://www.openstreetmap.org/way/179251377,2026-10-10
+lrt1,carriedo,Carriedo,14.5991704,120.9813635,w288089644,https://www.openstreetmap.org/way/288089644,2026-10-10
+lrt1,d_jose,D. Jose,14.6052943,120.9820514,w112644274,https://www.openstreetmap.org/way/112644274,2026-10-10
+lrt1,bambang,Bambang,14.6111147,120.9824669,w187134601,https://www.openstreetmap.org/way/187134601,2026-10-10
+lrt1,tayuman,Tayuman,14.6166999,120.9827228,w288010747,https://www.openstreetmap.org/way/288010747,2026-10-10
+lrt1,blumentritt,Blumentritt,14.6227714,120.9828989,w288085179,https://www.openstreetmap.org/way/288085179,2026-10-10
+lrt1,abad_santos,Abad Santos,14.6306063,120.9814053,w288085512,https://www.openstreetmap.org/way/288085512,2026-10-10
+lrt1,r_papa,R. Papa,14.6360145,120.9822793,w288087278,https://www.openstreetmap.org/way/288087278,2026-10-10
+lrt1,5th_avenue,5th Avenue,14.6444062,120.9835359,w288086563,https://www.openstreetmap.org/way/288086563,2026-10-10
+lrt1,monumento,Monumento,14.6543118,120.9838745,w288086841,https://www.openstreetmap.org/way/288086841,2026-10-10
+lrt1,balintawak,Balintawak,14.6574243,121.0038959,w402882917,https://www.openstreetmap.org/way/402882917,2026-10-10
+lrt1,fernando_poe_jr,Fernando Poe Jr.,14.6575590,121.0211373,w402882918,https://www.openstreetmap.org/way/402882918,2026-10-10
+lrt2,recto,Recto,14.6035073,120.9833708,w179240108,https://www.openstreetmap.org/way/179240108,2026-10-10
+lrt2,legarda,Legarda,14.6008770,120.9925686,w28788659,https://www.openstreetmap.org/way/28788659,2026-10-10
+lrt2,pureza,Pureza,14.6016769,121.0050939,w188168854,https://www.openstreetmap.org/way/188168854,2026-10-10
+lrt2,v_mapa,V. Mapa,14.6040903,121.0171136,r12480558,https://www.openstreetmap.org/relation/12480558,2026-10-10
+lrt2,j_ruiz,J. Ruiz,14.6105686,121.0260986,w188168853,https://www.openstreetmap.org/way/188168853,2026-10-10
+lrt2,gilmore,Gilmore,14.6135362,121.0341458,w188169761,https://www.openstreetmap.org/way/188169761,2026-10-10
+lrt2,betty_go,Betty Go,14.6185972,121.0427060,w113358959,https://www.openstreetmap.org/way/113358959,2026-10-10
+lrt2,cubao,Cubao,14.6228614,121.0531248,w184582280,https://www.openstreetmap.org/way/184582280,2026-10-10
+lrt2,anonas,Anonas,14.6279862,121.0647231,w188169786,https://www.openstreetmap.org/way/188169786,2026-10-10
+lrt2,katipunan,Katipunan,14.6310833,121.0729164,w402888750,https://www.openstreetmap.org/way/402888750,2026-10-10
+lrt2,santolan,Santolan,14.6221076,121.0859641,w30411347,https://www.openstreetmap.org/way/30411347,2026-10-10
+lrt2,marikina,Marikina,14.6204412,121.1006479,w513224845,https://www.openstreetmap.org/way/513224845,2026-10-10
+lrt2,antipolo,Antipolo,14.6247704,121.1213090,w576938325,https://www.openstreetmap.org/way/576938325,2026-10-10
+mrt3,north_avenue,North Ave.,14.6521693,121.0323313,w222628892,https://www.openstreetmap.org/way/222628892,2026-10-10
+mrt3,quezon_avenue,Quezon Ave.,14.6425550,121.0385751,w128196488,https://www.openstreetmap.org/way/128196488,2026-10-10
+mrt3,gma_kamuning,GMA Kamuning,14.6353465,121.0432937,w30262758,https://www.openstreetmap.org/way/30262758,2026-10-10
+mrt3,araneta_cubao,Araneta-Cubao,14.6194777,121.0510570,n11328560046,https://www.openstreetmap.org/node/11328560046,2026-10-10
+mrt3,santolan_annapolis,Santolan Annapolis,14.6078561,121.0565240,w95496202,https://www.openstreetmap.org/way/95496202,2026-10-10
+mrt3,ortigas,Ortigas,14.5878620,121.0567162,w60194145,https://www.openstreetmap.org/way/60194145,2026-10-10
+mrt3,shaw_boulevard,Shaw Blvd.,14.5810649,121.0534794,n11329697352,https://www.openstreetmap.org/node/11329697352,2026-10-10
+mrt3,boni,Boni,14.5737744,121.0481887,w60198083,https://www.openstreetmap.org/way/60198083,2026-10-10
+mrt3,guadalupe,Guadalupe,14.5671140,121.0455357,w60618740,https://www.openstreetmap.org/way/60618740,2026-10-10
+mrt3,buendia,Buendia,14.5543705,121.0342223,w112320439,https://www.openstreetmap.org/way/112320439,2026-10-10
+mrt3,ayala,Ayala,14.5491940,121.0279190,w27663063,https://www.openstreetmap.org/way/27663063,2026-10-10
+mrt3,magallanes,Magallanes,14.5419448,121.0193919,w222628890,https://www.openstreetmap.org/way/222628890,2026-10-10
+mrt3,taft_avenue,Taft Ave.,14.5375644,121.0018185,w222628889,https://www.openstreetmap.org/way/222628889,2026-10-10
