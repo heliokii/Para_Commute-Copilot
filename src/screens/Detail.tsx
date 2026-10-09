@@ -3,6 +3,8 @@ import { Badge } from '../components/Badge'
 import { BottomSheet } from '../components/BottomSheet'
 import { Button } from '../components/Button'
 import { Card } from '../components/Card'
+import { FavoriteToggle } from '../components/FavoriteToggle'
+import { ReportSheet } from '../components/ReportSheet'
 import { Icon } from '../components/Icon'
 import { TopBar } from '../components/TopBar'
 import { Tsupher } from '../components/Tsupher'
@@ -14,6 +16,7 @@ import { daysSince, isFareStale } from '../lib/proof'
 import { fareBreakdown } from '../router/fare.ts'
 import type { Leg, RoutePack } from '../router/types.ts'
 import { landmarkName, routeName, selectedResult, usePlan } from '../state/plan'
+import { useSettings } from '../state/settings'
 
 function FareSheetLeg({ pack, leg }: { pack: RoutePack; leg: Leg }) {
   const route = pack.routes.find((candidate) => candidate.id === leg.routeId)
@@ -56,6 +59,8 @@ function FareSheetLeg({ pack, leg }: { pack: RoutePack; leg: Leg }) {
 export function Detail() {
   const plan = usePlan()
   const [fareOpen, setFareOpen] = useState(false)
+  const [reportOpen, setReportOpen] = useState(false)
+  useSettings()
   const result = selectedResult(plan)
   const pack = plan.pack
   const backHref = `#${plan.detailBack}`
@@ -90,15 +95,7 @@ export function Detail() {
         title={copy.detail.title}
         backHref={backHref}
         right={
-          <button
-            type="button"
-            aria-disabled="true"
-            aria-label={copy.detail.favorite}
-            title={copy.detail.favorite}
-            className="flex size-11 cursor-not-allowed items-center justify-center rounded-full opacity-60"
-          >
-            <Icon name="heart" />
-          </button>
+          plan.searched && <FavoriteToggle intent={{ ...plan.searched, preference: result.preference }} pack={pack} />
         }
       />
 
@@ -222,8 +219,30 @@ export function Detail() {
             <Icon name="map" className="size-5" />
             {copy.detail.seeMap}
           </Button>
+          <button
+            type="button"
+            data-testid="report-open"
+            onClick={() => setReportOpen(true)}
+            className="flex min-h-11 items-center justify-center gap-1.5 text-sm font-semibold underline underline-offset-2"
+          >
+            <Icon name="info" className="size-4.5" />
+            {copy.report.button}
+          </button>
         </div>
       </div>
+
+      <ReportSheet
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
+        context={{
+          originId: result.legs[0].boardId,
+          destinationId: result.legs.at(-1)!.alightId,
+          routeIds: rideLegs.map((leg) => leg.routeId),
+          packId: pack.id,
+          packVersion: pack.version,
+          fareAsOf: result.fareAsOf,
+        }}
+      />
 
       <BottomSheet open={fareOpen} onClose={() => setFareOpen(false)} title={copy.detail.fareSheetTitle}>
         <ul data-testid="fare-sheet" className="mt-1 max-h-[55dvh] divide-y divide-line overflow-y-auto">

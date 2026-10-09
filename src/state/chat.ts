@@ -6,6 +6,7 @@ import { getLastStats } from '../ai/runtime.ts'
 import { copy } from '../copy'
 import { planOptions, planRoute } from '../router/client.ts'
 import { ensurePack, getPlan, setPlan } from './plan'
+import { recordRecent } from './recents'
 
 // Chat state. In memory only: closing or reloading the app forgets the conversation.
 
@@ -37,7 +38,7 @@ export interface ChatState {
 
 let nextId = 1
 let toldModelFailed = false
-const session = createSession()
+let session = createSession()
 
 let state: ChatState = {
   messages: [{ id: nextId++, from: 'tsupher', text: copy.home.intro }],
@@ -74,6 +75,18 @@ function leadText(reply: TsupherReply): string {
     default:
       return copy.chat[reply.message]
   }
+}
+
+/** Starts the conversation over: the greeting only, no memory of the last trip. */
+export function resetChat() {
+  session = createSession()
+  toldModelFailed = false
+  set({
+    messages: [{ id: nextId++, from: 'tsupher', text: copy.home.intro }],
+    thinking: false,
+    thinkingNote: '',
+    hasTrip: false,
+  })
 }
 
 function patchMessage(id: number, patch: Partial<ChatMessage>) {
@@ -131,6 +144,7 @@ export async function sendMessage(text: string): Promise<void> {
         originId: reply.intent?.originId ?? '',
         destinationId: reply.intent?.destinationId ?? '',
       })
+      if (reply.kind === 'options' && reply.intent) recordRecent(reply.intent)
     }
     // The model failed to load during this message: say so once, then carry on with rules.
     const modelJustFailed = llm !== undefined && getModelState().status === 'error' && !toldModelFailed

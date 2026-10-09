@@ -380,3 +380,48 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 
 **DEMO.md**
 - Voice is an optional step marked "use only if the live voice test passes", with the test defined. The arrival alert is an optional step labeled Simulated GPS. Neither was rehearsed or timed.
+
+## Phase 9: favorites + settings (2026-10-09, branch `phases-7-9`, after Phases 8 and 7)
+
+**Built**
+- **Dexie version 2** (`src/db/db.ts`): adds `favorites` (`id, kind, createdAt`) and `settings` (`key`). Version 1 stays declared; no upgrade function is needed because only tables are added.
+- **Favorites.** Heart toggles on every option card in Results and on Route detail (filled when saved; the Love sprite and "Na-save sa Paborito!" in a toast on save). A saved route is the question (origin, destination, preference, avoid-list), not the answer: opening it runs the router again, so a fare is never a stale copy. One row per trip + preference + avoid-list. Saved places are landmarks from the route pack.
+- **Paborito screen:** tabs Mga Ruta / Address (saved landmarks only, with "Galing dito" / "Papunta dito" and a picker to add), and "Kamakailang Hinanap". A saved trip whose landmarks are not in the current pack is shown disabled with a note.
+- **Settings screen** (Higit Pa, and a link from Mga Mode): Oras (Oras at min / Min lang), Distansya (Kilometro / Milya), "I-reset ang session", the contribution queue, and "Burahin lahat ng data" with a confirmation sheet.
+- **Contribution queue:** "May mali ba?" on Route detail (what is wrong, optional note up to 500 characters), saved in the existing `contributions` table. Export as JSON or CSV; import of JSON or CSV with validation. "Sync now" is the export; nothing is sent anywhere.
+- Higit Pa Settings row is live. The Wika / Unit stub rows on Mga Mode are replaced by a link to Settings.
+
+**Decisions to know about**
+- **Wika (Taglish / English) is not implemented**, and Settings shows it as "Hindi pa available" with no toggle: `src/copy.ts` holds every screen string in several hundred lines and the chat replies are built from templates, so a real English mode is more than 30 minutes of work and would need a full translation reviewed by the team.
+- **Unit settings apply to the route screens only** (Results, Detail, Map, chat option cards). Tsupher's chat sentences are built in `src/ai/explain.ts` and are checked by a validator that expects "min", "oras" and "km"; they stay in those units, and Settings says so. They are display settings only: no router input or output changes.
+- **Kamakailang Hinanap is in memory only** (CLAUDE.md rule 5, section 12): it holds landmark ids and a preference, never typed text, and it is gone when the app closes or the session is reset. Saved favorites are what persists.
+- **"Burahin lahat ng data"** deletes Paborito, settings, the contribution queue and the session. It does not delete the route pack or the offline copy of the app (not personal data; the app keeps working). The downloaded AI and voice models are deleted only if the rider ticks a separate box, off by default.
+- Export marks a report "exported", which means a file was made, not that anyone received it; the screen says so.
+- CSV cells that start with `=`, `+`, `-` or `@` get a leading quote so a note cannot run as a spreadsheet formula; import removes it again. Import takes no status or unknown field from a file.
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean (precache 29 entries, 7628 KiB; app shell 1732 KiB of the 2 MB budget).
+- `npm test`: 184 of 184 (17 new: contribution files 7, favorite ids and shapes 5, settings and unit display 5).
+- `npm run check:offline`: 31 of 31 (the IndexedDB table list now expects the two new tables).
+- `npm run test:e2e`: 98 of 98, twice in a row, network off. New steps cover: reset session; empty Paborito; hearts on Results and Detail with the Love toast; "May mali ba?" end to end; the saved trip surviving a reload while recents do not; opening a saved trip (fresh ₱26.00); the Address tab; Min lang and Milya on the screens and after a reload; JSON and CSV export content; import of the same file (duplicate skipped), a team JSON, a team CSV and a bad file; the erase confirmation, cancel, confirm, and Dexie counts afterwards.
+- `npm run check:update`: 8 of 8. `npm run check:llm`: 13 of 13.
+- `npm run check:migrate` (new): 9 of 9. A populated version 1 database (raw IndexedDB at version 10 with terminals, a queued report and an older pack) is opened by the production build. It becomes version 20, has all eight tables, both terminals and the report keep their data, the old pack is refreshed by the existing seeding, and a second open changes nothing.
+- `npm run audit`: Performance 89, Accessibility 100, Best Practices 100, SEO 100 (one earlier run in the same gate scored Performance 83 while the machine was busy; the rerun gave 89). The accessibility sweep now includes Settings and Paborito: no control under 44 px, no unnamed control, no overflow at 200% text. Main bundle 458 KiB to 487 KiB.
+
+**Bugs the new tests found, fixed**
+- `BottomSheet` re-focused its panel every time its parent passed a new `onClose` function. In any sheet with a text box (the new note field) that moved focus off the box after each key, so typing lost characters ("Test: ₱15 raw" arrived as "T₱₱"). The sheet now keeps the latest `onClose` in a ref and focuses only when it opens.
+- A settings or import message with the same words as the last one was not announced again; each message now has its own element key.
+
+**Not tested**
+- **A phone.** Nothing in Phase 9 was run on a device: hearts, the toast, the file download and the file picker for import on iOS and Android are all untested. In particular, whether iOS Safari saves a downloaded JSON or CSV file the way a desktop browser does is unknown; the e2e run replaces the download click.
+- The real file download (the e2e run captures the blob and does not click a link). Opening the CSV in Excel or Sheets was not tried, so the formula guard is tested only by the round trip in code.
+- Erasing the downloaded AI and voice models through "Burahin lahat ng data": the box was never ticked in a test with a model installed. It reuses the existing `removeModel` and `removeVoice` functions, which delete only the selected model, so a second cached LLM would stay.
+- Two tabs or windows open at once on the same data (the lists use live queries, but this was not tried).
+- A favorite saved under an older route pack version: the row shows a note and the router runs again, but only the unit and shape logic is tested, not a real pack upgrade.
+- Reports and favorites with the real corridor pack: everything above used the synthetic pack, so a saved report says nothing real about any route.
+- Screen readers on the new screens (the sweep is a script, not a person).
+
+**Assumptions**
+- Favorite ids are built from content, so two hearts for the same trip and preference always agree.
+- The contribution payload has a random `uid` made on the device so an import can skip a report it already has.
+- No new dependency. `liveQuery` comes from Dexie.

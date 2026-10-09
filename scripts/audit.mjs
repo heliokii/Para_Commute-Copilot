@@ -140,6 +140,7 @@ const SCREENS = [
   ['Mapa', '#/mapa'],
   ['Paborito', '#/paborito'],
   ['Higit Pa', '#/higit'],
+  ['Settings', '#/settings'],
   ['Mga Mode', '#/modes'],
   ['Offline Mode', '#/offline'],
   ['Setup', '#/setup'],

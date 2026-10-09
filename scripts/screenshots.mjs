@@ -1,4 +1,4 @@
-// Usage: npm run screenshots
+﻿// Usage: npm run screenshots
 // Saves 390x844 screenshots of each screen to docs/screenshots/ for side-by-side
 // review against design/reference/. Uses the dev server so dev-only screens are included.
 import { existsSync, mkdirSync } from 'node:fs'
@@ -18,6 +18,7 @@ const SCREENS = [
   ['modes', '#/modes'],
   ['paborito', '#/paborito'],
   ['higit-pa', '#/higit'],
+  ['settings', '#/settings'],
   ['offline-mode', '#/offline'],
   ['about', '#/about'],
   ['dev-components', '#/dev/components'],

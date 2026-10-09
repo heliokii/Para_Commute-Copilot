@@ -16,7 +16,7 @@ const ITEMS: Item[] = [
   { icon: 'sliders', ...copy.higit.modes, href: `#${OVERLAY_PATHS.modes}` },
   { icon: 'wifi-off', ...copy.higit.offline, href: `#${OVERLAY_PATHS.offline}` },
   { icon: 'chat', label: copy.setup.title, sub: copy.setup.homeBody, href: `#${OVERLAY_PATHS.setup}` },
-  { icon: 'globe', ...copy.higit.settings },
+  { icon: 'globe', ...copy.higit.settings, href: `#${OVERLAY_PATHS.settings}` },
   { icon: 'info', ...copy.higit.about, href: `#${OVERLAY_PATHS.about}` },
   ...(import.meta.env.DEV
     ? [

@@ -5,7 +5,7 @@ import { Card } from '../components/Card'
 import { Icon, type IconName } from '../components/Icon'
 import { TopBar } from '../components/TopBar'
 import { copy } from '../copy'
-import { backHref } from '../lib/nav'
+import { backHref, OVERLAY_PATHS } from '../lib/nav'
 import type { Weights } from '../router/types.ts'
 import { setPlan, usePlan } from '../state/plan'
 
@@ -130,23 +130,15 @@ export function Modes() {
           )}
         </ToggleRow>
 
-        <h2 className="mt-2 px-1 font-display text-lg font-semibold">{copy.modes.settings}</h2>
         <Card>
-          <ul className="divide-y divide-line">
-            {[
-              { icon: 'globe' as const, ...copy.modes.language },
-              { icon: 'coins' as const, ...copy.modes.unit },
-            ].map((row) => (
-              <li key={row.label} aria-disabled="true" className="flex min-h-14 items-center gap-3 px-4 py-2">
-                <Icon name={row.icon} className="size-5.5 text-brown-mid" />
-                <span className="min-w-0 flex-1">
-                  <span className="block font-semibold">{row.label}</span>
-                  <span className="block text-sm text-ink-muted">{row.value}</span>
-                </span>
-                <Badge>{copy.higit.soon}</Badge>
-              </li>
-            ))}
-          </ul>
+          <a href={`#${OVERLAY_PATHS.settings}`} className="flex min-h-14 items-center gap-3 px-4 py-2">
+            <Icon name="globe" className="size-5.5 text-brown-mid" />
+            <span className="min-w-0 flex-1">
+              <span className="block font-semibold">{copy.higit.settings.label}</span>
+              <span className="block text-sm text-ink-muted">{copy.higit.settings.sub}</span>
+            </span>
+            <Icon name="chevron-right" className="size-5 shrink-0 text-ink-muted" />
+          </a>
         </Card>
 
         <Button href={backHref()} className="mt-2">

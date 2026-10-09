@@ -13,6 +13,7 @@ export type Overlay =
   | 'setup'
   | 'offline'
   | 'about'
+  | 'settings'
   | 'dev-router'
   | 'dev-components'
   | 'dev-bench'
@@ -35,6 +36,7 @@ export const OVERLAY_PATHS: Record<Overlay, string> = {
   setup: '/setup',
   offline: '/offline',
   about: '/about',
+  settings: '/settings',
   'dev-router': '/dev/router',
   'dev-components': '/dev/components',
   'dev-bench': '/dev/bench',

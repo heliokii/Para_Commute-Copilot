@@ -203,8 +203,8 @@ try {
       }),
   )
   check(
-    'Dexie: 6 tables from CLAUDE.md 7.3',
-    local.stores.join(',') === 'contributions,fares,landmarks,routePacks,routes,terminals',
+    'Dexie: the 6 tables from CLAUDE.md 7.3 plus favorites and settings (version 2)',
+    local.stores.join(',') === 'contributions,fares,favorites,landmarks,routePacks,routes,settings,terminals',
     local.stores.join(','),
   )
   const { routePacks, routes, landmarks, fares } = local.rows

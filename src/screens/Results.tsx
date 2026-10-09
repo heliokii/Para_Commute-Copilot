@@ -9,14 +9,18 @@ import { duration, peso } from '../lib/format'
 import { MODES } from '../lib/modes'
 import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { daysSince, isFareStale } from '../lib/proof'
-import type { RouteResult } from '../router/types.ts'
+import type { Intent, RouteResult } from '../router/types.ts'
+import { FavoriteToggle } from '../components/FavoriteToggle'
 import { landmarkName, setPlan, usePlan } from '../state/plan'
+import { useSettings } from '../state/settings'
 
 const rideCount = (result: RouteResult) => result.legs.filter((leg) => leg.mode !== 'walk').length
 
-function OptionCard({ result, index, chosen }: { result: RouteResult; index: number; chosen: boolean }) {
+function OptionCard({ result, index, chosen, intent }: { result: RouteResult; index: number; chosen: boolean; intent: Intent | null }) {
   const rides = rideCount(result)
+  const { pack } = usePlan()
   return (
+    <div className="relative">
     <button
       type="button"
       data-testid="route-option"
@@ -26,7 +30,7 @@ function OptionCard({ result, index, chosen }: { result: RouteResult; index: num
       }}
       className="surface w-full rounded-card bg-surface-cream p-4 text-left text-ink-dark shadow-card"
     >
-      <span className="flex flex-wrap items-center gap-2">
+      <span className="flex flex-wrap items-center gap-2 pr-11">
         <Badge>{copy.pref[result.preference]}</Badge>
         {chosen && <Badge tone="strong">{copy.badge.chosen}</Badge>}
         {result.usedUnverifiedData && <Badge tone="caution">{copy.badge.unverified}</Badge>}
@@ -59,11 +63,16 @@ function OptionCard({ result, index, chosen }: { result: RouteResult; index: num
         </span>
       </span>
     </button>
+    {intent && (
+      <FavoriteToggle intent={{ ...intent, preference: result.preference }} pack={pack} className="absolute top-2 right-2 text-ink-dark" />
+    )}
+    </div>
   )
 }
 
 export function Results() {
   const plan = usePlan()
+  useSettings()
   const intent = plan.searched
   const found = plan.options.filter((option) => option.status === 'ok')
   const failure = plan.options.find((option) => option.status === 'no_route')
@@ -115,6 +124,7 @@ export function Results() {
             result={result}
             index={plan.options.indexOf(result)}
             chosen={plan.options.indexOf(result) === plan.chosenIndex}
+            intent={intent}
           />
         ))}
 

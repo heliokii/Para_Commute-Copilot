@@ -11,20 +11,26 @@ interface BottomSheetProps {
 export function BottomSheet({ open, onClose, title, children }: BottomSheetProps) {
   const titleId = useId()
   const panelRef = useRef<HTMLDivElement>(null)
+  // The latest onClose, without making the effect below depend on it. A parent that passes a new
+  // function on every render would otherwise re-focus the panel on each keystroke in a form.
+  const onCloseRef = useRef(onClose)
+  useEffect(() => {
+    onCloseRef.current = onClose
+  })
 
   useEffect(() => {
     if (!open) return
     const opener = document.activeElement as HTMLElement | null
     panelRef.current?.focus()
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key === 'Escape') onCloseRef.current()
     }
     document.addEventListener('keydown', onKey)
     return () => {
       document.removeEventListener('keydown', onKey)
       opener?.focus()
     }
-  }, [open, onClose])
+  }, [open])
 
   if (!open) return null
 

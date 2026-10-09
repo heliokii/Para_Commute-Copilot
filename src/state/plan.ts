@@ -4,6 +4,7 @@ import { OVERLAY_PATHS } from '../lib/nav'
 import { initRouter, planOptions, planRoute } from '../router/client.ts'
 import { orderOptions } from '../router/order.ts'
 import type { Intent, Preference, RoutePack, RouteResult, Weights } from '../router/types.ts'
+import { recordRecent } from './recents'
 
 // The plan session: what the rider asked for and the last result. In memory
 // only, shared by the Ruta and Mapa tabs. Nothing here is written to disk.
@@ -98,9 +99,9 @@ export function currentIntent(from: PlanState = state): Intent {
   }
 }
 
-/** Runs the router for the current form values. Every number comes from the router. */
-export async function searchRoutes(): Promise<void> {
-  const intent = currentIntent()
+/** Runs the router for the form values, or for a given trip. Every number comes from the router. */
+export async function searchRoutes(override?: Intent): Promise<void> {
+  const intent = override ?? currentIntent()
   setPlan({ status: 'searching' })
   try {
     await ensurePack()
@@ -115,10 +116,42 @@ export async function searchRoutes(): Promise<void> {
       searched: intent,
       detailBack: OVERLAY_PATHS.results,
     })
+    if (ordered.options.some((option) => option.status === 'ok')) recordRecent(intent)
   } catch (error) {
     console.error('Route search failed', error)
     setPlan({ status: 'error', options: [], chosenIndex: -1, searched: intent })
   }
+}
+
+/** Fills the plan form from a saved or recent trip and runs the router again. */
+export async function openIntent(intent: Intent): Promise<void> {
+  setPlan({
+    originId: intent.originId,
+    destinationId: intent.destinationId,
+    avoidEdsa: intent.avoid.tags.includes(AVOID_EDSA_TAG),
+    ...(intent.preference === 'custom'
+      ? { customEnabled: true, weights: intent.weights ?? state.weights }
+      : { customEnabled: false, preference: intent.preference }),
+  })
+  await searchRoutes(intent)
+}
+
+/** Forgets the form and the last result. The loaded route pack stays. */
+export function resetPlan() {
+  setPlan({
+    originId: '',
+    destinationId: '',
+    preference: 'cheapest',
+    avoidEdsa: false,
+    customEnabled: false,
+    weights: { fare: 5, minutes: 5, transfers: 5 },
+    status: 'idle',
+    options: [],
+    chosenIndex: -1,
+    selectedIndex: 0,
+    searched: null,
+    detailBack: OVERLAY_PATHS.results,
+  })
 }
 
 /** The result shown on the detail and map screens. */

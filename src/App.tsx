@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useState, type ReactNode } from 'react'
 import { BottomNav } from './components/BottomNav'
+import { Toast } from './components/Toast'
 import { copy } from './copy'
 import { useRoute, type Overlay, type Tab } from './lib/nav'
 import { useUpdateReady } from './lib/swUpdate'
@@ -14,8 +15,9 @@ import { OfflineMode } from './screens/OfflineMode'
 import { Results } from './screens/Results'
 import { Ruta } from './screens/Ruta'
 import { Setup } from './screens/Setup'
+import { Paborito } from './screens/Paborito'
+import { Settings } from './screens/Settings'
 import { Splash } from './screens/Splash'
-import { StubScreen } from './screens/StubScreen'
 import { Trip } from './screens/Trip'
 
 // Dev-only screens. The DEV check is static, so production builds drop the imports.
@@ -28,7 +30,7 @@ const TABS: Record<Tab, ReactNode> = {
   home: <Home />,
   ruta: <Ruta />,
   mapa: <Mapa />,
-  paborito: <StubScreen title={copy.nav.paborito} body={copy.stub.paborito} sprite="love" />,
+  paborito: <Paborito />,
   higit: <HigitPa />,
 }
 
@@ -50,6 +52,8 @@ function overlayScreen(overlay: Overlay): ReactNode {
       return <OfflineMode />
     case 'about':
       return <About />
+    case 'settings':
+      return <Settings />
     case 'dev-router':
       return RouterHarness ? <RouterHarness /> : null
     case 'dev-components':
@@ -110,6 +114,8 @@ export default function App() {
           </button>
         </div>
       )}
+
+      <Toast />
 
       {showSplash && <Splash onDone={hideSplash} />}
     </div>

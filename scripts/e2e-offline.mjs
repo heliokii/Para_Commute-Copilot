@@ -2,7 +2,7 @@
 // End-to-end plan flow with the network off: plan -> results -> detail -> map,
 // then an avoid what-if and a no-route case. Runs against the production build.
 // Expected values are the hand-computed ones in src/router/__fixtures__/synthetic-pack.ts.
-import { existsSync } from 'node:fs'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
 import { preview } from 'vite'
 import { createReport, goOffline, launch } from './lib/browser.mjs'
 
@@ -309,6 +309,204 @@ try {
   await page.waitForFunction(() => document.body.innerText.includes('Offline Mode'), { timeout: 5000 }).catch(() => {})
   check('Error boundary: retry brings the screen back', (await visibleText()).includes('Offline Mode') && !(await visibleText()).includes('Naku, may nasira'))
   consoleErrors.length = 0 // the simulated failure logs to the console on purpose
+
+  // --- Phase 9: Paborito, settings, contributions ---
+  // Start clean: "I-reset ang session" must forget the conversation, the form and the recents.
+  await goTo('#/settings')
+  await page.waitForSelector('[data-testid=reset-session]', { timeout: 5000 })
+  const settingsText = await visibleText()
+  check('Settings: Wika is shown as not available, with no toggle that does nothing', (await text('[data-testid=settings-language]')).includes('Hindi pa available') && (await page.$('[data-testid=settings-language] button, [data-testid=settings-language] input, [data-testid=settings-language] [role=switch]')) === null && settingsText.includes('Taglish lang ang available'))
+  await page.click('[data-testid=reset-session]')
+  await page.waitForSelector('[data-testid=session-done]', { timeout: 5000 })
+  await goTo('#/chat')
+  await page.waitForSelector('[data-testid=chat-input]', { visible: true, timeout: 5000 })
+  check('Reset session: the chat is back to the greeting', (await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)) === 1)
+  await goTo('#/paborito')
+  await page.waitForSelector('[data-testid=recents-empty]', { timeout: 5000 })
+  check('Reset session: Kamakailang Hinanap is empty', true)
+  check('Paborito: empty state before anything is saved', (await page.$('[data-testid=fav-routes-empty]')) !== null)
+
+  // Hearts on Results and Detail.
+  await goTo('#/ruta')
+  await page.waitForSelector('[data-testid=origin]', { timeout: 5000 })
+  check('Reset session: the plan form is empty again', (await page.$eval('[data-testid=origin]', (element) => element.value)) === '')
+  await pick('origin', 'alpha')
+  await pick('destination', 'foxtrot')
+  await search()
+  // Tabs stay mounted while hidden, so only hearts that can be seen count.
+  const hearts = () => page.$$eval('[data-testid=fav-route-toggle]', (nodes) => nodes.filter((node) => node.closest('[hidden]') === null).map((node) => node.getAttribute('aria-pressed')))
+  const clickFirstHeart = () => page.evaluate(() => [...document.querySelectorAll('[data-testid=fav-route-toggle]')].find((node) => node.closest('[hidden]') === null).click())
+  check('Results: a heart on each of the three options, none saved yet', (await hearts()).join(',') === 'false,false,false', (await hearts()).join(','))
+  await clickFirstHeart()
+  await page.waitForFunction(() => [...document.querySelectorAll('[data-testid=fav-route-toggle]')].find((node) => node.closest('[hidden]') === null)?.getAttribute('aria-pressed') === 'true', { timeout: 5000 })
+  const toast = await page.$eval('[data-testid=toast]', (node) => ({ text: node.textContent, sprite: node.dataset.sprite }))
+  check('Results: saving shows the Love sprite and "Na-save sa Paborito!"', toast.sprite === 'love' && toast.text.includes('Na-save sa Paborito!'), JSON.stringify(toast))
+  check('Results: only the saved option has a filled heart', (await hearts()).join(',') === 'true,false,false', (await hearts()).join(','))
+  await page.click('[data-testid=route-option]')
+  await page.waitForSelector('[data-testid=leg]', { timeout: 5000 })
+  await page.waitForFunction(() => [...document.querySelectorAll('[data-testid=fav-route-toggle]')].find((node) => node.closest('[hidden]') === null)?.getAttribute('aria-pressed') === 'true', { timeout: 5000 })
+  check('Detail: the heart already shows the saved state', true)
+
+  // "May mali ba?" on Detail.
+  await page.click('[data-testid=report-open]')
+  await page.waitForSelector('[data-testid=report-submit]', { timeout: 5000 })
+  await new Promise((resolve) => setTimeout(resolve, 500)) // the sheet slides up; clicks during the slide miss
+  check('Report: Submit stays off until something is chosen', await page.$eval('[data-testid=report-submit]', (button) => button.disabled))
+  await page.click('[data-testid=report-issue-fare]')
+  await page.type('[data-testid=report-note]', 'Test: ₱15 raw, hindi ₱13')
+  await page.click('[data-testid=report-submit]')
+  await page.waitForSelector('[data-testid=report-saved]', { timeout: 5000 })
+  check('Report: saved on the phone, with the export hint', (await text('[data-testid=report-saved]')).includes('Hindi ito ipinapadala kahit saan'))
+  await page.keyboard.press('Escape')
+
+  // Paborito lists it, and it survives a reload (IndexedDB), while the recents (memory) do not.
+  await goTo('#/paborito')
+  await page.waitForSelector('[data-testid=fav-route]', { timeout: 5000 })
+  const favRow = await text('[data-testid=fav-route]')
+  check('Paborito: Mga Ruta lists the saved trip with its preference', favRow.includes('SYN Alpha Terminal') && favRow.includes('SYN Foxtrot Station') && favRow.includes('Mas mura'), favRow.replace(/\s+/g, ' '))
+  check('Paborito: Kamakailang Hinanap lists the search just made', (await page.$$('[data-testid=recent]')).length >= 1)
+  await page.reload({ waitUntil: 'networkidle0' })
+  await page.keyboard.press('Escape')
+  await goTo('#/paborito')
+  await page.waitForSelector('[data-testid=fav-route]', { timeout: 10000 })
+  check('Paborito: the saved trip is still there after a reload', (await page.$$('[data-testid=fav-route]')).length === 1)
+  check('Paborito: recents were forgotten with the session, as promised', (await page.$('[data-testid=recents-empty]')) !== null)
+
+  // Opening a favorite runs the router again.
+  await page.click('[data-testid=fav-route] button')
+  await page.waitForFunction(() => location.hash === '#/ruta/results', { timeout: 5000 })
+  await page.waitForSelector('[data-testid=route-option]', { timeout: 5000 })
+  check('Paborito: opening a saved trip shows fresh router results (₱26.00 first)', (await texts('[data-testid=option-fare]'))[0] === '₱26.00')
+
+  // Address tab: saved landmarks.
+  await goTo('#/paborito')
+  await page.click('[data-testid=fav-tab-address]')
+  await pick('fav-place-picker', 'echo')
+  await page.waitForSelector('[data-testid=fav-place]', { timeout: 5000 })
+  check('Address: a landmark from the route pack can be saved', (await text('[data-testid=fav-place]')).includes('SYN Echo Mall'))
+  await page.evaluate(() => {
+    ;[...document.querySelectorAll('[data-testid=fav-place] button')].find((button) => button.textContent.includes('Papunta dito'))?.click()
+  })
+  await page.waitForFunction(() => location.hash === '#/ruta', { timeout: 5000 })
+  check('Address: "Papunta dito" fills the destination on the plan form', (await page.$eval('[data-testid=destination]', (element) => element.value)) === 'SYN Echo Mall')
+  await goTo('#/paborito')
+  await page.click('[data-testid=fav-tab-address]')
+  await page.click('[data-testid=fav-place-remove]')
+  await page.waitForFunction(() => !document.querySelector('[data-testid=fav-place]'), { timeout: 5000 })
+  check('Address: the heart removes a saved landmark', true)
+
+  // Unit settings change the route screens.
+  await goTo('#/ruta')
+  await pick('origin', 'alpha')
+  await pick('destination', 'foxtrot')
+  await search()
+  check('Units (default): 1 oras 20 min on the slow option', (await visibleText()).includes('1 oras 20 min'))
+  await goTo('#/settings')
+  await page.click('[data-testid=setting-time-min]')
+  await goTo('#/ruta/results')
+  await page.waitForSelector('[data-testid=route-option]', { timeout: 5000 })
+  const minOnly = await visibleText()
+  check('Oras = Min lang: 80 min, no hours', minOnly.includes('80 min') && !minOnly.includes('oras'))
+  await goTo('#/settings')
+  await page.click('[data-testid=setting-distance-mi]')
+  await goTo('#/ruta/detail')
+  await page.waitForSelector('[data-testid=leg]', { timeout: 5000 })
+  const miles = (await texts('[data-testid=leg]')).join(' ')
+  check('Distansya = Milya: leg distances in mi, none in km', /\d mi\b/.test(miles) && !/\d km\b/.test(miles), miles.replace(/\s+/g, ' ').slice(0, 160))
+  await page.reload({ waitUntil: 'networkidle0' })
+  await page.keyboard.press('Escape')
+  await goTo('#/settings')
+  await page.waitForFunction(() => document.querySelector('[data-testid=setting-distance-mi]')?.getAttribute('aria-pressed') === 'true', { timeout: 5000 }).catch(() => {})
+  check('Settings are saved on the device: still Milya and Min lang after a reload', await page.evaluate(() => document.querySelector('[data-testid=setting-distance-mi]')?.getAttribute('aria-pressed') === 'true' && document.querySelector('[data-testid=setting-time-min]')?.getAttribute('aria-pressed') === 'true'))
+  await page.click('[data-testid=setting-time-hm]')
+  await page.click('[data-testid=setting-distance-km]')
+
+  // Contribution queue: export, import.
+  await page.evaluate(() => {
+    window.__files = []
+    const original = URL.createObjectURL.bind(URL)
+    URL.createObjectURL = (blob) => (window.__files.push(blob), original(blob))
+    // No real download in the test run.
+    HTMLAnchorElement.prototype.click = function () {}
+  })
+  check('Contributions: one report waiting', (await text('[data-testid=contrib-count]')).includes('1 report · 1 hindi pa na-export'), await text('[data-testid=contrib-count]'))
+  await page.click('[data-testid=export-json]')
+  await page.waitForFunction(() => window.__files.length === 1, { timeout: 5000 })
+  const jsonText = await page.evaluate(() => window.__files[0].text())
+  const exported = JSON.parse(jsonText)
+  check('Export JSON: our format, one report with the route, pack version and note', exported.format === 'para-contributions' && exported.items.length === 1 && exported.items[0].payload.issue === 'fare' && exported.items[0].payload.note === 'Test: ₱15 raw, hindi ₱13' && exported.items[0].payload.originId === 'A' && exported.items[0].payload.destinationId === 'F' && exported.items[0].payload.routeIds.join() === 'R1,R3' && exported.items[0].payload.packVersion === '0.2.0-synthetic', JSON.stringify(exported.items[0].payload))
+  check('Export JSON: says a file was made, not that anyone received it', (await text('[data-testid=contrib-message]')).includes('hindi pa ito natatanggap ng kahit sino'))
+  check('Export marks the report as exported', (await text('[data-testid=contrib-count]')).includes('1 report · 0 hindi pa na-export'))
+  await page.click('[data-testid=export-csv]')
+  await page.waitForFunction(() => window.__files.length === 2, { timeout: 5000 })
+  const csvText = await page.evaluate(() => window.__files[1].text())
+  check('Export CSV: header row and the same report', csvText.startsWith('uid,createdAt,status,issue,note') && csvText.includes('Test: ₱15 raw') && csvText.includes('R1;R3'), csvText.split(String.fromCharCode(13)).slice(0, 2).join(' / '))
+
+  mkdirSync('.cache', { recursive: true })
+  const upload = async (name, content) => {
+    const path = '.cache/' + name
+    writeFileSync(path, content)
+    // The message element is replaced on every new message, even one with the same words.
+    await page.evaluate(() => document.querySelector('[data-testid=contrib-message]')?.setAttribute('data-old', '1'))
+    await (await page.$('[data-testid=import-file]')).uploadFile(path)
+    await page.waitForFunction(() => {
+      const element = document.querySelector('[data-testid=contrib-message]')
+      return element && !element.hasAttribute('data-old')
+    }, { timeout: 5000 })
+    return text('[data-testid=contrib-message]')
+  }
+  check('Import: the same file again adds nothing (duplicate uid)', (await upload('e2e-same.json', jsonText)).includes('Nadagdag: 0. Nandito na dati: 1'))
+  const team = JSON.parse(jsonText)
+  team.items[0].payload.uid = 'team-1'
+  team.items[0].payload.note = 'Mula sa team'
+  team.items[0].status = 'exported'
+  check('Import: a team file adds its report', (await upload('e2e-team.json', JSON.stringify(team))).includes('Nadagdag: 1. Nandito na dati: 0. Hindi tinanggap: 0'))
+  const csvTeam = csvText.replace(/^([^\r\n]*\r\n)[^,]+/, (_, header) => header + 'team-2')
+  check('Import: a CSV file works too', (await upload('e2e-team.csv', csvTeam)).includes('Nadagdag: 1'))
+  check('Import: a file that is not ours is refused', (await upload('e2e-bad.json', 'hello')).includes('Hindi ito file ng Para!'))
+  check('Contributions: three reports now', (await text('[data-testid=contrib-count]')).includes('3 report'))
+
+  // "Burahin lahat ng data": confirmation first.
+  await page.click('[data-testid=erase-open]')
+  await page.waitForSelector('[data-testid=erase-confirm]', { timeout: 5000 })
+  await new Promise((resolve) => setTimeout(resolve, 500)) // the sheet slides up
+  const confirmText = await text('[data-testid=erase-confirm]')
+  check('Erase: the confirmation lists what goes and what stays', confirmText.includes('Lahat ng Paborito') && confirmText.includes('route pack'))
+  await page.click('[data-testid=erase-cancel]')
+  check('Erase: "Huwag muna" deletes nothing', (await text('[data-testid=contrib-count]')).includes('3 report'))
+  await page.click('[data-testid=erase-open]')
+  await page.waitForSelector('[data-testid=erase-confirm-yes]', { timeout: 5000 })
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  await page.click('[data-testid=erase-confirm-yes]')
+  await page.waitForSelector('[data-testid=erase-result]', { timeout: 10000 })
+  const afterErase = await page.evaluate(
+    () =>
+      new Promise((resolve) => {
+        const request = indexedDB.open('ParaDB')
+        request.onsuccess = () => {
+          const idb = request.result
+          const counts = {}
+          const names = ['favorites', 'settings', 'contributions', 'routePacks', 'landmarks']
+          let left = names.length
+          for (const name of names) {
+            const query = idb.transaction(name).objectStore(name).count()
+            query.onsuccess = () => {
+              counts[name] = query.result
+              if (--left === 0) {
+                idb.close()
+                resolve(counts)
+              }
+            }
+          }
+        }
+      }),
+  )
+  check('Erase: favorites, settings and reports are gone; the route pack stays', afterErase.favorites === 0 && afterErase.settings === 0 && afterErase.contributions === 0 && afterErase.routePacks === 1 && afterErase.landmarks > 0, JSON.stringify(afterErase))
+  check('Erase: the screen says so', (await text('[data-testid=erase-result]')).includes('Nabura na'))
+  await goTo('#/paborito')
+  check('Erase: Paborito is empty again', (await page.$('[data-testid=fav-routes-empty]')) !== null)
+  await goTo('#/ruta')
+  check('Erase: the app still works (pack loaded, form usable)', (await page.$('[data-testid=origin]')) !== null)
 
   // --- Model setup screen, still offline: it must not reach for the network ---
   await goTo('#/setup')

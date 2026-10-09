@@ -9,10 +9,13 @@ import { duration, peso } from '../lib/format'
 import { LEGEND_MODES, MODES } from '../lib/modes'
 import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { ensurePack, landmarkName, selectedResult, usePlan } from '../state/plan'
+import { useSettings } from '../state/settings'
 
 export function Mapa() {
   const plan = usePlan()
   const result = selectedResult(plan)
+  // This tab stays mounted: re-render when a unit setting changes.
+  useSettings()
 
   useEffect(() => {
     void ensurePack()
