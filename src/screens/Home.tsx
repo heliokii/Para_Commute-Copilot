@@ -78,7 +78,7 @@ export function Home() {
       {/* Wraps so the status pill drops below the wordmark when text is scaled up. */}
       {/* The dashboard sidebar carries the wordmark on wide screens. */}
       <header className="flex flex-wrap items-center gap-3 xl:justify-end">
-        <img src="/icons/pwa-192.png" alt="" className="size-[48px] rounded-2xl shadow-card xl:hidden" />
+        <img src="/icons/pwa-192.png" alt="" className="size-[48px] rounded-2xl border-2 border-white xl:hidden" />
         <div className="flex-1 leading-none xl:hidden">
           {/* Wordmark placeholder: live text until the wordmark art is exported. */}
           <p className="font-display text-3xl font-bold tracking-tight">{copy.app.name}</p>
