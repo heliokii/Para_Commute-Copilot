@@ -21,7 +21,7 @@ Para! is an offline-first commute copilot for Filipino commuters. You ask in Tag
 | Fare calculation with versioned fare tables and "as of" date | Built | Stale-date warning after 180 days. No real fare data yet. |
 | Plan a Route screens (pickers with typo-tolerant search, results, route detail, fare breakdown) | Built | |
 | Schematic route map (SVG, no tiles) | Built | Labels can overlap when stops are close. |
-| Mga Mode (cheapest, avoid EDSA, custom preference) | Built | Language and unit settings are visual stubs. |
+| Mga Mode (cheapest, avoid EDSA, custom preference) | Built | On `submission-v1` the language and unit rows are visual stubs. On branch `phases-7-9` they are replaced by a link to Settings. |
 | Tsupher chat with follow-ups and what-ifs | Built | Rules and templates; ten scripted conversations pass. |
 | Taglish parser, rules lane | Built | Tuned on a 50-query seed set written by the coding agent, so its score there is not an accuracy claim. |
 | On-device LLM (WebLLM, WebGPU) with download manager | Built | Works on a laptop GPU. Benchmarked four models. Not tested on phones. |
@@ -32,8 +32,8 @@ Para! is an offline-first commute copilot for Filipino commuters. You ask in Tag
 | Ride-verified corridor data | Not built | Templates, a collection guide and a CSV validator exist. The app runs on synthetic data labeled as such. |
 | Terminal directory | Not built | CSV template only. |
 | Voice input (on-device Whisper) | Built on branch `phases-7-9` only; not in `submission-v1` | Plumbing verified with generated audio. Accuracy on human speech untested. |
-| Trip mode and arrival alert | Not built | "Simulan ang Ruta" opens a placeholder. |
-| Favorites, settings, contribution queue | Not built | Paborito tab is a placeholder. |
+| Trip mode and arrival alert | Built on branch `phases-7-9` only; not in `submission-v1` | Verified with Simulated GPS in headless Chrome. Real GPS, wake lock, vibration and chime untested on any device. |
+| Favorites, settings, contribution queue | Built on branch `phases-7-9` only; not in `submission-v1` | Verified in headless desktop Chrome, including the database migration. Wika (language) is not implemented and is shown as not available. Reports are exported as files, never sent. Untested on a phone. |
 | Competitor gap test | Not done | `GAP.md` has the test steps and an empty table. |
 
 ## What we built during the hackathon
@@ -51,7 +51,11 @@ From the git history (all times 2026-10-09, local time):
 | 18:25 | `9bd7dd1` | Phase 5: on-device LLM runtime, Taglish parser, model benchmark |
 | 19:00 | `f82ef4d` | Phase 6: Tsupher chat, follow-ups, what-ifs, explanation validator |
 | 19:33 | `47b27be` | Phase 10: proof panel, hardening, audit |
-| after | (this commit) | Phase 11: demo script, disclosure, submission pack |
+| after | `558007c`, `c0ff531` | Phase 11: demo script, disclosure, submission pack; submission prep (tag `submission-v1`) |
+| 20:33 | `41adeba` | branch `phases-7-9` only: Phase 8, trip mode |
+| 21:32 | `1c324f0` | branch `phases-7-9` only: Phase 7, voice |
+| 21:54 | `2f8c073` | branch `phases-7-9` only: chat never downloads a model on its own; DEMO voice and Simulated GPS beats |
+| 22:38 | `a4febb8` | branch `phases-7-9` only: Phase 9, favorites + settings |
 
 The code and documents were written with an AI coding agent (see `DISCLOSURE.md`). **TEAM:** check the event's rules on AI-assisted development and on work done before the event started, and state the answer in the submission. The planning documents (`CLAUDE.md`, `BUILD_PHASES.md`) and the art in `design/reference/` were added to the repository at 17:03 and 17:16; when they were created is not recorded in git.
 

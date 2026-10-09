@@ -25,12 +25,15 @@
 | Update prompt | The "May bagong bersyon" banner depends on the service worker update flow, which was tested in desktop Chrome only. | Deploy twice and reopen the app. |
 | Performance | All timings in `docs/model-benchmark.md` and `docs/audit.md` are from a laptop. Expect a phone to be several times slower, especially for the model. | Time one chat reply on the device. |
 
-## Not built yet, noted for later phases
+## Branch `phases-7-9`: built, never run on an iPhone
 
 | Feature | iOS point to remember |
 |---|---|
 | Voice (Phase 7) | The microphone needs a user gesture and a permission prompt each session in some cases. On-device Whisper may be too heavy for a phone. |
-| Trip mode (Phase 8) | The Vibration API does not exist on iOS. The Screen Wake Lock API exists in recent Safari versions but has had problems inside Home Screen web apps on older iOS releases. Web apps do not run in the background, so GPS alerts stop when the screen locks. |
+| Trip mode (Phase 8) | The Vibration API does not exist on iOS. The Screen Wake Lock API exists in recent Safari versions but has had problems inside Home Screen web apps on older iOS releases. Web apps do not run in the background, so GPS alerts stop when the screen locks. Only Simulated GPS was ever run. |
+| Export of reports (Phase 9) | "I-export" makes a file with a temporary link and a download attribute. How Safari on iOS saves or previews a .json or .csv file this way is not known; the desktop test replaced the click. Check where the file lands and that it can be shared. |
+| Import of reports (Phase 9) | A file picker for .json and .csv. Whether the Files app offers those types here is not known. |
+| Saved favorites, settings and reports (Phase 9) | Stored in IndexedDB, so the same seven-day eviction risk as the model applies unless the app is on the Home Screen. |
 
 ## Install flow to rehearse before the demo
 

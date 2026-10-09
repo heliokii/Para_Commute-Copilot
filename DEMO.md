@@ -4,7 +4,7 @@ Read this with `docs/LLM_MANUAL_TEST.md` and the pre-flight checklist at the bot
 
 **State of the build this script was written against (2026-10-09):**
 - The app runs on the **synthetic sample pack**. Place names are "SYN Alpha Terminal", "SYN Foxtrot Station" and so on. Fares and times are made up and labeled "SAMPLE DATA" on screen. Say so out loud. Once the ride-verified corridor pack is in, replace the place names in the lines below and re-time the script.
-- **Voice and trip mode exist on branch `phases-7-9` only** (Phases 7 and 8). They are not in `submission-v1` or on `main`. The two optional steps under the table need a build of that branch.
+- **Voice, trip mode, Paborito and Settings exist on branch `phases-7-9` only** (Phases 7, 8 and 9). They are not in `submission-v1` or on `main`. The two optional steps under the table need a build of that branch. The script has no step for Paborito or Settings; do not improvise one, they were verified in desktop Chrome only.
 - **Voice has not been tested by a human.** Only generated audio was used (`docs/voice-benchmark.md`). The voice step is optional and may be used only if the live voice test passes.
 - **The arrival alert in this demo runs on Simulated GPS**, and the screen says so. Real GPS was not tested on any device. Never present it as real location.
 - The expected fares below are the hand-computed values for the sample pack. If the screen shows anything else, stop and check: the router or the pack changed.

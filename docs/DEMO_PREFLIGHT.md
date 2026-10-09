@@ -9,6 +9,8 @@ Demo laptop, production build, one browser only (Chrome or Edge). Full script: `
 - [ ] Setup, "Gisingin si Tsupher": download **Qwen2.5 1.5B Instruct** (about 840 MB) on WiFi. Wait for "Gising na si Tsupher!". Model files live in this browser profile only. Another browser or profile has no model.
 - [ ] Voice (branch `phases-7-9` only): on the same Setup screen tap "I-download ang boses" (Whisper tiny, about 142 MB). Then tap the mic once and allow the microphone, so the permission prompt does not appear during the demo. Run `docs/voice-test/PHRASES.md` first: voice has never been tested with a human voice.
 - [ ] Do not clear browsing data. It deletes the model and the offline copy.
+- [ ] Branch `phases-7-9`: never tap "Burahin lahat ng data" in Settings before a demo with the models box ticked. It deletes the downloaded AI and voice models (with the box off it deletes only your own saved data). Re-downloading needs internet.
+- [ ] Branch `phases-7-9`: Settings, "I-reset ang session" clears the visible chat, so the warm-up exchange does not stay on screen. By reading the code it does not unload the model; this was not tried with a model loaded.
 - [ ] Record a backup screen recording of one clean run.
 
 ## One hour before

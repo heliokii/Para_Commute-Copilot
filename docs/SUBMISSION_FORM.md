@@ -7,6 +7,8 @@ Repository: https://github.com/heliokii/AppBuilder2026
 
 Every statement below was checked in the repository or by running the build on 2026-10-09. Anything the repository cannot show is marked **[TEAM TO CONFIRM]**.
 
+Lines tagged **[branch phases-7-9]** describe work that exists only on the git branch `phases-7-9` (Phases 7, 8 and 9: voice, trip mode, favorites, settings, contribution queue). They are **not in the `submission-v1` tag**. Use them only if the team submits that branch; if it submits `submission-v1`, skip them. Nothing tagged here has been run on a phone, and voice has never been tested with a human voice.
+
 ## Short Desc
 
 Para! is an offline-first Taglish commute helper. Ask in Taglish where you are going and Tsupher, the jeepney mascot, shows route options, where to board and alight, and a fare breakdown with an "as of" date. Routes and fares come from a deterministic planner, never from AI. A small language model runs on the device and only helps read unclear questions. After one visit it works in airplane mode, and nothing the rider types is sent anywhere. The current build uses a labeled synthetic sample network, not a real corridor.
@@ -20,6 +22,9 @@ Para! is an offline-first Taglish commute helper. Ask in Taglish where you are g
 - The language model (Qwen2.5 1.5B Instruct, 4-bit), run by WebLLM on WebGPU in the browser. It reads unclear questions into a structured request and maps follow-ups. Its output is checked against the route pack before use.
 - Chat explanations (sentence templates filled from the planner result) and the validator that rejects any number or place not in the result.
 - The "Offline Mode" proof panel (service worker state, pack version, measured latency and tokens per second, count of requests to other servers).
+- **[branch phases-7-9]** Speech recognition: Whisper (tiny by default, base optional), run by transformers.js on ONNX Runtime Web, on WebGPU when available and WASM otherwise. The microphone is read only after a tap, for at most 8 seconds, at 16 kHz; the audio is wiped right after transcription and never stored or sent. The transcript is corrected against the route pack's landmark names and then goes to the same parser as typed text. The Web Speech API is not used.
+- **[branch phases-7-9]** Trip mode: distance from the device's GPS to the alight point, alerts, screen wake lock. The location is used in memory only, never stored or sent. Verified with Simulated GPS only.
+- **[branch phases-7-9]** Paborito (saved routes and landmarks), Settings (two unit display choices), and the "May mali ba?" contribution queue, kept in IndexedDB on the device. Reports can be exported as JSON or CSV files and imported again. Nothing is sent anywhere; "sync now" is a file the rider hands over.
 
 ## What requires internet
 
@@ -28,8 +33,10 @@ Para! is an offline-first Taglish commute helper. Ask in Taglish where you are g
   - `huggingface.co` (model files, redirects)
   - `us.aws.cdn.hf.co` (Hugging Face's download network; the redirect target seen in the test, which Hugging Face may change)
   - `raw.githubusercontent.com` (the compiled model library, one `.wasm` file)
+- **[branch phases-7-9]** The one-time **voice model download**, which the rider starts by hand from the same "Gisingin si Tsupher" screen: **about 142 MB for Whisper tiny (default) or 224 MB for Whisper base** (measured with the WebGPU build; about 67 and 101 MB for the WASM build, computed from file sizes, not measured). Download host: **`huggingface.co` redirecting to `us.aws.cdn.hf.co` (the same two Hugging Face hosts as the language model; no new host)**. The ONNX Runtime files (26 MB) are not fetched from a CDN: they are served by the app's own origin and cached on the device during that download.
 - Nothing else. After setup there are zero requests to any host other than the app's own origin. Verified with the network off and with every host except localhost unreachable (`npm run check:offline`, `npm run test:e2e`, `npm run check:llm`).
 - Not verified on a phone or in real airplane mode on any device.
+- **[branch phases-7-9]** Verified by `npm run check:voice`: a Whisper download from those two hosts only, then the microphone flow with the network off, and with every host except localhost unreachable. Opening Setup, Offline Mode or About never starts a download, and a chat message cannot start one (`npm run test:e2e`, `npm run check:llm`).
 
 ## Models used
 
@@ -41,7 +48,15 @@ Para! is an offline-first Taglish commute helper. Ask in Taglish where you are g
 - Qwen2.5 0.5B (277 MB, Apache-2.0) is in the candidate list but is not the default. In our benchmark it got 0% of origin/destination pairs right as a standalone parser. Write "Qwen2.5-1.5B-Instruct" on the form.
 - Other candidates the rider can choose: SmolLM2 1.7B Instruct (Apache-2.0, 926 MB), Llama 3.2 1B Instruct (Llama 3.2 Community License, 677 MB).
 - The Hugging Face repository `mlc-ai/Qwen2.5-1.5B-Instruct-q4f16_1-MLC` carries no licence tag of its own. The Apache-2.0 licence is the base model's. **[TEAM TO CONFIRM: read the model card yourself.]**
-- No model ships inside the app bundle. No speech model is used (voice is not built).
+- No model ships inside the app bundle. On `submission-v1` no speech model is used (voice is not built).
+- **[branch phases-7-9]** Speech models (downloaded on demand, never inside the bundle):
+
+| Model | Repository | Size on device (WebGPU build, runtime files included) | Licence | Weights from |
+|---|---|---|---|---|
+| **Whisper tiny, multilingual (default)** | `onnx-community/whisper-tiny` | about 142 MB measured | Apache-2.0: the base model `openai/whisper-tiny` is tagged `license:apache-2.0` on Hugging Face (read 2026-10-09) | `huggingface.co/onnx-community/whisper-tiny` |
+| Whisper base, multilingual (rider can choose) | `onnx-community/whisper-base` | about 224 MB measured | Apache-2.0 (`openai/whisper-base` is tagged `license:apache-2.0`) | `huggingface.co/onnx-community/whisper-base` |
+
+  The `onnx-community` conversion repositories name those as their base model and carry no licence tag of their own. **[TEAM TO CONFIRM: read both model cards.]** Accuracy on Tagalog or Taglish speech from a person is **untested**; only one English sentence spoken by a Windows synthesizer was run (`docs/voice-benchmark.md`). Tiny is the default because it is smaller, not because it was shown to be better.
 - Measured on one laptop (RTX 4050, headless Chrome 155): 25 to 38 tokens per second, about 1.5 to 2.2 s per parse once loaded, 10 to 18 s for the first load after a browser restart. Not measured on a phone.
 
 ## Technologies and Frameworks
@@ -65,12 +80,15 @@ Build and test:
 
 Web platform: Web Workers, Service Workers, IndexedDB, Cache Storage, WebGPU, Web App Manifest.
 
+**[branch phases-7-9]** Added: @huggingface/transformers `^4.3.1` (4.3.1, Apache-2.0) and its dependency onnxruntime-web (1.31.0-dev, MIT), for on-device Whisper. Phase 9 added no dependency (`liveQuery` comes from Dexie). Web platform on the branch: getUserMedia, Web Audio (AudioContext and AudioWorklet), Geolocation, Screen Wake Lock, Vibration, Blob downloads and file input.
+
 ## APIs and Cloud Services
 
 - **No cloud AI API. No analytics. No accounts. No backend of our own. No map tiles. No remote fonts.**
 - The only outside services are file hosts for the one-time model download: Hugging Face (`huggingface.co`, `us.aws.cdn.hf.co`) and GitHub raw (`raw.githubusercontent.com`). Anonymous file downloads, no key, no login.
 - **[TEAM TO CONFIRM: where the app itself is hosted, if anywhere.]**
-- Browser APIs used: WebGPU (through WebLLM), Service Worker, Cache Storage, IndexedDB, `localStorage` (chosen model id and size only), `navigator.storage.estimate()`, Resource Timing (to count requests to other servers). Location, microphone and camera are not used.
+- Browser APIs used: WebGPU (through WebLLM), Service Worker, Cache Storage, IndexedDB, `localStorage` (chosen model id and size only), `navigator.storage.estimate()`, Resource Timing (to count requests to other servers). On `submission-v1` location, microphone and camera are not used.
+- **[branch phases-7-9]** Also used: the microphone (only after the rider taps the mic button; denied permission falls back to typing), geolocation (only in trip mode, after the rider taps "Gamitin ang GPS ko"; the Simulated GPS option uses none), Screen Wake Lock, Vibration where supported, Web Audio. The camera is never used. No new outside service or host.
 
 ## Existing code and assets
 
@@ -97,6 +115,7 @@ Art:
 ## AI development tools
 
 - **Claude Code** (Anthropic's coding agent) wrote the application code, tests, scripts and documentation, in sessions on 2026-10-09, directed by the team through the phase prompts in `BUILD_PHASES.md`. The commit trailers for Phases 1 to 11 name **Claude Opus 5.5**. This submission-prep commit was made with **Claude Sonnet 5.5**.
+- **[branch phases-7-9]** On the branch, the trailers name Claude Sonnet 5.5 for Phase 8 and Phase 9, Claude Opus 5.5 for Phase 7, and Claude Sonnet 5.5 for the commit that stops chat from downloading a model on its own (its code was written in the Opus 5.5 session and committed after the model was switched).
 - The team wrote or supplied `CLAUDE.md` and `BUILD_PHASES.md`. **[TEAM TO CONFIRM: whether any AI tool helped write them.]**
 - The on-device models above were also run during development, to benchmark them (`docs/model-benchmark.md`). They generate nothing that ships.
 - **[TEAM TO CONFIRM: any other AI tool used for the art, the pitch, the slides or the video.]**

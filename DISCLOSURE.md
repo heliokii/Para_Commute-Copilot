@@ -99,7 +99,7 @@ The fare-hike details and other facts in `CLAUDE.md` section 3 were research not
 
 ## AI-assisted development
 
-- The application code, tests, scripts and the documents in this repository (README, DEMO, this file, GAP, the files under `docs/`) were written with **Claude Code**, Anthropic's coding agent, using the model **Claude Opus 5.5** for Phases 1 to 11 and **Claude Sonnet 5.5** for the submission-prep commit, in sessions on 2026-10-09, directed by the team through the phase prompts in `BUILD_PHASES.md`. Commits from that session carry a `Co-Authored-By: Claude Opus 5.5` line.
+- The application code, tests, scripts and the documents in this repository (README, DEMO, this file, GAP, the files under `docs/`) were written with **Claude Code**, Anthropic's coding agent, using the model **Claude Opus 5.5** for Phases 1 to 11 and **Claude Sonnet 5.5** for the submission-prep commit. On branch `phases-7-9`, the commit trailers name Claude Sonnet 5.5 for Phase 8 and Phase 9, and Claude Opus 5.5 for Phase 7. The commit after Phase 7 (the one that stops chat from downloading a model on its own) also names Sonnet 5.5, but its code was written in the Opus 5.5 session and committed after the model was switched, in sessions on 2026-10-09, directed by the team through the phase prompts in `BUILD_PHASES.md`. Commits from that session carry a `Co-Authored-By: Claude Opus 5.5` line.
 - `CLAUDE.md` and `BUILD_PHASES.md` (the plan and the phase prompts) were supplied by the team. **TEAM TO CONFIRM** whether and which AI tools helped write them.
 - The on-device models above were also used during development, to run the benchmark.
 
@@ -113,6 +113,22 @@ The fare-hike details and other facts in `CLAUDE.md` section 3 were research not
 - The microphone is asked for only when the rider taps the mic button. Audio is kept in memory for at most 8 seconds, transcribed on the device, then wiped. It is never stored or sent.
 - Location: on branch `phases-7-9` trip mode reads GPS on the device only (Phase 8). It is not stored or sent.
 
+## Local data the rider creates (branch `phases-7-9`, Phase 9)
+
+Stored in IndexedDB on the device only. No account, no upload, no sync.
+
+| Data | What it holds | Where it goes |
+|---|---|---|
+| Favorites | A saved trip (landmark ids, preference, avoid-list, route pack id and version) or a saved landmark. No fare or time is stored. | Nowhere. Deleted by "Burahin lahat ng data". |
+| Settings | Two display choices: Oras and Distansya. | Nowhere. |
+| Contribution queue ("May mali ba?") | What was wrong (one of five), an optional note of up to 500 characters the rider types, the trip's landmark and route ids, the route pack version, the fare date, a random id. | Nowhere by itself. The rider can export it as a JSON or CSV file and hand it over; the app does not send it. |
+| Recent searches | Landmark ids and a preference, in memory only. | Forgotten when the app closes or the session is reset. |
+
+- Exporting marks a report "exported". That means a file was made, not that anyone received it.
+- Import accepts only our JSON format or a CSV with the same columns, checks every row, ignores any status or extra field in the file, and skips a report whose id it already has.
+- "Burahin lahat ng data" deletes favorites, settings, reports and the session. It keeps the route pack and the offline copy of the app. Ticking a separate box also deletes the selected AI model and the voice model.
+- No library or model was added in Phase 9.
+
 ## Not verified, in one list
 
 1. Model licences and their conditions (read from memory of the model cards, not re-checked).
@@ -123,3 +139,6 @@ The fare-hike details and other facts in `CLAUDE.md` section 3 were research not
 6. The "Para!" name: `CLAUDE.md` notes it should be checked for prior use. Not checked.
 7. Transitive dependency licences.
 8. Voice accuracy on human speech, voice on any phone, and the licence of the `onnx-community` Whisper conversions.
+9. Real GPS (trip mode was verified with Simulated GPS only), the wake lock, vibration and the chime, on any device.
+10. Phase 9 on any phone, including how a phone saves the exported file and opens the import file picker.
+11. Whether a spreadsheet opens an exported CSV safely: the formula guard was tested only by a round trip in code.
