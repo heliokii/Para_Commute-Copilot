@@ -10,7 +10,7 @@ export const copy = {
     sampleData: 'SAMPLE DATA, not verified',
   },
   splash: {
-    skip: 'I-tap para magpatuloy',
+    start: 'Simulan',
   },
   nav: {
     label: 'Pangunahing navigation',

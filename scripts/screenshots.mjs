@@ -48,10 +48,18 @@ try {
 
   // Splash: the first paint of a cold start.
   await page.goto(BASE, { waitUntil: 'domcontentloaded' })
-  await page.waitForSelector('button[aria-label]', { timeout: 15000 })
+  await page.waitForSelector('[data-testid=splash-start]', { timeout: 15000 })
   await settle()
   await page.screenshot({ path: `${OUT}/splash.png` })
   console.log(`${OUT}/splash.png`)
+  // The same screen on a laptop and on a short phone.
+  for (const [name, width, height] of [['splash-wide', 1440, 900], ['splash-short', 360, 640]]) {
+    await page.setViewport({ width, height, deviceScaleFactor: 1 })
+    await settle()
+    await page.screenshot({ path: `${OUT}/${name}.png` })
+    console.log(`${OUT}/${name}.png`)
+  }
+  await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2 })
   await page.keyboard.press('Escape')
 
   for (const [name, hash] of SCREENS) {

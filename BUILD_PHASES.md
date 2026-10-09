@@ -64,7 +64,7 @@ Keep Inter (already cached) for body text. Add one self-hosted rounded display f
 
 | Screen | Phase | Notes |
 |---|---|---|
-| Splash | 3 | Max 1.2 s, skippable |
+| Splash | 3 | Landing screen: stays until a tap or any key (was max 1.2 s) |
 | Home ("Kumusta!") | 3 | Prompt card, Plan a Route and Voice Chat tiles, 100% Offline banner |
 | Offline Mode | 3 static, 10 real | Checks must reflect real state |
 | Plan a Route | 4 | |
@@ -110,6 +110,7 @@ Taglish, warm, short. Use the mockup strings where provided ("Kumusta!", "Ako si
 7. "Walang tracking" copy: Trip mode uses GPS on-device. Word it as "Nasa phone mo lang ang lokasyon mo."
 8. The "Bytes sent" figure is an in-app tally. Label it as app-measured; devtools Network is the real proof.
 9. Dashboard mockup: Nearby Stops, Popular Destinations, mode filter chips and timestamped chat history have no data behind them. The dashboard shows saved places and the in-memory "Kamakailang Hinanap" instead, and "Iwas Traffic" is the Iwas EDSA switch, labeled Simulated. Nav labels stay Home, Ruta, Mapa, Paborito, Higit Pa.
+10. Landing screen: the skyline, clouds and sun crown are inline SVG drawn for the app (a generic skyline, not a real place), and the wordmark is still live text. It has a "Simulan" button the mockup does not show, because the screen no longer closes by itself.
 
 ### 2.9 Asset prep checklist (you, before Phase 3)
 - [ ] Slice the 12 sprites from `Appearances.png` into transparent-background WebP files (the sheet has a beige background and baked-in labels). Max edge 512 px, ≤ 50 KB each.
