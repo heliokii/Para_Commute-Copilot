@@ -2,6 +2,7 @@ import { db } from '../db/db.ts'
 import { seedReady } from '../db/seed.ts'
 import type { RouterRequest, RouterResponse } from './protocol.ts'
 import type { Intent, RoutePack, RouteResult } from './types.ts'
+import { normalizeFare } from './normalizeFare.ts'
 
 type Outgoing = RouterRequest extends infer R ? (R extends unknown ? Omit<R, 'id'> : never) : never
 
@@ -57,7 +58,7 @@ export async function loadPack(packId: string): Promise<RoutePack | null> {
     ...packRow,
     landmarks: landmarks.map(strip),
     routes: routes.map(strip),
-    fares: fares.map(strip),
+    fares: fares.map(normalizeFare).filter((fare): fare is NonNullable<typeof fare> => fare !== null),
   }
 }
 

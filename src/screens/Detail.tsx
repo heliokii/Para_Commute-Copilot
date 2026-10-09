@@ -14,32 +14,50 @@ import { MODES } from '../lib/modes'
 import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { daysSince, isFareStale } from '../lib/proof'
 import { fareBreakdown } from '../router/fare.ts'
-import type { Leg, RoutePack } from '../router/types.ts'
+import type { Intent, Leg, RoutePack } from '../router/types.ts'
 import { landmarkName, routeName, selectedResult, usePlan } from '../state/plan'
 import { useSettings } from '../state/settings'
 
-function FareSheetLeg({ pack, leg }: { pack: RoutePack; leg: Leg }) {
+function FareSheetLeg({ pack, leg, eligibility }: { pack: RoutePack; leg: Leg; eligibility?: Intent['fareEligibility'] }) {
   const route = pack.routes.find((candidate) => candidate.id === leg.routeId)
   const fare = pack.fares.find((candidate) => candidate.id === route?.fareTableId)
   if (!route || !fare) return null
-  const parts = fareBreakdown(leg.distKm, fare)
+  const parts = fareBreakdown(leg.boardId, leg.alightId, leg.distKm, fare, undefined, eligibility)
+  if (!parts) return null
+  const boardName = pack.landmarks.find((landmark) => landmark.id === leg.boardId)?.name ?? leg.boardId
+  const alightName = pack.landmarks.find((landmark) => landmark.id === leg.alightId)?.name ?? leg.alightId
   const row = 'flex items-baseline justify-between gap-3'
   return (
     <li className="py-3">
       <p className="font-semibold">{route.name}</p>
       <dl className="mt-1 space-y-0.5 text-sm tabular-nums">
-        <div className={row}>
-          <dt>{copy.detail.base(parts.baseKm)}</dt>
-          <dd>{peso(parts.baseFare)}</dd>
-        </div>
-        <div className={row}>
-          <dt>{copy.detail.extra(parts.extraKm, peso(parts.perKm))}</dt>
-          <dd>{peso(parts.extraFare)}</dd>
-        </div>
-        {parts.unrounded !== parts.total && (
+        {parts.kind === 'distance' ? (
+          <>
+            <div className={row}>
+              <dt>{copy.detail.base(parts.baseKm)}</dt>
+              <dd>{peso(parts.baseFare)}</dd>
+            </div>
+            <div className={row}>
+              <dt>{copy.detail.extra(parts.extraKm, peso(parts.perKm))}</dt>
+              <dd>{peso(parts.extraFare)}</dd>
+            </div>
+            {parts.unrounded !== parts.scheduledTotal && (
+              <div className={`${row} text-ink-muted`}>
+                <dt>{copy.detail.unrounded}</dt>
+                <dd>{peso(parts.unrounded)}</dd>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className={row}>
+            <dt>{copy.detail.matrixFare(boardName, alightName)}</dt>
+            <dd>{peso(parts.scheduledTotal)}</dd>
+          </div>
+        )}
+        {parts.promotion && (
           <div className={`${row} text-ink-muted`}>
-            <dt>{copy.detail.unrounded}</dt>
-            <dd>{peso(parts.unrounded)}</dd>
+            <dt>{parts.promotion.label}</dt>
+            <dd>−{peso(parts.scheduledTotal - parts.total)}</dd>
           </div>
         )}
         <div className={`${row} font-semibold`}>
@@ -48,7 +66,12 @@ function FareSheetLeg({ pack, leg }: { pack: RoutePack; leg: Leg }) {
         </div>
       </dl>
       <p className="mt-1.5 text-xs text-ink-muted">
-        {copy.detail.effective}: {fare.effectiveDate} · {copy.detail.rounding}: {fare.roundingRule}
+        {copy.detail.productClass(fare.product, fare.vehicleClass)}
+        <br />
+        {copy.detail.effective}: {parts.effectiveDate}
+        {fare.expiresAt && ` · ${copy.detail.expires}: ${fare.expiresAt}`}
+        {parts.promotion?.expiresAt && <><br />{copy.detail.promotionExpires}: {parts.promotion.expiresAt}</>}
+        {parts.kind === 'distance' && ` · ${copy.detail.rounding}: ${fare.rule.kind === 'distance' ? fare.rule.roundingRule : ''}`}
         <br />
         {copy.detail.source}: {fare.sourceNote}
       </p>
@@ -247,7 +270,7 @@ export function Detail() {
       <BottomSheet open={fareOpen} onClose={() => setFareOpen(false)} title={copy.detail.fareSheetTitle}>
         <ul data-testid="fare-sheet" className="mt-1 max-h-[55dvh] divide-y divide-line overflow-y-auto">
           {rideLegs.map((leg, index) => (
-            <FareSheetLeg key={index} pack={pack} leg={leg} />
+            <FareSheetLeg key={index} pack={pack} leg={leg} eligibility={plan.searched?.fareEligibility} />
           ))}
         </ul>
         <p className="mt-2 text-xs text-ink-muted">{copy.detail.fareDisclaimer}</p>

@@ -3,6 +3,7 @@ import { buildGraph, type Edge } from './graph.ts'
 import { MinHeap } from './heap.ts'
 import type {
   Avoid,
+  FareEligibility,
   Intent,
   Leg,
   Mode,
@@ -137,7 +138,10 @@ export function planRoute(
     return noRoute('same_origin_destination', preference, simulated)
   }
 
-  const graph = buildGraph(pack, avoid, config)
+  const fareEligibility: FareEligibility = ['adult', 'student', 'senior', 'pwd'].includes(intent?.fareEligibility ?? '')
+    ? intent.fareEligibility as FareEligibility
+    : 'adult'
+  const graph = buildGraph(pack, avoid, config, fareEligibility)
   if (graph.avoidedLandmarks.has(intent.originId)) {
     return noRoute('origin_avoided', preference, simulated, graph.assumptions)
   }
@@ -213,7 +217,7 @@ export function planRoute(
     fare: edge.fareCentavos / 100,
   }))
 
-  const fareDates = [...new Set(edges.flatMap((edge) => edge.fareEntry?.effectiveDate ?? []))].sort()
+  const fareDates = [...new Set(edges.flatMap((edge) => edge.fareEffectiveDate ?? []))].sort()
   const assumptions = [
     ...graph.assumptions,
     'Waiting time is not modeled. Minutes are ride and walk time only.',

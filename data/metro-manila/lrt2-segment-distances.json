@@ -1,0 +1,220 @@
+{
+  "line": "LRT-2",
+  "capturedAt": "2026-10-10",
+  "stationOrder": [
+    {
+      "id": "recto",
+      "name": "Recto"
+    },
+    {
+      "id": "legarda",
+      "name": "Legarda"
+    },
+    {
+      "id": "pureza",
+      "name": "Pureza"
+    },
+    {
+      "id": "v_mapa",
+      "name": "V. Mapa"
+    },
+    {
+      "id": "j_ruiz",
+      "name": "J. Ruiz"
+    },
+    {
+      "id": "gilmore",
+      "name": "Gilmore"
+    },
+    {
+      "id": "betty_go",
+      "name": "Betty Go-Belmonte"
+    },
+    {
+      "id": "cubao",
+      "name": "Araneta Center-Cubao"
+    },
+    {
+      "id": "anonas",
+      "name": "Anonas"
+    },
+    {
+      "id": "katipunan",
+      "name": "Katipunan"
+    },
+    {
+      "id": "santolan",
+      "name": "Santolan"
+    },
+    {
+      "id": "marikina",
+      "name": "Marikina-Pasig"
+    },
+    {
+      "id": "antipolo",
+      "name": "Antipolo"
+    }
+  ],
+  "segments": [
+    {
+      "from": {
+        "id": "recto",
+        "name": "Recto"
+      },
+      "to": {
+        "id": "legarda",
+        "name": "Legarda"
+      },
+      "distanceMeters": 1050,
+      "distanceKm": 1.05,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "legarda",
+        "name": "Legarda"
+      },
+      "to": {
+        "id": "pureza",
+        "name": "Pureza"
+      },
+      "distanceMeters": 1389,
+      "distanceKm": 1.389,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "pureza",
+        "name": "Pureza"
+      },
+      "to": {
+        "id": "v_mapa",
+        "name": "V. Mapa"
+      },
+      "distanceMeters": 1357,
+      "distanceKm": 1.357,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "v_mapa",
+        "name": "V. Mapa"
+      },
+      "to": {
+        "id": "j_ruiz",
+        "name": "J. Ruiz"
+      },
+      "distanceMeters": 1234,
+      "distanceKm": 1.234,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "j_ruiz",
+        "name": "J. Ruiz"
+      },
+      "to": {
+        "id": "gilmore",
+        "name": "Gilmore"
+      },
+      "distanceMeters": 928,
+      "distanceKm": 0.928,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "gilmore",
+        "name": "Gilmore"
+      },
+      "to": {
+        "id": "betty_go",
+        "name": "Betty Go-Belmonte"
+      },
+      "distanceMeters": 1075,
+      "distanceKm": 1.075,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "betty_go",
+        "name": "Betty Go-Belmonte"
+      },
+      "to": {
+        "id": "cubao",
+        "name": "Araneta Center-Cubao"
+      },
+      "distanceMeters": 1164,
+      "distanceKm": 1.164,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "cubao",
+        "name": "Araneta Center-Cubao"
+      },
+      "to": {
+        "id": "anonas",
+        "name": "Anonas"
+      },
+      "distanceMeters": 1438,
+      "distanceKm": 1.438,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "anonas",
+        "name": "Anonas"
+      },
+      "to": {
+        "id": "katipunan",
+        "name": "Katipunan"
+      },
+      "distanceMeters": 955,
+      "distanceKm": 0.955,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "katipunan",
+        "name": "Katipunan"
+      },
+      "to": {
+        "id": "santolan",
+        "name": "Santolan"
+      },
+      "distanceMeters": 1970,
+      "distanceKm": 1.97,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "santolan",
+        "name": "Santolan"
+      },
+      "to": {
+        "id": "marikina",
+        "name": "Marikina-Pasig"
+      },
+      "distanceMeters": 1123,
+      "distanceKm": 1.123,
+      "source": "lrta-distance-between-stations"
+    },
+    {
+      "from": {
+        "id": "marikina",
+        "name": "Marikina-Pasig"
+      },
+      "to": {
+        "id": "antipolo",
+        "name": "Antipolo"
+      },
+      "distanceMeters": 2284,
+      "distanceKm": 2.284,
+      "source": "lrta-distance-between-stations"
+    }
+  ],
+  "reportedTotalMeters": 15967,
+  "validationNotes": [
+    "LRTA embedded distance table reports 15.967 km total; LRTA Railway Operations page reports a 17.6 km line. Difference unresolved; do not treat as route geometry or travel time."
+  ]
+}

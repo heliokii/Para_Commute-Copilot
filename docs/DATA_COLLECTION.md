@@ -92,15 +92,30 @@ Fares are reference data with a date, not a ruling on what a driver may charge.
 |---|---|---|
 | `id` | yes | Unique id. Put the period in it so a new matrix gets a new id |
 | `mode` | yes | Same values as routes |
-| `base_fare` | yes | Pesos for the first `base_km` |
-| `base_km` | yes | Distance the base fare covers |
-| `per_km` | yes | Pesos for each km after `base_km` |
+| `product` | yes | Ticket/fare product, e.g. `single-journey` |
+| `vehicle_class` | yes | Vehicle class, e.g. `ordinary`, `air-conditioned`, `traditional`, `modern` |
+| `rule` | yes | `distance` or `matrix` |
+| `base_fare` | for distance | Pesos covered by the base fare |
+| `base_km` | for distance | Distance covered by `base_fare` |
+| `per_km` | for distance | Pesos for each km after `base_km` |
 | `effective_date` | yes | Date the matrix took effect. Shown on screen as "as of" |
+| `expires_at` | no | Last date the fare or temporary guide is valid |
 | `rounding_rule` | no | `nearest_0.25` (default), `nearest_1`, `ceil_1` or `none` |
 | `source_note` | yes | Where the numbers came from, in words |
-| `source_url` | no | Link to the official matrix or the article |
+| `source_url` | yes | Link to the official matrix or source record |
 | `photo_ref` | no | File name of the posted fare matrix photo |
 | `conflict_note` | no | Fill in when sources disagree |
+
+For `rule=distance`, use the formula fields. For `rule=matrix`, leave them blank and put exact directional amounts in `fare_matrix.csv`:
+
+| Column | Meaning |
+|---|---|
+| `fare_entry_id` | Fare ID from `fares.csv` |
+| `promotion_id` | Empty for the scheduled fare; promotion ID for a discounted matrix |
+| `origin_id`, `destination_id` | Boarding and alighting landmark IDs; direction matters |
+| `fare` | Exact fare in pesos |
+
+`fare_promotions.csv` stores a fare change without replacing the scheduled rule. Use `eligibility=all` for a temporary universal discount, or `student`, `senior`, or `pwd` for eligible passengers. `kind=percent_off` uses `value` as a percent; `kind=matrix` reads final fares from `fare_matrix.csv` using its `promotion_id`. Promotions have their own effective and expiry dates and do not stack; the lowest applicable fare is selected. The router defaults to an adult rider and applies only universal promotions.
 
 How to collect:
 
@@ -110,7 +125,7 @@ How to collect:
 - **Conflicting sources.** `CLAUDE.md` section 3 notes that published reports disagree on some 2026 figures. When two sources differ, enter the value from the posted matrix photo, and describe the disagreement in `conflict_note`. The validator prints every conflict note so nobody forgets it.
 - When a new matrix takes effect, add a new row with a new `id` and `effective_date`. Do not edit the old row.
 
-Fare formula used by the router: `base_fare + max(0, distance - base_km) * per_km`, then the rounding rule. Discounts (student, senior, PWD) are not modeled.
+Distance fare formula used by the router: `base_fare + max(0, distance - base_km) * per_km`, then the rounding rule. Matrix fares use the exact board-to-alight entry; the reverse direction is never inferred.
 
 ## terminals.csv
 
@@ -128,7 +143,9 @@ Three to five terminals, each checked on site.
 
 ## What the validator reports
 
-Errors (exit code 1): a missing file or column, an empty required cell, a duplicate id, a reference to an id that does not exist, a value that is not a number, coordinates out of range, an unknown mode or rounding rule, a date not in `YYYY-MM-DD`, a route with fewer than two stops, a first stop that is not `0`/`0`, a later stop with zero or negative distance or minutes, a stated distance shorter than the straight line, a route marked verified without a date and a name.
+Errors (exit code 1): a missing file or column, a missing or invalid `ncr_boundary.geojson`, a stop landmark outside the supplied NCR polygon, an empty required cell, a fare missing its product, vehicle class, source note, HTTPS source URL, or valid effective date, a duplicate id, a reference to an id that does not exist, a value that is not a number, coordinates out of range, an unknown mode or rounding rule, a date not in `YYYY-MM-DD`, a route with fewer than two stops, a first stop that is not `0`/`0`, a later stop with zero or negative distance or minutes, a stated distance shorter than the straight line, a route marked verified without a date and a name.
+
+`ncr_boundary.geojson` must contain only NCR boundary features, and every feature must identify NCR in a region/name/code property. The validator checks stop landmarks against polygon geometry, including holes. This does not certify the source boundary or test the route's full path between stops; source and boundary currency must still be documented and reviewed.
 
 Warnings: an empty file, an unverified route, a fare with no photo or link, a fare with a conflict note, an empty rounding rule, a distance over three times the straight line, rush minutes lower than off-peak, a landmark no route stops at, a fare table no route uses, a terminal with no landmark or no verified date.
 

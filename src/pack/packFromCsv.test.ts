@@ -22,8 +22,14 @@ const GOOD: Record<PackFile, string> = {
     'R1,3,C,3.5,18,,gps,2026-10-01,Tester,',
   ].join('\n'),
   fares: [
-    'id,mode,base_fare,base_km,per_km,effective_date,rounding_rule,source_note,source_url,photo_ref,conflict_note',
-    'F-J,jeepney,10,4,1.5,2026-01-01,nearest_0.25,SYNTHETIC,,photo-001.jpg,',
+    'id,mode,product,vehicle_class,rule,base_fare,base_km,per_km,effective_date,expires_at,rounding_rule,source_note,source_url,photo_ref,conflict_note',
+    'F-J,jeepney,ordinary,traditional,distance,10,4,1.5,2026-01-01,,nearest_0.25,SYNTHETIC,https://example.test/fare-guide,photo-001.jpg,',
+  ].join('\n'),
+  fare_matrix: [
+    'fare_entry_id,promotion_id,origin_id,destination_id,fare',
+  ].join('\n'),
+  fare_promotions: [
+    'fare_entry_id,id,label,eligibility,kind,value,effective_date,expires_at,source_url,source_note',
   ].join('\n'),
   terminals: [
     'id,name,landmark_id,lat,lon,routes_served,verified_date,note',
@@ -68,6 +74,8 @@ describe('packFromCsv', () => {
   it('reports missing files and missing columns', () => {
     expect(errorsOf({})).toEqual([
       'landmarks:- landmarks.csv is missing',
+      'fare_matrix:- fare_matrix.csv is missing',
+      'fare_promotions:- fare_promotions.csv is missing',
       'fares:- fares.csv is missing',
       'route_stops:- route_stops.csv is missing',
       'routes:- routes.csv is missing',
@@ -109,6 +117,36 @@ describe('packFromCsv', () => {
     expect(errors).toContain('landmarks:5 lon out of range: 200')
     expect(errors).toContain('fares:2 "effective_date" must be YYYY-MM-DD, got "Jan 2026"')
     expect(errors.some((message) => message.includes('unknown mode "tricycle"'))).toBe(true)
+    expect(errorsOf({ ...GOOD, fares: GOOD.fares.replace('2026-01-01', '2026-02-30') })).toContain(
+      'fares:2 "effective_date" must be YYYY-MM-DD, got "2026-02-30"',
+    )
+  })
+
+  it('rejects distance fares and percentage promotions with blank required values', () => {
+    const fareErrors = errorsOf({ ...GOOD, fares: GOOD.fares.replace(',10,4,1.5,', ',,4,1.5,') })
+    expect(fareErrors).toContain('fares:2 "base_fare" is required and must be a number')
+
+    const promotionErrors = errorsOf({
+      ...GOOD,
+      fare_promotions: [
+        PACK_HEADERS.fare_promotions.join(','),
+        'F-J,ALL-HALF,Temporary half fare,all,percent_off,,2026-03-23,2026-12-31,https://example.test/promo,OFFICIAL',
+      ].join('\n'),
+    })
+    expect(promotionErrors).toContain('fare_promotions:2 "value" is required and must be a number')
+  })
+
+  it('does not let matrix IDs mutate Object.prototype', () => {
+    const marker = 'fareCsvPrototypePollution'
+    try {
+      errorsOf({
+        ...GOOD,
+        fare_matrix: `${GOOD.fare_matrix}\nF-J,,__proto__,${marker},3`,
+      })
+      expect(Object.hasOwn(Object.prototype, marker)).toBe(false)
+    } finally {
+      delete (Object.prototype as Record<string, unknown>)[marker]
+    }
   })
 
   it('reports inconsistent stop distances', () => {
@@ -140,5 +178,92 @@ describe('packFromCsv', () => {
       fares: GOOD.fares.replace('photo-001.jpg,', 'photo-001.jpg,Source A and B disagree on per_km'),
     })
     expect(issues.some((issue) => issue.message.startsWith('sources conflict:'))).toBe(true)
+  })
+
+  it('rejects fare source locations that are not HTTPS URLs', () => {
+    const errors = errorsOf({ ...GOOD, fares: GOOD.fares.replace('https://example.test/fare-guide', 'javascript:alert(1)') })
+    expect(errors).toContain('fares:2 "source_url" must be an HTTPS URL')
+  })
+
+  it('requires every fare to have a valid effective date and HTTPS source', () => {
+    const noDate = errorsOf({ ...GOOD, fares: GOOD.fares.replace('2026-01-01', '') })
+    expect(noDate).toContain('fares:2 "effective_date" must be YYYY-MM-DD, got ""')
+
+    const noSource = errorsOf({ ...GOOD, fares: GOOD.fares.replace('https://example.test/fare-guide', '') })
+    expect(noSource).toContain('fares:2 "source_url" must be an HTTPS URL')
+
+    const missingContext = errorsOf({
+      ...GOOD,
+      fares: GOOD.fares.replace(',ordinary,traditional,', ',,,').replace(',nearest_0.25,SYNTHETIC,', ',nearest_0.25,,')
+    })
+    expect(missingContext).toContain('fares:2 "product" is required')
+    expect(missingContext).toContain('fares:2 "vehicle_class" is required')
+    expect(missingContext).toContain('fares:2 "source_note" is required')
+  })
+
+  it('loads exact matrix fares and dated fare promotions', () => {
+    const files = {
+      ...GOOD,
+      routes: GOOD.routes.replace('F-J,true', 'F-M,true'),
+      fares: [
+        PACK_HEADERS.fares.join(','),
+        'F-M,train,single-journey,standard,matrix,,,,2026-03-23,,,OFFICIAL,https://example.test/rail-matrix,,',
+      ].join('\n'),
+      fare_matrix: [
+        PACK_HEADERS.fare_matrix.join(','),
+        'F-M,,A,B,8',
+        'F-M,,A,C,12',
+        'F-M,,B,C,8',
+      ].join('\n'),
+      fare_promotions: PACK_HEADERS.fare_promotions.join(','),
+    }
+    const { pack, issues } = packFromCsv(files)
+    expect(issues.filter((issue) => issue.level === 'error')).toEqual([])
+    expect(pack.fares[0].rule).toEqual({ kind: 'matrix', byOriginDestination: { A: { B: 8, C: 12 }, B: { C: 8 } } })
+    const result = planRoute(pack, {
+      originId: 'A', destinationId: 'C', preference: 'cheapest',
+      avoid: { landmarkIds: [], routeIds: [], modes: [], tags: [] },
+    })
+    expect(result.totalFare).toBe(12)
+  })
+
+  it('keeps scheduled and promotional matrix IDs distinct even when they contain separators', () => {
+    const files = {
+      ...GOOD,
+      routes: GOOD.routes.replace('F-J,true', 'F::P,true'),
+      fares: [
+        PACK_HEADERS.fares.join(','),
+        'F::P,train,single-journey,standard,matrix,,,,2026-01-01,,,OFFICIAL,https://example.test/fare,,',
+        'F,train,single-journey,standard,matrix,,,,2026-01-01,,,OFFICIAL,https://example.test/fare,,',
+      ].join('\n'),
+      fare_matrix: [
+        PACK_HEADERS.fare_matrix.join(','),
+        'F::P,,A,B,20',
+        'F,,B,C,17',
+        'F,P,A,C,5',
+      ].join('\n'),
+      fare_promotions: [
+        PACK_HEADERS.fare_promotions.join(','),
+        'F,P,Promo,all,matrix,,2026-01-01,,https://example.test/promo,OFFICIAL',
+      ].join('\n'),
+    }
+    const { pack, issues } = packFromCsv(files)
+    expect(issues.filter((issue) => issue.level === 'error')).toEqual([])
+    expect(pack.fares.find((fare) => fare.id === 'F::P')?.rule).toEqual({ kind: 'matrix', byOriginDestination: { A: { B: 20 } } })
+    expect(pack.fares.find((fare) => fare.id === 'F')?.rule).toEqual({ kind: 'matrix', byOriginDestination: { B: { C: 17 } } })
+    expect(pack.fares.find((fare) => fare.id === 'F')?.promotions?.[0].rule).toEqual({ kind: 'matrix', byOriginDestination: { A: { C: 5 } } })
+  })
+
+  it('parses promotions without replacing their scheduled fare rule', () => {
+    const { pack, issues } = packFromCsv({
+      ...GOOD,
+      fare_promotions: [
+        PACK_HEADERS.fare_promotions.join(','),
+        'F-J,ALL-HALF,Temporary half fare,all,percent_off,50,2026-03-23,2026-12-31,https://example.test/promo,OFFICIAL',
+      ].join('\n'),
+    })
+    expect(issues.filter((issue) => issue.level === 'error')).toEqual([])
+    expect(pack.fares[0].rule).toMatchObject({ kind: 'distance', baseFare: 10 })
+    expect(pack.fares[0].promotions?.[0]).toMatchObject({ id: 'ALL-HALF', effectiveDate: '2026-03-23', expiresAt: '2026-12-31' })
   })
 })

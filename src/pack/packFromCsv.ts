@@ -1,6 +1,8 @@
 import { haversineKm } from '../router/geo.ts'
 import type {
   FareEntry,
+  FarePromotion,
+  FareRule,
   Landmark,
   Mode,
   RoundingRule,
@@ -12,13 +14,15 @@ import { parseCsv, type CsvRecord } from './csv.ts'
 // Builds a RoutePack from the team's CSV files (docs/DATA_COLLECTION.md) and
 // reports everything missing or inconsistent. Pure: no file or network access.
 
-export type PackFile = 'landmarks' | 'routes' | 'route_stops' | 'fares' | 'terminals'
+export type PackFile = 'landmarks' | 'routes' | 'route_stops' | 'fares' | 'fare_matrix' | 'fare_promotions' | 'terminals'
 
 export const PACK_HEADERS: Record<PackFile, string[]> = {
   landmarks: ['id', 'name', 'aliases', 'tags', 'lat', 'lon', 'note'],
   routes: ['id', 'mode', 'name', 'tags', 'fare_table_id', 'verified', 'verified_date', 'verified_by', 'note'],
   route_stops: ['route_id', 'seq', 'landmark_id', 'dist_km_from_prev', 'min_from_prev', 'min_from_prev_rush', 'method', 'measured_date', 'measured_by', 'note'],
-  fares: ['id', 'mode', 'base_fare', 'base_km', 'per_km', 'effective_date', 'rounding_rule', 'source_note', 'source_url', 'photo_ref', 'conflict_note'],
+  fares: ['id', 'mode', 'product', 'vehicle_class', 'rule', 'base_fare', 'base_km', 'per_km', 'effective_date', 'expires_at', 'rounding_rule', 'source_note', 'source_url', 'photo_ref', 'conflict_note'],
+  fare_matrix: ['fare_entry_id', 'promotion_id', 'origin_id', 'destination_id', 'fare'],
+  fare_promotions: ['fare_entry_id', 'id', 'label', 'eligibility', 'kind', 'value', 'effective_date', 'expires_at', 'source_url', 'source_note'],
   terminals: ['id', 'name', 'landmark_id', 'lat', 'lon', 'routes_served', 'verified_date', 'note'],
 }
 
@@ -26,7 +30,9 @@ const REQUIRED: Record<PackFile, string[]> = {
   landmarks: ['id', 'name', 'lat', 'lon'],
   routes: ['id', 'mode', 'name', 'fare_table_id', 'verified'],
   route_stops: ['route_id', 'seq', 'landmark_id', 'dist_km_from_prev', 'min_from_prev'],
-  fares: ['id', 'mode', 'base_fare', 'base_km', 'per_km', 'effective_date', 'source_note'],
+  fares: ['id', 'mode', 'product', 'vehicle_class', 'rule', 'effective_date', 'source_note', 'source_url'],
+  fare_matrix: ['fare_entry_id', 'origin_id', 'destination_id', 'fare'],
+  fare_promotions: ['fare_entry_id', 'id', 'label', 'eligibility', 'kind', 'effective_date', 'source_note', 'source_url'],
   terminals: ['id', 'name'],
 }
 
@@ -65,8 +71,17 @@ const splitList = (value: string) =>
     .map((item) => item.trim())
     .filter(Boolean)
 
-const isValidDate = (value: string) =>
-  ISO_DATE.test(value) && !Number.isNaN(Date.parse(`${value}T00:00:00Z`))
+const isValidDate = (value: string) => {
+  if (!ISO_DATE.test(value)) return false
+  const parsed = Date.parse(`${value}T00:00:00Z`)
+  return Number.isFinite(parsed) && new Date(parsed).toISOString().slice(0, 10) === value
+}
+
+const isHttpsUrl = (value: string) => {
+  try { return new URL(value).protocol === 'https:' } catch { return false }
+}
+const fareMatrixKey = (fareEntryId: string) => JSON.stringify(['fare', fareEntryId])
+const promotionMatrixKey = (fareEntryId: string, promotionId: string) => JSON.stringify(['promotion', fareEntryId, promotionId])
 
 export function packFromCsv(
   files: Partial<Record<PackFile, string>>,
@@ -108,6 +123,14 @@ export function packFromCsv(
     return value
   }
 
+  function requiredNumber(file: PackFile, record: CsvRecord, column: string): number {
+    if (record.values[column] === '') {
+      error(file, `"${column}" is required and must be a number`, record.row)
+      return Number.NaN
+    }
+    return number(file, record, column)
+  }
+
   function uniqueId(file: PackFile, record: CsvRecord, seen: Set<string>): string {
     const id = record.values.id
     if (id !== '' && seen.has(id)) error(file, `duplicate id "${id}"`, record.row)
@@ -142,41 +165,149 @@ export function packFromCsv(
   const landmarkById = new Map(landmarks.map((landmark) => [landmark.id, landmark]))
 
   // --- fares ---
+  const matrices = new Map<string, Record<string, Record<string, number>>>()
+  const matrixRows = load('fare_matrix')
+  const matrixPairs = new Set<string>()
+  for (const record of matrixRows) {
+    const fareEntryId = record.values.fare_entry_id
+    const promotionId = record.values.promotion_id ?? ''
+    const key = promotionId ? promotionMatrixKey(fareEntryId, promotionId) : fareMatrixKey(fareEntryId)
+    const originId = record.values.origin_id
+    const destinationId = record.values.destination_id
+    const pairKey = JSON.stringify([key, originId, destinationId])
+    if (matrixPairs.has(pairKey)) error('fare_matrix', `duplicate origin/destination pair "${originId}" to "${destinationId}"`, record.row)
+    matrixPairs.add(pairKey)
+    const value = number('fare_matrix', record, 'fare')
+    if (value < 0) error('fare_matrix', '"fare" is negative', record.row)
+    const byOriginDestination = matrices.get(key) ?? Object.create(null) as Record<string, Record<string, number>>
+    const byOrigin = Object.hasOwn(byOriginDestination, originId)
+      ? byOriginDestination[originId]
+      : Object.create(null) as Record<string, number>
+    byOrigin[destinationId] = value
+    byOriginDestination[originId] = byOrigin
+    matrices.set(key, byOriginDestination)
+  }
+
+  const promotionIds = new Set<string>()
+  const promotionRecords = new Map<string, { fareEntryId: string; promotion: FarePromotion }>()
+  for (const record of load('fare_promotions')) {
+    const fareEntryId = record.values.fare_entry_id
+    const id = record.values.id
+    if (promotionIds.has(id)) error('fare_promotions', `duplicate id "${id}"`, record.row)
+    promotionIds.add(id)
+    const effectiveDate = record.values.effective_date
+    if (!isValidDate(effectiveDate)) error('fare_promotions', `"effective_date" must be YYYY-MM-DD, got "${effectiveDate}"`, record.row)
+    const expiresAt = record.values.expires_at ?? ''
+    if (expiresAt !== '' && (!isValidDate(expiresAt) || expiresAt < effectiveDate)) {
+      error('fare_promotions', `"expires_at" must be on/after effective_date, got "${expiresAt}"`, record.row)
+    }
+    const eligibility = record.values.eligibility
+    if (!['all', 'student', 'senior', 'pwd'].includes(eligibility)) {
+      error('fare_promotions', `unknown eligibility "${eligibility}"`, record.row)
+    }
+    const kind = record.values.kind
+    const sourceUrl = record.values.source_url
+    const sourceNote = record.values.source_note
+    if (!isHttpsUrl(sourceUrl)) error('fare_promotions', '"source_url" must be an HTTPS URL', record.row)
+    if (sourceNote === '') error('fare_promotions', '"source_note" is required', record.row)
+    let promotionRule: FarePromotion['rule']
+    if (kind === 'percent_off') {
+      const percent = requiredNumber('fare_promotions', record, 'value')
+      if (percent < 0 || percent > 100) error('fare_promotions', '"value" must be between 0 and 100', record.row)
+      promotionRule = { kind: 'percent_off', percent }
+    } else if (kind === 'matrix') {
+      const byOriginDestination = matrices.get(promotionMatrixKey(fareEntryId, id)) ?? {}
+      if (Object.keys(byOriginDestination).length === 0) error('fare_promotions', `matrix promotion "${id}" has no fare_matrix rows`, record.row)
+      promotionRule = { kind: 'matrix', byOriginDestination }
+    } else {
+      error('fare_promotions', `unknown kind "${kind}" (use percent_off or matrix)`, record.row)
+      promotionRule = { kind: 'percent_off', percent: 0 }
+    }
+    promotionRecords.set(id, {
+      fareEntryId,
+      promotion: {
+        id,
+        label: record.values.label,
+        eligibility: eligibility as FarePromotion['eligibility'],
+        effectiveDate,
+        ...(expiresAt ? { expiresAt } : {}),
+        rule: promotionRule,
+        ...(sourceUrl ? { sourceUrl } : {}),
+        sourceNote,
+      },
+    })
+  }
+
   const fareIds = new Set<string>()
   const fares: FareEntry[] = load('fares').map((record) => {
-    const baseFare = number('fares', record, 'base_fare')
-    const baseKm = number('fares', record, 'base_km')
-    const perKm = number('fares', record, 'per_km')
-    for (const [column, value] of [['base_fare', baseFare], ['base_km', baseKm], ['per_km', perKm]] as const) {
-      if (value < 0) error('fares', `"${column}" is negative`, record.row)
+    const id = uniqueId('fares', record, fareIds)
+    if (!isHttpsUrl(record.values.source_url)) error('fares', '"source_url" must be an HTTPS URL', record.row)
+    if (record.values.product === '') error('fares', '"product" is required', record.row)
+    if (record.values.vehicle_class === '') error('fares', '"vehicle_class" is required', record.row)
+    if (record.values.source_note === '') error('fares', '"source_note" is required', record.row)
+    const ruleKind = record.values.rule
+    let fareRule: FareRule
+    if (ruleKind === 'distance') {
+      const baseFare = requiredNumber('fares', record, 'base_fare')
+      const baseKm = requiredNumber('fares', record, 'base_km')
+      const perKm = requiredNumber('fares', record, 'per_km')
+      for (const [column, value] of [['base_fare', baseFare], ['base_km', baseKm], ['per_km', perKm]] as const) {
+        if (value < 0) error('fares', `"${column}" is negative`, record.row)
+      }
+      const rounding = record.values.rounding_rule ?? ''
+      if (rounding !== '' && !ROUNDING_RULES.includes(rounding as RoundingRule)) {
+        error('fares', `unknown rounding_rule "${rounding}" (use ${ROUNDING_RULES.join(', ')})`, record.row)
+      }
+      if (rounding === '') warn('fares', 'rounding_rule is empty, router default nearest_0.25 applies', record.row)
+      fareRule = { kind: 'distance', baseFare, baseKm, perKm, roundingRule: (rounding || 'nearest_0.25') as RoundingRule }
+    } else if (ruleKind === 'matrix') {
+      const byOriginDestination = matrices.get(fareMatrixKey(id)) ?? {}
+      if (Object.keys(byOriginDestination).length === 0) error('fares', `matrix fare "${id}" has no fare_matrix rows`, record.row)
+      fareRule = { kind: 'matrix', byOriginDestination }
+    } else {
+      error('fares', `unknown rule "${ruleKind}" (use distance or matrix)`, record.row)
+      fareRule = { kind: 'distance', baseFare: 0, baseKm: 0, perKm: 0, roundingRule: 'nearest_0.25' }
     }
     const effectiveDate = record.values.effective_date
-    if (effectiveDate !== '' && !isValidDate(effectiveDate)) {
+    if (!isValidDate(effectiveDate)) {
       error('fares', `"effective_date" must be YYYY-MM-DD, got "${effectiveDate}"`, record.row)
     }
-    const rule = record.values.rounding_rule ?? ''
-    if (rule !== '' && !ROUNDING_RULES.includes(rule as RoundingRule)) {
-      error('fares', `unknown rounding_rule "${rule}" (use ${ROUNDING_RULES.join(', ')})`, record.row)
-    }
-    if (rule === '') warn('fares', 'rounding_rule is empty, router default nearest_0.25 applies', record.row)
-    if ((record.values.photo_ref ?? '') === '' && (record.values.source_url ?? '') === '') {
-      warn('fares', 'no photo_ref or source_url to back this fare', record.row)
+    const expiresAt = record.values.expires_at ?? ''
+    if (expiresAt !== '' && (!isValidDate(expiresAt) || expiresAt < effectiveDate)) {
+      error('fares', `"expires_at" must be on/after effective_date, got "${expiresAt}"`, record.row)
     }
     if ((record.values.conflict_note ?? '') !== '') {
       warn('fares', `sources conflict: ${record.values.conflict_note}`, record.row)
     }
     return {
-      id: uniqueId('fares', record, fareIds),
+      id,
       mode: mode('fares', record),
-      baseFare,
-      baseKm,
-      perKm,
+      product: record.values.product,
+      vehicleClass: record.values.vehicle_class,
+      rule: fareRule,
       effectiveDate,
-      roundingRule: (rule || 'nearest_0.25') as RoundingRule,
+      ...(expiresAt ? { expiresAt } : {}),
+      promotions: [...promotionRecords.values()]
+        .filter((item) => item.fareEntryId === id)
+        .map((item) => item.promotion),
+      ...(record.values.source_url ? { sourceUrl: record.values.source_url } : {}),
       sourceNote: record.values.source_note,
     }
   })
   const fareById = new Map(fares.map((fare) => [fare.id, fare]))
+  for (const item of promotionRecords.values()) {
+    if (!fareById.has(item.fareEntryId)) error('fare_promotions', `fare_entry_id "${item.fareEntryId}" is not in fares.csv`)
+  }
+  for (const record of matrixRows) {
+    const fareEntryId = record.values.fare_entry_id
+    const promotionId = record.values.promotion_id ?? ''
+    if (!fareById.has(fareEntryId)) error('fare_matrix', `fare_entry_id "${fareEntryId}" is not in fares.csv`, record.row)
+    if (promotionId && promotionRecords.get(promotionId)?.fareEntryId !== fareEntryId) {
+      error('fare_matrix', `promotion_id "${promotionId}" is not on fare_entry_id "${fareEntryId}"`, record.row)
+    }
+    if (!landmarkById.has(record.values.origin_id)) error('fare_matrix', `origin_id "${record.values.origin_id}" is not in landmarks.csv`, record.row)
+    if (!landmarkById.has(record.values.destination_id)) error('fare_matrix', `destination_id "${record.values.destination_id}" is not in landmarks.csv`, record.row)
+  }
 
   // --- route stops, grouped by route ---
   const stopsByRoute = new Map<string, { seq: number; record: CsvRecord }[]>()

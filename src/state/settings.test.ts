@@ -14,8 +14,13 @@ describe('settings', () => {
   })
 
   it('read saved values and ignore unknown keys and values', () => {
-    expect(parseSettings([{ key: 'distanceUnit', value: 'mi' }, { key: 'timeStyle', value: 'min' }, { key: 'theme', value: 'dark' }])).toEqual({ distanceUnit: 'mi', timeStyle: 'min' })
+    expect(parseSettings([{ key: 'distanceUnit', value: 'mi' }, { key: 'timeStyle', value: 'min' }, { key: 'theme', value: 'dark' }])).toEqual({ distanceUnit: 'mi', timeStyle: 'min', fareEligibility: 'adult' })
     expect(parseSettings([{ key: 'distanceUnit', value: 'furlong' }, { key: 'timeStyle', value: 5 }])).toEqual(DEFAULT_SETTINGS)
+  })
+
+  it('loads the selected fare discount profile', () => {
+    expect(parseSettings([{ key: 'fareEligibility', value: 'student' }]).fareEligibility).toBe('student')
+    expect(parseSettings([{ key: 'fareEligibility', value: 'other' }]).fareEligibility).toBe('adult')
   })
 
   it('the Oras setting changes how long trips are written', async () => {

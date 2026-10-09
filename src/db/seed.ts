@@ -12,13 +12,13 @@ async function ensureSeed() {
 
   const { landmarks, routes, fares, ...packRow } = SYNTHETIC_PACK
   const packId = packRow.id
-  await db.transaction('rw', db.routePacks, db.routes, db.landmarks, db.fares, async () => {
-    // Only sample rows have ever lived in these tables, so a full replace is safe.
+  await db.transaction('rw', db.routePacks, db.routes, db.landmarks, db.terminals, db.fares, async () => {
     await Promise.all([
-      db.routePacks.clear(),
-      db.routes.clear(),
-      db.landmarks.clear(),
-      db.fares.clear(),
+      db.routePacks.delete(packId),
+      db.routes.where('packId').equals(packId).delete(),
+      db.landmarks.where('packId').equals(packId).delete(),
+      db.terminals.where('packId').equals(packId).delete(),
+      db.fares.filter((fare) => fare.packId === packId).delete(),
     ])
     await db.routePacks.put(packRow)
     await db.landmarks.bulkPut(landmarks.map((landmark) => ({ ...landmark, packId })))

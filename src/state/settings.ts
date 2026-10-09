@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react'
 import { db } from '../db/db.ts'
+import type { FareEligibility } from '../router/types.ts'
 
 // Display settings, saved on this device in the Dexie `settings` table. Each one
 // changes something real: the unit text on the route screens. There is no
@@ -12,13 +13,15 @@ export type TimeStyle = 'hm' | 'min'
 export interface Settings {
   distanceUnit: DistanceUnit
   timeStyle: TimeStyle
+  fareEligibility: FareEligibility
 }
 
-export const DEFAULT_SETTINGS: Settings = { distanceUnit: 'km', timeStyle: 'hm' }
+export const DEFAULT_SETTINGS: Settings = { distanceUnit: 'km', timeStyle: 'hm', fareEligibility: 'adult' }
 
 const OPTIONS: { [K in keyof Settings]: readonly Settings[K][] } = {
   distanceUnit: ['km', 'mi'],
   timeStyle: ['hm', 'min'],
+  fareEligibility: ['adult', 'student', 'senior', 'pwd'],
 }
 
 /** Settings from stored rows. Unknown keys and values that are not allowed are ignored. */
@@ -30,6 +33,9 @@ export function parseSettings(rows: readonly { key: string; value: unknown }[]):
     }
     if (row.key === 'timeStyle' && OPTIONS.timeStyle.includes(row.value as TimeStyle)) {
       result.timeStyle = row.value as TimeStyle
+    }
+    if (row.key === 'fareEligibility' && OPTIONS.fareEligibility.includes(row.value as FareEligibility)) {
+      result.fareEligibility = row.value as FareEligibility
     }
   }
   return result

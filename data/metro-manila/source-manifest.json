@@ -1,0 +1,741 @@
+{
+  "manifestVersion": 1,
+  "region": "Metro Manila / National Capital Region (NCR)",
+  "capturedAt": "2026-10-10",
+  "timeZone": "Asia/Manila",
+  "sources": [
+    {
+      "id": "lrmc-lrt1-fares",
+      "mode": "train:lrt1",
+      "publisher": "Light Rail Manila Corporation",
+      "url": "https://lrmc.ph/2025/02/18/new-lrt-1-fares-effective-2-april-2025/",
+      "relatedUrl": "https://lrmc.ph/our-business-featured/fare-matrix/",
+      "sourceDate": "2025-04-02",
+      "capturedAt": "2026-10-10",
+      "geography": "LRT-1",
+      "status": "official-current-candidate",
+      "licenseTerms": "No explicit data reuse terms verified",
+      "assetUrls": [
+        "https://lrmc.ph/wp-content/uploads/2025/03/New-SJT-fare-matrix-effective-April-2-2025-1.png",
+        "https://lrmc.ph/wp-content/uploads/2025/03/New-SVC-fare-matrix-effective-April-2-2025-1.png"
+      ],
+      "gaps": [
+        "Confirm current discount products",
+        "Validate route stops, coordinates, and segment times",
+        "Confirm image data reuse terms"
+      ],
+      "artifact": "lrt1-fare-matrices.json"
+    },
+    {
+      "id": "lrta-lrt2-fares",
+      "mode": "train:lrt2",
+      "publisher": "Light Rail Transit Authority",
+      "url": "https://www.lrta.gov.ph/wp-content/uploads/2026/03/Citizens-Charter-Handbook-2026-2nd-Edition.pdf",
+      "relatedUrl": "https://www.lrta.gov.ph/tickets-and-fares/",
+      "sourceDate": "2026-03-23",
+      "capturedAt": "2026-10-10",
+      "geography": "LRT-2, Recto–Antipolo",
+      "status": "official-current-candidate",
+      "licenseTerms": "No explicit data reuse terms verified",
+      "products": [
+        "single-journey",
+        "stored-value",
+        "all-passenger-50-percent-discount"
+      ],
+      "validUntil": null,
+      "gaps": [
+        "Confirm no later scheduled base-fare adjustment than the 2023 matrices",
+        "Recheck discount validity at activation",
+        "Validate route stops, coordinates, and segment times",
+        "Confirm data reuse terms"
+      ]
+    },
+    {
+      "id": "dotr-mrt3-fares",
+      "mode": "train:mrt3",
+      "publisher": "Department of Transportation – Metro Rail Transit 3",
+      "url": "https://www.dotrmrt3.gov.ph/fare-matrix.pdf",
+      "relatedUrls": [
+        "https://www.dotrmrt3.gov.ph/discounted-fare-matrix.pdf",
+        "https://www.dotrmrt3.gov.ph/dotrmrt3-citizen-charter-handbook-2026-1st-edition.pdf",
+        "https://www.dotrmrt3.gov.ph/station-map.pdf",
+        "https://www.dotrmrt3.gov.ph/about-us"
+      ],
+      "sourceDate": null,
+      "capturedAt": "2026-10-10",
+      "geography": "MRT-3",
+      "status": "official-current-candidate",
+      "licenseTerms": "No explicit data reuse terms verified",
+      "products": [
+        "single-journey",
+        "stored-value",
+        "all-passenger-50-percent-discount"
+      ],
+      "validFrom": "2026-03-23",
+      "validUntil": null,
+      "artifact": "mrt3-fare-matrices.json",
+      "gaps": [
+        "Confirm effective date and ticket applicability for the regular matrix",
+        "Recheck the all-passenger promotion at activation",
+        "Validate station coordinates and segment times"
+      ]
+    },
+    {
+      "id": "ltfrb-puv-fare-lead-2026-09",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "LTFRB; rates relayed by Philippine News Agency",
+      "url": "https://www.pna.gov.ph/articles/1284951",
+      "relatedUrl": "https://www.pna.gov.ph/index.php/articles/1285005",
+      "sourceDate": "2026-09-28",
+      "capturedAt": "2026-10-09",
+      "geography": "National rates, to be checked against NCR-specific guides/classes",
+      "status": "reported-provisional-research-lead",
+      "licenseTerms": "PNA reuse terms not verified; do not copy the article or imagery",
+      "validUntil": "2026-12-31",
+      "gaps": [
+        "Retrieve and inspect the underlying current LTFRB temporary guides",
+        "Confirm exact source-sheet values, NCR applicability, vehicle classes, discount rounding, and reuse terms"
+      ]
+    },
+    {
+      "id": "ltfrb-puv-fares-ptv-report-2026-09",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "People's Television Network / PTV News, reporting LTFRB-issued temporary guides",
+      "url": "https://ptvnews.ph/ltfrb-releases-new-matrices-for-puv-fare-hikes-effective-sept-28/",
+      "relatedUrls": [
+        "https://pia.gov.ph/news/luzon/ncr/ltfrb-reminds-puv-operators-drivers-to-display-updated-fare-matrix/",
+        "https://www.pna.gov.ph/index.php/articles/1285005",
+        "https://ltfrb.gov.ph/fare-rates/"
+      ],
+      "sourceDate": "2026-09-28",
+      "capturedAt": "2026-10-10",
+      "geography": "National PUV rates; exact NCR sheet scope must be confirmed",
+      "status": "government-news-report-of-current-ltfrb-guides-provisional-not-primary-sheet",
+      "licenseTerms": "News reporting only; LTFRB source-sheet reuse terms remain unverified",
+      "validFrom": "2026-09-28",
+      "validUntil": "2026-12-31",
+      "reportedFareRules": {
+        "traditional_jeepney": "PHP 14 first 4 km; PHP 2.00 per succeeding km; student/senior/PWD PHP 11.25 first 4 km and PHP 1.60 per succeeding km",
+        "modern_jeepney": "PHP 17 first 4 km; PHP 2.40 per succeeding km; student/senior/PWD PHP 13.50 first 4 km and PHP 1.92 per succeeding km",
+        "city_ordinary_bus": "PHP 15 first 5 km; PHP 2.49 per succeeding km; student/senior/PWD PHP 12 first 5 km and PHP 1.99 per succeeding km",
+        "city_aircon_bus": "PHP 18 first 5 km; PHP 2.98 per succeeding km; student/senior/PWD PHP 14.50 first 5 km and PHP 2.38 per succeeding km",
+        "traditional_uv_express": "PHP 2.60 per km",
+        "modern_uv_express": "PHP 3.00 per km"
+      },
+      "findings": "PTV News reports that LTFRB issued the guides effective 2026-09-28 and reports regular plus 20%-discount amounts for traditional/modern jeepneys and ordinary/air-conditioned city buses. UV rates are reported per kilometer. PIA confirms LTFRB directed operators to display the updated guides; PNA says the temporary guides expire 2026-12-31.",
+      "gaps": [
+        "LTFRB fare-rates index returns HTTP 403; actual temporary sheets not inspected",
+        "Confirm exact NCR applicability and included vehicle class from the source sheets",
+        "Confirm fare rounding, especially for distance-based regular and discounted amounts",
+        "Confirm traditional/modern UV Express discounts from the source sheets",
+        "Confirm LTFRB source-sheet reuse terms before redistribution"
+      ]
+    },
+    {
+      "id": "ltfrb-fare-rates-index",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/fare-rates/",
+      "relatedUrl": "https://www.foi.gov.ph/requests/copy-of-utility-public-vehicle-fare-matrix/",
+      "sourceDate": null,
+      "capturedAt": "2026-10-10",
+      "geography": "Philippines fare guide index; exact guide coverage not inspected",
+      "status": "official-index-identified-but-http-403-unretrievable",
+      "licenseTerms": "Underlying official guide reuse terms not inspected",
+      "gaps": [
+        "HTTP 403 prevented inspection or download of temporary guides",
+        "Verify applicable vehicle class, NCR coverage, effective date, discounts, and rounding from actual sheets"
+      ]
+    },
+    {
+      "id": "ltfrb-traditional-puj-guide-historical-2023",
+      "mode": "jeepney",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2024/11/Fare-Guide_Traditional-PUJ-Provisional-Fare-Increase_08Oct2023.pdf",
+      "sourceDate": "2023-10-08",
+      "capturedAt": "2026-10-09",
+      "geography": "Mega Manila",
+      "status": "official-historical-fare-guide-superseded-candidate",
+      "licenseTerms": "Government PDF; reuse terms for extracted fare guide not verified",
+      "fareRule": "Traditional PUJ: PHP 13 first 4 km, PHP 1.80 per succeeding km; nearest PHP 0.25; 20% student/senior/PWD discounts",
+      "gaps": [
+        "Does not establish current 2026 fares",
+        "Confirm NCR service applicability and replacement guide"
+      ]
+    },
+    {
+      "id": "ltfrb-modern-puj-nonaircon-guide-historical-2023",
+      "mode": "modern_jeepney",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2024/11/Fare-Guide_Modernized-Non-Aircon-Provisional-Fare-Increase_08Oct2023.pdf",
+      "sourceDate": "2023-10-08",
+      "capturedAt": "2026-10-09",
+      "geography": "Philippines; national applicability to NCR not confirmed from the guide",
+      "status": "official-historical-fare-guide-superseded-candidate",
+      "licenseTerms": "Government PDF; reuse terms for extracted fare guide not verified",
+      "fareRule": "Non-aircon modern/electric PUJ: PHP 15 first 4 km, PHP 1.80 per succeeding km; nearest PHP 0.25; 20% student/senior/PWD discounts",
+      "gaps": [
+        "Does not establish current 2026 fares",
+        "Confirm NCR service applicability and replacement guide"
+      ]
+    },
+    {
+      "id": "ltfrb-modern-puj-aircon-guide-historical-2023",
+      "mode": "modern_jeepney",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2024/11/Fare-Guide_Modernized-Aircon-Provisional-Fare-Increase_08Oct2023.pdf",
+      "sourceDate": "2023-10-08",
+      "capturedAt": "2026-10-09",
+      "geography": "Philippines; national applicability to NCR not confirmed from the guide",
+      "status": "official-historical-fare-guide-superseded-candidate",
+      "licenseTerms": "Government PDF; reuse terms for extracted fare guide not verified",
+      "fareRule": "Aircon modern/electric PUJ: PHP 15 first 4 km, PHP 2.20 per succeeding km; nearest PHP 0.25; 20% student/senior/PWD discounts",
+      "gaps": [
+        "Does not establish current 2026 fares",
+        "Confirm NCR service applicability and replacement guide"
+      ]
+    },
+    {
+      "id": "ltfrb-uvexpress-guide-historical-2024",
+      "mode": "uv",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2024/11/UVE-Fare-Guide.pdf",
+      "sourceDate": null,
+      "capturedAt": "2026-10-09",
+      "geography": "NCR applicability and fare guide effective date not stated in the PDF",
+      "status": "official-historical-fare-guide-date-and-current-validity-unknown",
+      "licenseTerms": "Government PDF; reuse terms for extracted fare guide not verified",
+      "fareRule": "Traditional UV Express PHP 2.40/km; modern UV Express PHP 2.50/km; PDF states 20% student/senior/PWD discounts",
+      "gaps": [
+        "Effective date not visible",
+        "Does not establish current 2026 fares",
+        "Confirm NCR applicability and replacement guide"
+      ]
+    },
+    {
+      "id": "ltfrb-city-ordinary-bus-historical-2022",
+      "mode": "bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://www.ltfrb.gov.ph/wp-content/uploads/2024/11/PUB-City-Ordinary.pdf",
+      "sourceDate": "2022-10-03",
+      "capturedAt": "2026-10-09",
+      "geography": "Metro Manila city ordinary bus",
+      "status": "official-historical-fare-guide-superseded-candidate",
+      "licenseTerms": "Government PDF; reuse terms for extracted fare guide not verified",
+      "fareRule": "PHP 13 first 5 km, PHP 2.25 per succeeding km; 20% student/senior/PWD discounts",
+      "gaps": [
+        "Does not establish current 2026 fares",
+        "Confirm replacement guide and fare rounding"
+      ]
+    },
+    {
+      "id": "ltfrb-city-aircon-bus-historical-2022",
+      "mode": "bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2024/11/PUB-City-Aircon.pdf",
+      "sourceDate": "2022-10-03",
+      "capturedAt": "2026-10-09",
+      "geography": "Metro Manila city air-conditioned bus",
+      "status": "official-historical-fare-guide-superseded-candidate",
+      "licenseTerms": "Government PDF; reuse terms for extracted fare guide not verified",
+      "fareRule": "PHP 15 first 5 km, PHP 2.65 per succeeding km; 20% student/senior/PWD discounts",
+      "gaps": [
+        "Does not establish current 2026 fares",
+        "Confirm replacement guide and fare rounding"
+      ]
+    },
+    {
+      "id": "ltfrb-ncr-route-inventory",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://www.foi.gov.ph/agencies/ltfrb/metro-manila-public-transport-route-and-service-dataset/",
+      "sourceDate": "2026-09-04",
+      "capturedAt": "2026-10-09",
+      "geography": "NCR",
+      "status": "pending-request-not-a-dataset",
+      "licenseTerms": "Terms to be confirmed with LTFRB",
+      "gaps": [
+        "Active status, route IDs, alignments, stops, service times, and reuse permission"
+      ]
+    },
+    {
+      "id": "ltfrb-public-transport-fares-foi-2026",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board; public FOI request by another requester",
+      "url": "https://www.foi.gov.ph/agencies/ltfrb/public-transport-fare-data-bus-jeepney-tricycle-by-route-2020-to-present/",
+      "sourceDate": "2026-03-17",
+      "capturedAt": "2026-10-10",
+      "geography": "Philippines; request does not specify NCR separately",
+      "status": "accepted-request-no-public-dataset-or-final-response",
+      "licenseTerms": "No dataset published; terms unknown",
+      "gaps": [
+        "Public conversation only exposes LTFRB acknowledgment dated 2026-03-30",
+        "No fare file, final response, fare class detail, or NCR-specific applicability available"
+      ]
+    },
+    {
+      "id": "ltfrb-public-transport-shapefiles-bulacan-foi-2026",
+      "mode": "jeepney,bus,train",
+      "publisher": "Land Transportation Franchising and Regulatory Board; public FOI request by another requester",
+      "url": "https://www.foi.gov.ph/agencies/ltfrb/public-transport-shapefiles-ltfrb-717668148563/",
+      "sourceDate": "2026-03-09",
+      "capturedAt": "2026-10-10",
+      "geography": "Bulacan; outside the requested NCR coverage",
+      "status": "accepted-request-no-public-dataset-or-final-response",
+      "licenseTerms": "No dataset published; terms unknown",
+      "gaps": [
+        "Public conversation only exposes LTFRB acknowledgment dated 2026-03-19",
+        "Request is for Bulacan, not NCR, and cannot supply in-scope route geometry"
+      ]
+    },
+    {
+      "id": "ltfrb-ncr-routes-foi-september-2026",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board; public FOI request by another requester",
+      "url": "https://www.foi.gov.ph/agencies/ltfrb/metro-manila-public-transport-route-and-service-dataset/",
+      "sourceDate": "2026-09-04",
+      "capturedAt": "2026-10-10",
+      "geography": "NCR",
+      "status": "pending-request-no-public-dataset",
+      "licenseTerms": "No dataset published; terms unknown",
+      "gaps": [
+        "Request asks for route IDs, operating status, alignments, stops, service times, and fleet; no response dataset is published"
+      ]
+    },
+    {
+      "id": "ltfrb-metro-mega-manila-routes-foi-september-2026",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board; public FOI request by another requester",
+      "url": "https://www.foi.gov.ph/agencies/ltfrb/public-transportation-routes-within-metromega-manila/",
+      "sourceDate": "2026-09-26",
+      "capturedAt": "2026-10-10",
+      "geography": "Metro/Mega Manila; exact NCR coverage not specified",
+      "status": "pending-request-no-public-dataset",
+      "licenseTerms": "No dataset published; terms unknown",
+      "gaps": [
+        "Public request asks for GTFS/routes and fares but no response dataset is published",
+        "Metro/Mega Manila scope may include routes extending outside NCR"
+      ]
+    },
+    {
+      "id": "ltfrb-nationwide-authorized-routes-foi-august-2026",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board; public FOI request by another requester",
+      "url": "https://www.foi.gov.ph/agencies/ltfrb/list-of-authorised-public-utility-vehicle-routes-and-franchises-nationwide/",
+      "sourceDate": "2026-08-12",
+      "capturedAt": "2026-10-10",
+      "geography": "Nationwide; NCR subset not published",
+      "status": "pending-request-no-public-dataset",
+      "licenseTerms": "No dataset published; terms unknown",
+      "gaps": [
+        "Request concerns authorized franchise records, not proof of active operations",
+        "No route register or geometry response is published"
+      ]
+    },
+    {
+      "id": "dotr-ncr-route-data-foi-referred-2026",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Department of Transportation",
+      "url": "https://www.foi.gov.ph/agencies/dotr/public-transport-route-dataset/",
+      "sourceDate": "2026-03-11",
+      "capturedAt": "2026-10-09",
+      "geography": "Metro Manila",
+      "status": "referred-no-dataset-published",
+      "licenseTerms": "FOI page is public domain; no underlying dataset provided",
+      "gaps": [
+        "Request was referred; no route data, status, alignments, stops, or service times available"
+      ]
+    },
+    {
+      "id": "dotr-edsa-carousel-foi-approved-attachment-unavailable",
+      "mode": "bus",
+      "publisher": "Department of Transportation; public FOI response",
+      "url": "https://www.foi.gov.ph/agencies/dotr/edsa-carousel-busway-operational-and-route-data-for-undergraduate-thesis/",
+      "sourceDate": "2026-09-21",
+      "capturedAt": "2026-10-10",
+      "geography": "EDSA Carousel / Metro Manila",
+      "status": "excluded-at-user-direction-edsa-carousel-not-to-pursue-or-import",
+      "licenseTerms": "FOI page states public-domain content; attachment-specific source, date, and reuse terms not inspectable",
+      "findings": "Public indexed response says DOTr approved the request and enclosed available responsive information. The request sought the official route map, station list, coordinates, interstation distances, segment travel times, and operations data.",
+      "gaps": [
+        "Detail page and agency listing show conflicting request status",
+        "Live eFOI request page currently renders temporary maintenance advisory",
+        "Attachment URL and content are not exposed in indexed response",
+        "Not pursued or imported at user's direction"
+      ]
+    },
+    {
+      "id": "ltfrb-ncr-scp3-routes-2022-historical",
+      "mode": "bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2022/07/Metro-Manila-End-of-SCP-3-Operations_List-of-Routes.pdf",
+      "sourceDate": "2022-07",
+      "capturedAt": "2026-10-09",
+      "geography": "Metro Manila service-contracting program route names",
+      "status": "official-historical-route-name-list-not-current-service-inventory",
+      "licenseTerms": "Official PDF; redistribution terms for extracted route content not verified",
+      "gaps": [
+        "No current operating status, geometry, stops, or service times"
+      ]
+    },
+    {
+      "id": "ltfrb-resolution-053-low-unit-routes-2024",
+      "mode": "jeepney,uv",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://ltfrb.gov.ph/wp-content/uploads/2024/05/RESO-053-S-2024-1.pdf",
+      "sourceDate": "2024-05",
+      "capturedAt": "2026-10-09",
+      "geography": "NCR and other listed areas",
+      "status": "official-route-list-low-unit-count-not-current-service-inventory",
+      "licenseTerms": "Official PDF; redistribution terms for extracted route content not verified",
+      "gaps": [
+        "Routes with low unit counts do not establish current active service, full alignments, stops, or service times"
+      ]
+    },
+    {
+      "id": "dotr-ncr-shapefiles-foi-partial-2025",
+      "mode": "jeepney,bus,train",
+      "publisher": "Department of Transportation",
+      "url": "https://www.foi.gov.ph/agencies/dotr/public-transportation-shapefiles/",
+      "sourceDate": "2025-01-27",
+      "capturedAt": "2026-10-09",
+      "geography": "NCR; requester sought jeepney, bus, tricycle, and railway shapefiles",
+      "status": "partially-successful-attachment-unavailable",
+      "licenseTerms": "FOI page is public domain; attachment redirects to Microsoft sign-in; data terms not inspected",
+      "gaps": [
+        "Attachment contents and exact layer coverage inaccessible",
+        "Dataset date, route status, geometry quality, and reuse terms unknown"
+      ]
+    },
+    {
+      "id": "ltfrb-ncr-gis-routes-2018-2019-historical",
+      "mode": "jeepney,bus",
+      "publisher": "Land Transportation Franchising and Regulatory Board",
+      "url": "https://www.foi.gov.ph/requests/gis-shapefiles-of-public-transport-routes/",
+      "sourceDate": "2019-06-24",
+      "capturedAt": "2026-10-09",
+      "geography": "Metro Manila; 2018-2019 coverage requested",
+      "status": "historical-successful-response-no-dataset-published",
+      "licenseTerms": "No dataset accessible; reuse terms unknown",
+      "gaps": [
+        "Agency response exposed no attachment and requested signed letter",
+        "Historical coverage cannot establish current operations"
+      ]
+    },
+    {
+      "id": "sakay-gtfs-master-rejected",
+      "mode": "jeepney,bus,train",
+      "publisher": "Sakay.ph; data described as originating from DOTC",
+      "url": "https://github.com/sakayph/gtfs/tree/master",
+      "sourceDate": "2015-03-24",
+      "capturedAt": "2026-10-10",
+      "geography": "Metro Manila and surrounding routes",
+      "status": "rejected-stale-and-license-restricted",
+      "licenseUrl": "https://github.com/sakayph/gtfs/blob/master/LICENSE.md",
+      "licenseTerms": "Revocable, non-transferable DOTC data license for transit-rider assistance; no redistribution outside the application",
+      "gaps": [
+        "Transitland active version contains service only through 2020-06-30 despite 2026 fetches",
+        "No evidence current routes remain active",
+        "Restrictive revocable license bars redistribution outside transit-rider assistance"
+      ],
+      "transitlandFeedUrl": "https://www.transit.land/feeds/f-wdw-manila",
+      "latestFeedVersionAdded": "2020-07-28",
+      "latestFeedServiceDate": "2020-06-30"
+    },
+    {
+      "id": "opr-rejected-no-ncr-data",
+      "mode": "jeepney,modern_jeepney,uv,bus",
+      "publisher": "Open Philippine Routes community project",
+      "url": "https://github.com/kasutu/open-philippine-routes",
+      "sourceDate": "2025-11-04",
+      "capturedAt": "2026-10-09",
+      "geography": "Published v1 data checked: Iloilo City only; no NCR route records",
+      "status": "rejected-no-ncr-data-and-unlicensed",
+      "licenseTerms": "Repository package declares UNLICENSED",
+      "gaps": [
+        "No NCR coverage",
+        "Live API request timed out"
+      ]
+    },
+    {
+      "id": "psa-psgc-ncr-reference",
+      "mode": "geography",
+      "publisher": "Philippine Statistics Authority",
+      "url": "https://psa.gov.ph/classification/psgc/Philippine",
+      "sourceDate": "2026-06-30",
+      "capturedAt": "2026-10-09",
+      "geography": "NCR administrative units",
+      "status": "official-classification-not-geometry",
+      "licenseTerms": "No explicit geometry reuse terms applicable; boundary geometry not included",
+      "gaps": [
+        "Authoritative NCR/city polygons and reuse terms"
+      ]
+    },
+    {
+      "id": "namria-administrative-boundary-noss-product",
+      "mode": "geography",
+      "publisher": "National Mapping and Resource Information Authority",
+      "url": "https://www.namria.gov.ph/Downloads/CitizensCharter/2024/ccHandbook.pdf",
+      "sourceDate": "2025-06-30",
+      "capturedAt": "2026-10-10",
+      "geography": "Administrative boundaries available by area of interest through NAMRIA One-Stop Shop",
+      "status": "official-product-acquisition-process-no-geometry-acquired",
+      "licenseTerms": "Product is ordered through NAMRIA; data reuse and redistribution terms must be confirmed with the agency",
+      "findings": "NAMRIA's 2025 Citizen's Charter lists digital SHP/KMZ and administrative-boundary products as specialized products available through its One-Stop Shop; the charter describes a paid/request process and does not include an NCR polygon download.",
+      "gaps": [
+        "No current NCR boundary geometry acquired",
+        "Confirm geometry vintage, precision, fee, and reuse terms with NAMRIA"
+      ]
+    },
+    {
+      "id": "namria-psa-admin-boundaries-un-salb-2019",
+      "mode": "geography",
+      "publisher": "National Mapping and Resource Information Authority; Philippine Statistics Authority, listed via UN SALB",
+      "url": "https://salb.un.org/en/data/phl",
+      "sourceDate": "2019-01-09",
+      "capturedAt": "2026-10-09",
+      "geography": "Philippines administrative-unit polygons, including NCR",
+      "status": "validated-historical-boundary-candidate",
+      "licenseTerms": "Current redistribution terms not verified",
+      "gaps": [
+        "Temporal validity ends 2019-01-09",
+        "Confirm NCR boundary has not changed and validate fitness for strict route clipping",
+        "Confirm reuse terms"
+      ]
+    },
+    {
+      "id": "mmda-love-bus-c5-2026",
+      "mode": "bus",
+      "publisher": "Metropolitan Manila Development Authority, reported by Philippine Information Agency",
+      "url": "https://pia.gov.ph/news/first-lady-leads-inauguration-of-mmdas-revived-love-bus-interactive-gallery-annex-building/",
+      "sourceDate": "2026-09-10",
+      "capturedAt": "2026-10-10",
+      "geography": "Metro Manila, Robinsons Galleria–Eastwood City C5 corridor",
+      "status": "official-current-operating-service-route-candidate-not-pack-ready",
+      "licenseTerms": "PIA states its page content is public domain unless otherwise stated; source credits operational facts to MMDA",
+      "validFrom": "2026-09-10",
+      "fare": "Free",
+      "operatingHours": "Daily 06:00–21:00 per MMDA notice",
+      "fleet": "Six electric buses per MMDA notice",
+      "routeVariants": {
+        "eastbound": "Robinsons Galleria / Ortigas Avenue; Meralco Avenue; J. Vargas Avenue / MMDA New Building; Lanuza Avenue; C.P. Garcia Avenue / C5; Arcovia City; C5–J. Vargas Footbridge near Eagle Street; Bridgetowne / Opus Mall; Eastwood City",
+        "westbound": "Eastwood City via Orchard Road; C.P. Garcia Avenue / C5 service road and Libis flyover U-turn; southbound C5; J. Vargas Avenue; Sapphire Street; Robinsons Galleria PUV stop / Ortigas Avenue"
+      },
+      "findings": "MMDA says the service began 2026-09-10, is free, operates 06:00–21:00, and has waiting sheds at stops. PIA publishes road sequence and route endpoints; some named points are turns or landmarks rather than exact boarding coordinates.",
+      "gaps": [
+        "Exact passenger boarding-point coordinates and complete stop sequence",
+        "Segment travel times",
+        "Ride verification of the current route and stop sequence",
+        "Confirm a machine-readable official route file and its reuse terms"
+      ]
+    },
+    {
+      "id": "quezon-city-qcity-bus-routes-2026",
+      "mode": "bus",
+      "publisher": "Quezon City Government, Traffic and Transport Management Department",
+      "url": "https://quezoncity.gov.ph/qcitizen-guides/quezon-city-bus-service-program/",
+      "relatedUrls": [
+        "https://quezoncity.gov.ph/program/qcity-bus-program/",
+        "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096.pdf",
+        "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096-TOR-2.pdf",
+        "https://quezoncity.gov.ph/q-city-bus-service-advisory-new-bus-stop-on-route-6/",
+        "https://quezoncity.gov.ph/q-city-bus-service-advisory-new-electric-bus-in-route-6/",
+        "https://quezoncity.gov.ph/wp-content/uploads/2021/03/REVISED-TERMS-OF-REFERENCE-ROUTE-1-1.pdf"
+      ],
+      "sourceDate": "2026-08-04",
+      "capturedAt": "2026-10-10",
+      "geography": "Quezon City, Metro Manila",
+      "status": "official-current-eight-route-free-service; route-stop-sources-captured-with-known-gaps-not-pack-ready",
+      "licenseTerms": "Official route facts and route images; reuse terms for extracted map data not explicitly confirmed",
+      "validFrom": null,
+      "fare": "Free",
+      "serviceDays": "Daily except holidays per current route guide",
+      "routes": [
+        "QC Hall–Cubao",
+        "QC Hall–Litex/IBP Road",
+        "Welcome Rotonda–Aurora/Katipunan",
+        "QC Hall–General Luis",
+        "QC Hall–Mindanao Avenue via Visayas Avenue",
+        "QC Hall–Gilmore",
+        "QC Hall–C5/Ortigas Avenue Extension",
+        "QC Hall–Muñoz"
+      ],
+      "route6Stops": [
+        "Quezon City Hall NHA Interchange",
+        "Quezon Avenue (Philippine Children's Medical Center)",
+        "Quezon Avenue–EDSA",
+        "Quezon Avenue–Examiner Street",
+        "Quezon Avenue (Delta)–Panay Avenue",
+        "Timog Avenue–Scout Tuason Street",
+        "Tomas Morato Avenue–Scout Limbaga Street",
+        "Tomas Morato Avenue–Scout Lozano Street",
+        "Don Alejandro Roces Avenue–Don Alejandro Roces Sr. Science-Technology High School",
+        "Scout Reyes Street–District 4 Action Center",
+        "Scout Chuatoco Avenue–Scout Tobias Street",
+        "E. Rodriguez Sr. Avenue–Gilmore interchange",
+        "Gilmore Avenue–Carmel of St. Therese of the Child Jesus Church",
+        "Aurora Boulevard–Hemady Street"
+      ],
+      "findings": "The current official route guide confirms eight free services operating daily except holidays. 2026 procurement TORs list directional designated stops for Routes 2–5, 7, and 8; a July 30, 2026 advisory gives Route 6 stops effective August 3, 2026. Route 1 is confirmed operating as of May 2026, but its extracted stop list is from 2021 and is treated as historical only. The transcribed inventory is not route geometry or field verification.",
+      "gaps": [
+        "Route 1 has no current stop-sequence source in the captured records; the available stop list is from 2021",
+        "Route 6 advisory does not identify direction-specific stop ordering",
+        "Procurement TORs allow jointly agreed stop changes and detours; verify current operational stop sequences",
+        "Stop coordinates, road polylines, and segment travel times remain unavailable",
+        "Confirm data/map redistribution terms before including extracted government route data in a public pack"
+      ],
+      "artifact": "source-assets/qcity-bus-stop-inventory-2026-10-10.json"
+    },
+    {
+      "id": "osm-wiki-metro-manila-jeepney-routes-2026",
+      "mode": "jeepney,modern_jeepney",
+      "publisher": "OpenStreetMap Wiki community contributor",
+      "url": "https://wiki.openstreetmap.org/wiki/User:TagaSanPedroAko/Metro_Manila_jeepney_routes_2026",
+      "sourceDate": "2026-08-31",
+      "capturedAt": "2026-10-10",
+      "geography": "Partial Metro Manila jeepney route-name and terminal inventory",
+      "status": "community-discovery-list-incomplete-not-active-route-inventory",
+      "licenseTerms": "Page text is CC BY-SA 2.0; no route data copied into the pack",
+      "findings": "Lists route names and some terminals/operators, but many relation and status fields are blank and the page's own legend calls for verification.",
+      "gaps": [
+        "No complete or reliable active-status evidence",
+        "Many routes lack relation IDs, alignments, stops, or timing evidence",
+        "Not suitable for direct route-pack import"
+      ]
+    },
+    {
+      "id": "namria-psa-admin1-cod-2023-candidate",
+      "mode": "geography",
+      "publisher": "National Mapping and Resource Information Authority and Philippine Statistics Authority; mirrored by the COD/FOD Registry and GitHub repository",
+      "url": "https://github.com/altcoder/philippines-psgc-shapefiles/blob/main/data/2023/Regions/phl_admbnda_adm1_psa_namria_20231106.shp.xml",
+      "sourceDate": "2018-02-09",
+      "capturedAt": "2026-10-09",
+      "geography": "Philippines administrative level 1; contains NCR region polygon",
+      "status": "historical-2018-geometry-repackaged-in-2023-not-current-boundary",
+      "publishedAs": "2023-11-06",
+      "licenseTerms": "HDX parent COD-AB record is CC BY-IGO; separate GitHub repository declares MIT but derived-data licensing must be reconciled before redistribution",
+      "gaps": [
+        "Underlying source metadata dates geometry to 2018-02-09",
+        "Current NCR boundary equivalence not confirmed",
+        "Actual NCR polygon not extracted or validated",
+        "Coordinate precision and suitability for route clipping not checked"
+      ]
+    },
+    {
+      "id": "namria-admin-map-2026",
+      "mode": "geography",
+      "publisher": "National Mapping and Resource Information Authority",
+      "url": "https://www.namria.gov.ph/",
+      "sourceDate": "2026-09-07",
+      "capturedAt": "2026-10-09",
+      "geography": "Philippines administrative map",
+      "status": "official-current-map-not-vector-boundary",
+      "licenseTerms": "Map reuse terms not verified",
+      "gaps": [
+        "No machine-readable boundary geometry was verified"
+      ]
+    },
+    {
+      "id": "lrta-lrt2-operating-info",
+      "mode": "train:lrt2",
+      "publisher": "Light Rail Transit Authority",
+      "url": "https://www.lrta.gov.ph/railway-operations/",
+      "relatedUrl": "https://www.lrta.gov.ph/train-operating-schedule/",
+      "sourceDate": null,
+      "capturedAt": "2026-10-10",
+      "geography": "LRT-2, Recto–Antipolo",
+      "status": "official-current-operator-information",
+      "licenseTerms": "No explicit data reuse terms verified",
+      "findings": "Official page lists 13 active stations and says end-to-end ride is approximately 40 minutes; operating schedule lists station opening/closing times, not interstation travel times.",
+      "gaps": [
+        "Station coordinates",
+        "Per-segment travel times",
+        "Confirm reuse terms"
+      ]
+    },
+    {
+      "id": "dotr-mrt3-operating-info",
+      "mode": "train:mrt3",
+      "publisher": "Department of Transportation – Metro Rail Transit 3",
+      "url": "https://www.dotrmrt3.gov.ph/about-us",
+      "relatedUrl": "https://www.dotrmrt3.gov.ph/station-map.pdf",
+      "sourceDate": null,
+      "capturedAt": "2026-10-10",
+      "geography": "MRT-3, North Avenue–Taft Avenue",
+      "status": "official-current-operator-information",
+      "licenseTerms": "No explicit data reuse terms verified",
+      "findings": "Official page lists 13 stations, publishes directional station entrance/last-train schedules, and describes an approximately 30-minute full-line trip; it does not provide segment ride times or coordinates.",
+      "gaps": [
+        "Station coordinates",
+        "Per-segment travel times",
+        "Confirm reuse terms"
+      ]
+    },
+    {
+      "id": "lrta-lrt2-segment-distances",
+      "mode": "train:lrt2",
+      "publisher": "Light Rail Transit Authority",
+      "url": "https://www.lrta.gov.ph/distance-between-stations/",
+      "relatedUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSxHl4eNp_q4O7j3Cuk4_TwgwAQQ3NwIRUGPUSf2r16Cozgei2VkjowDtuSzQaC_84kp5F3e_3ReT0z/pub?output=csv",
+      "sourceDate": null,
+      "capturedAt": "2026-10-10",
+      "geography": "LRT-2, Recto–Antipolo",
+      "status": "official-station-distance-table; discrepancy unresolved",
+      "licenseTerms": "No explicit data reuse terms verified",
+      "artifact": "lrt2-segment-distances.json",
+      "findings": "Embedded LRTA spreadsheet lists all 12 consecutive station distances and totals 15.967 km.",
+      "gaps": [
+        "LRTA Railway Operations page reports 17.6 km; resolve difference before treating distances as validated",
+        "Station coordinates and segment travel times",
+        "Confirm reuse terms"
+      ]
+    },
+    {
+      "id": "pnr-metro-manila-status",
+      "mode": "train:pnr",
+      "publisher": "Philippine Information Agency, reporting DOTr/Presidential announcement",
+      "url": "https://pia.gov.ph/news/unang-biyahe-ng-nscr-mula-valenzuela-hanggang-malolos-itinakda-ni-pbbm-sa-disyembre-2027/",
+      "relatedUrl": "https://pco.gov.ph/press-briefing/20260203-malacaang-press-briefing-of-palace-press-officer-and-pco-undersecretary-claire-castro/",
+      "sourceDate": "2026-07-30",
+      "capturedAt": "2026-10-10",
+      "geography": "Metro Manila PNR commuter corridor; future NSCR Valenzuela–Malolos phase",
+      "status": "excluded-currently-suspended-service-future-reopening-target-2027",
+      "licenseTerms": "Report facts only; no route data redistributed",
+      "findings": "Government reporting says Metro Manila passengers will ride again when NSCR service begins in December 2027, so PNR Metro Manila is not an operating passenger route for the current pack.",
+      "gaps": [
+        "Recheck PNR/NSCR operating status before any later pack release",
+        "Future NSCR service is a new service and needs its own current route, stop, schedule, and fare sources"
+      ]
+    },
+    {
+      "id": "future-rail-projects-status",
+      "mode": "train:mrt7,train:metro_manila_subway,train:nscr",
+      "publisher": "Presidential Communications Office",
+      "url": "https://pco.gov.ph/press-briefing/20260203-malacaang-press-briefing-of-palace-press-officer-and-pco-undersecretary-claire-castro/",
+      "relatedUrl": "https://pco.gov.ph/news_releases/new-mrt-7-stations-north-south-commuter-railway-operations-set-to-roll-out-next-year-pbbm-2/",
+      "sourceDate": "2026-02-03",
+      "capturedAt": "2026-10-10",
+      "geography": "Metro Manila rail projects",
+      "status": "excluded-under-construction-not-operating",
+      "licenseTerms": "No route data redistributed",
+      "findings": "Government project schedule identifies MRT-7/NSCR as future 2027 services and Metro Manila Subway as future testing/operations; do not treat construction stations returned by map queries as active passenger services.",
+      "gaps": [
+        "Recheck opening dates and official route/service details when these lines begin operating"
+      ]
+    }
+  ],
+  "modeCoverage": {
+    "jeepney": "gap-current-active-routes; 2026-09-28 current regular/discount rates reported by PTV/PNA; LTFRB source sheets return HTTP 403 and remain unverified",
+    "modern_jeepney": "gap-current-active-routes; 2026-09-28 current regular/discount rates reported by PTV/PNA; LTFRB source sheets return HTTP 403 and remain unverified",
+    "uv": "gap-current-active-routes; 2026-09-28 traditional/modern per-km rates reported by PTV/PNA; LTFRB source sheets return HTTP 403, discount details remain unverified",
+    "bus": "official Q City Bus eight-route coverage and 2026 TOR stop lists for six routes plus the current Route 6 stop advisory captured; Route 1 sequence is historical; no precise coordinates, road geometry, segment times, or reuse grant, so no city-bus route is pack-ready. MMDA Love Bus remains another current route candidate with missing coordinate/time detail.",
+    "train:lrt1": "excluded from active pack at user direction",
+    "train:lrt2": "excluded from active pack at user direction",
+    "train:mrt3": "excluded from active pack at user direction",
+    "walk": "derived-connector-only; requires vetted in-scope station/stop coordinates",
+    "train:pnr": "excluded from active pack at user direction",
+    "train:mrt7": "excluded from active pack at user direction",
+    "train:metro_manila_subway": "excluded from active pack at user direction",
+    "bus:edsa_carousel": "excluded from active pack at user direction"
+  }
+}

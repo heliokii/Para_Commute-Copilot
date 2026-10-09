@@ -5,6 +5,7 @@ import { initRouter, planOptions, planRoute } from '../router/client.ts'
 import { orderOptions } from '../router/order.ts'
 import type { Intent, Preference, RoutePack, RouteResult, Weights } from '../router/types.ts'
 import { recordRecent } from './recents'
+import { getSettings } from './settings'
 
 // The plan session: what the rider asked for and the last result. In memory
 // only, shared by the Ruta and Mapa tabs. Nothing here is written to disk.
@@ -89,6 +90,7 @@ export function currentIntent(from: PlanState = state): Intent {
     originId: from.originId,
     destinationId: from.destinationId,
     preference: from.customEnabled ? 'custom' : from.preference,
+    fareEligibility: getSettings().fareEligibility,
     avoid: {
       landmarkIds: [],
       routeIds: [],
@@ -101,7 +103,8 @@ export function currentIntent(from: PlanState = state): Intent {
 
 /** Runs the router for the form values, or for a given trip. Every number comes from the router. */
 export async function searchRoutes(override?: Intent): Promise<void> {
-  const intent = override ?? currentIntent()
+  const input = override ?? currentIntent()
+  const intent = { ...input, fareEligibility: getSettings().fareEligibility }
   setPlan({ status: 'searching' })
   try {
     await ensurePack()

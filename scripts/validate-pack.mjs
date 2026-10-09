@@ -4,6 +4,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { PACK_HEADERS, packFromCsv } from '../src/pack/packFromCsv.ts'
+import { isInsideNcr, readNcrBoundary } from '../src/pack/ncrGeometry.ts'
 
 const dir = resolve(process.argv[2] ?? 'data/pack')
 if (!existsSync(dir)) {
@@ -21,6 +22,21 @@ for (const name of Object.keys(PACK_HEADERS)) {
 const { pack, terminals, issues } = packFromCsv(files)
 const errors = issues.filter((issue) => issue.level === 'error')
 const warnings = issues.filter((issue) => issue.level === 'warning')
+const boundaryPath = join(dir, 'ncr_boundary.geojson')
+if (!existsSync(boundaryPath)) {
+  errors.push({ file: 'landmarks', message: 'ncr_boundary.geojson is required for NCR geometry validation' })
+} else {
+  let boundary
+  try { boundary = readNcrBoundary(JSON.parse(readFileSync(boundaryPath, 'utf8'))) } catch {}
+  if (!boundary) errors.push({ file: 'landmarks', message: 'ncr_boundary.geojson must contain a Polygon or MultiPolygon' })
+  else {
+    for (const landmark of pack.landmarks) {
+      if (!isInsideNcr([landmark.lon, landmark.lat], boundary)) {
+        errors.push({ file: 'landmarks', message: `landmark "${landmark.id}" is outside the NCR boundary` })
+      }
+    }
+  }
+}
 
 console.log(`Route pack in ${dir}`)
 console.log(

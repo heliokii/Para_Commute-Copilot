@@ -307,15 +307,19 @@ describe('fares come only from FareEntry data', () => {
   it('doubling the fare table doubles the totals', () => {
     const doubled = withFares((fare) => ({
       ...fare,
-      baseFare: fare.baseFare * 2,
-      perKm: fare.perKm * 2,
+      rule: fare.rule.kind === 'distance'
+        ? { ...fare.rule, baseFare: fare.rule.baseFare * 2, perKm: fare.rule.perKm * 2 }
+        : fare.rule,
     }))
     // R1 A>D: 20 + 5.5 * 3 = 36.50
     expect(planRoute(doubled, intent('A', 'D', 'cheapest')).totalFare).toBe(36.5)
   })
 
   it('a zero fare table gives zero totals', () => {
-    const free = withFares((fare) => ({ ...fare, baseFare: 0, perKm: 0 }))
+    const free = withFares((fare) => ({
+      ...fare,
+      rule: fare.rule.kind === 'distance' ? { ...fare.rule, baseFare: 0, perKm: 0 } : fare.rule,
+    }))
     for (const option of planOptions(free, intent('A', 'F'))) {
       expect(option.totalFare).toBe(0)
     }
@@ -323,8 +327,53 @@ describe('fares come only from FareEntry data', () => {
 
   it('changing baseKm changes the fare', () => {
     // R1 A>D with baseKm 9.5 is covered by the base fare alone.
-    const longBase = withFares((fare) => (fare.id === 'F-J' ? { ...fare, baseKm: 9.5 } : fare))
+    const longBase = withFares((fare) =>
+      fare.id === 'F-J' && fare.rule.kind === 'distance'
+        ? { ...fare, rule: { ...fare.rule, baseKm: 9.5 } }
+        : fare,
+    )
     expect(planRoute(longBase, intent('A', 'D', 'cheapest')).totalFare).toBe(10)
+  })
+
+  it('charges one exact rail origin-destination matrix value for a through ride', () => {
+    const railPack: RoutePack = {
+      ...pack,
+      routes: [{ ...pack.routes[0], mode: 'train', stops: pack.routes[0].stops.slice(0, 4), fareTableId: 'F-M' }],
+      fares: [{
+        id: 'F-M', mode: 'train', product: 'single-journey', vehicleClass: 'standard',
+        effectiveDate: '2026-01-01', sourceNote: 'SYNTHETIC',
+        rule: { kind: 'matrix', byOriginDestination: { A: { B: 8, C: 8, D: 14 }, B: { C: 8, D: 10 }, C: { D: 8 } } },
+      }],
+    }
+    const result = planRoute(railPack, intent('A', 'D'))
+    expect(result.legs).toHaveLength(1)
+    expect(result.legs[0].fare).toBe(14)
+  })
+
+  it('prices an eligible concession in planned route fares', () => {
+    const discounted = structuredClone(pack)
+    discounted.fares.find((fare) => fare.id === 'F-J')!.promotions = [{
+      id: 'student', label: 'Student discount', eligibility: 'student',
+      effectiveDate: '2026-01-01', rule: { kind: 'percent_off', percent: 20 }, sourceNote: 'SYNTHETIC',
+    }]
+    const base = intent('A', 'C')
+    expect(planRoute(discounted, base).totalFare).toBe(13)
+    expect(planRoute(discounted, { ...base, fareEligibility: 'student' } as Intent).totalFare).toBe(10.4)
+  })
+
+  it('skips a route when its fare matrix lacks a usable origin-destination pair', () => {
+    const missingPair: RoutePack = {
+      ...pack,
+      routes: [{ ...pack.routes[0], mode: 'train', stops: pack.routes[0].stops.slice(0, 4), fareTableId: 'F-M' }],
+      fares: [{
+        id: 'F-M', mode: 'train', product: 'single-journey', vehicleClass: 'standard',
+        effectiveDate: '2026-01-01', sourceNote: 'SYNTHETIC',
+        rule: { kind: 'matrix', byOriginDestination: { A: { C: 8 }, C: { D: 8 } } },
+      }],
+    }
+    const result = planRoute(missingPair, intent('A', 'D'))
+    expect(result.reason).toBe('no_path')
+    expect(result.assumptions.join(' ')).toContain('has no current fare')
   })
 })
 

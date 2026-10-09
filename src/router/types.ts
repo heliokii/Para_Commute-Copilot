@@ -17,6 +17,36 @@ export interface Weights {
 
 export type RoundingRule = 'nearest_0.25' | 'nearest_1' | 'ceil_1' | 'none'
 
+export type FareEligibility = 'adult' | 'student' | 'senior' | 'pwd'
+
+export interface DistanceFareRule {
+  kind: 'distance'
+  baseFare: number
+  baseKm: number
+  perKm: number
+  roundingRule: RoundingRule
+}
+
+export interface MatrixFareRule {
+  kind: 'matrix'
+  /** Pesos keyed by boarding landmark id, then alighting landmark id. */
+  byOriginDestination: Record<string, Record<string, number>>
+}
+
+export type FareRule = DistanceFareRule | MatrixFareRule
+
+export interface FarePromotion {
+  id: string
+  label: string
+  /** `all` is an operator/agency promotion available to every rider. */
+  eligibility: 'all' | FareEligibility
+  effectiveDate: string
+  expiresAt?: string
+  rule: { kind: 'percent_off'; percent: number } | MatrixFareRule
+  sourceUrl?: string
+  sourceNote: string
+}
+
 export interface Landmark {
   id: string
   name: string
@@ -50,13 +80,14 @@ export interface Route {
 export interface FareEntry {
   id: string
   mode: Mode
-  baseFare: number
-  /** Distance covered by baseFare. */
-  baseKm: number
-  perKm: number
-  /** ISO date (YYYY-MM-DD). Shown as "as of". */
+  product: string
+  vehicleClass: string
+  rule: FareRule
+  /** ISO date (YYYY-MM-DD). */
   effectiveDate: string
-  roundingRule: RoundingRule
+  expiresAt?: string
+  promotions?: FarePromotion[]
+  sourceUrl?: string
   sourceNote: string
 }
 
@@ -82,6 +113,7 @@ export interface Intent {
   destinationId: string
   preference: Preference
   avoid: Avoid
+  fareEligibility?: FareEligibility
   /** Used only when preference is 'custom'. */
   weights?: Weights
 }

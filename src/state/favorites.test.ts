@@ -15,6 +15,7 @@ describe('favorite ids', () => {
     const one = intent({ avoid: { landmarkIds: ['E', 'B'], routeIds: [], modes: ['bus', 'uv'], tags: ['EDSA'] } })
     const two = intent({ avoid: { landmarkIds: ['B', 'E'], routeIds: [], modes: ['uv', 'bus'], tags: ['EDSA'] } })
     expect(routeFavoriteId(one)).toBe(routeFavoriteId(two))
+    expect(routeFavoriteId(intent())).toBe('route:A>F:cheapest:|||')
   })
 
   it('differ by trip, preference and avoid-list, so each is its own favorite', () => {
@@ -27,6 +28,7 @@ describe('favorite ids', () => {
       routeFavoriteId(intent({ preference: 'custom', weights: { fare: 3, minutes: 2, transfers: 1 } })),
     ])
     expect(ids.size).toBe(6)
+    expect(routeFavoriteId(intent({ fareEligibility: 'student' }))).toBe(routeFavoriteId(intent()))
   })
 
   it('place ids do not collide with route ids', () => {
@@ -39,6 +41,7 @@ describe('stored favorite shapes', () => {
   it('reads a route favorite it wrote', () => {
     const payload = { intent: intent(), packId: 'p', packVersion: '1' }
     expect(asRouteFavorite(payload)).toEqual(payload)
+    expect(asRouteFavorite({ ...payload, intent: intent({ fareEligibility: 'student' }) })?.intent).not.toHaveProperty('fareEligibility')
   })
 
   it('rejects rows that are not shaped like a favorite', () => {

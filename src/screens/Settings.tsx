@@ -134,6 +134,24 @@ export function Settings() {
           <p className="px-1 text-xs text-on-deep/80">{copy.settings.unitsNote}</p>
         </Section>
 
+        <Section title={copy.settings.fareEligibilityTitle}>
+          <Card>
+            <Choice
+              label={copy.settings.fareEligibilityLabel}
+              testId="setting-fare-eligibility"
+              value={settings.fareEligibility}
+              options={[
+                { value: 'adult', label: copy.settings.fareAdult },
+                { value: 'student', label: copy.settings.fareStudent },
+                { value: 'senior', label: copy.settings.fareSenior },
+                { value: 'pwd', label: copy.settings.farePwd },
+              ]}
+              onChange={(value) => updateSetting('fareEligibility', value)}
+            />
+            <p className="px-4 pb-3 text-xs text-ink-muted">{copy.settings.fareEligibilityNote}</p>
+          </Card>
+        </Section>
+
         <Section title={copy.settings.sessionTitle}>
           <Card className="p-4">
             <p className="text-sm text-ink-muted">{copy.settings.sessionBody}</p>

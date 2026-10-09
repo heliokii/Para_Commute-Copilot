@@ -25,3 +25,6 @@ dist-ssr
 
 # Benchmark browser profile (downloaded models)
 .cache
+
+# Graphify
+graphify-out/

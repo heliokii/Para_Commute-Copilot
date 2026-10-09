@@ -1,0 +1,105 @@
+{
+  "id": "qcity-bus-stop-inventory-2026-10-10",
+  "capturedAt": "2026-10-10",
+  "geography": "Quezon City, Metro Manila",
+  "service": "Q City Bus, free city bus service",
+  "serviceStatusSource": "https://quezoncity.gov.ph/qcitizen-guides/quezon-city-bus-service-program/",
+  "serviceStatusSourceDate": "2026-08-04",
+  "routes": [
+    {
+      "route": 1,
+      "name": "Quezon City Hall–Cubao",
+      "status": "historical-stop-list; active-service-confirmed-2026-stop-sequence-unconfirmed",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2021/03/REVISED-TERMS-OF-REFERENCE-ROUTE-1-1.pdf",
+      "sourceDate": "2021-03",
+      "currentServiceConfirmationUrl": "https://quezoncity.gov.ph/program/eco-friendly-public-transport-in-quezon-city/",
+      "currentServiceConfirmationDate": "2026-05",
+      "directions": {
+        "outbound": ["QC Hall Gate 3 (NHA Interchange)", "Masikap Street", "Kalayaan–Kamias Interchange", "Barangay Silangan Hall", "15th Avenue corner Aurora Boulevard", "Cubao (Araneta City / Ali Mall)"],
+        "return": ["Cubao (Araneta City / Ali Mall)", "15th Avenue corner Aurora Boulevard", "Barangay Silangan Hall", "Kalayaan–Kamias Interchange", "Masikap Street", "QC Hall Gate 3 (NHA Interchange)"]
+      }
+    },
+    {
+      "route": 2,
+      "name": "Quezon City Hall–Litex / IBP Road",
+      "status": "2026-procurement-stop-list; operational-stop-sequence-not-field-verified",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096.pdf",
+      "sourceDate": "2025-11",
+      "directions": {
+        "outbound": ["QC Hall (NHA) Interchange", "St. Peter Parish Church", "IBP Road–Maclang General Hospital", "IBP Road–Quezon City University Batasan Hills", "IBP Road–Litex"],
+        "return": ["IBP Road–Litex", "IBP Road–Quezon City University Batasan Hills", "IBP Road–Maclang General Hospital", "St. Peter Parish Church", "QC Hall (NHA) Interchange"]
+      }
+    },
+    {
+      "route": 3,
+      "name": "Welcome Rotonda–Aurora/Katipunan",
+      "status": "2026-procurement-stop-list; operational-stop-sequence-not-field-verified",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096-TOR-2.pdf",
+      "sourceDate": "2025-11",
+      "directions": {
+        "outbound": ["Aurora–Katipunan Interchange (LRT-2 Katipunan Station)", "Aurora Boulevard–J.P. Rizal Street", "Aurora Boulevard–LRT-2 Anonas Station", "Anonas Road–Chico Street", "Kamias Road corner Anonas", "Kalayaan–Kamias Interchange", "Kamias Road–EDSA", "Kamuning Road–K-E Street", "Kamuning Road–Delgado Hospital (Kamuning Market)", "E. Rodriguez–Gilmore Interchange", "E. Rodriguez Sr.–St. Luke's / National Children's Hospital", "E. Rodriguez Sr.–Quezon Institute", "E. Rodriguez Sr.–Welcome Rotonda"],
+        "return": ["E. Rodriguez Sr.–Welcome Rotonda", "E. Rodriguez Sr.–Quezon Institute", "E. Rodriguez Sr.–St. Luke's / National Children's Hospital", "E. Rodriguez–Gilmore Interchange", "Kamuning Road–Delgado Hospital (Kamuning Market)", "Kamuning Road–K-E Street", "Kamias Road–EDSA", "Kalayaan–Kamias Interchange", "Kamias Road corner Anonas", "Anonas Road–Chico Street", "Aurora Boulevard–LRT-2 Anonas Station", "Aurora Boulevard–J.P. Rizal Street", "Aurora–Katipunan Interchange (LRT-2 Katipunan Station)"]
+      }
+    },
+    {
+      "route": 4,
+      "name": "Quezon City Hall–General Luis",
+      "status": "2026-procurement-stop-list; operational-stop-sequence-not-field-verified",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096.pdf",
+      "sourceDate": "2025-11",
+      "directions": {
+        "outbound": ["QC Hall (NHA) Interchange", "North Avenue–Veterans Hospital / Vertis North", "Mindanao Avenue–Road 1", "Mindanao Avenue–Tullahan Bridge", "Mindanao Avenue–Congressional Avenue", "Mindanao Avenue–Tandang Sora Avenue", "Mindanao Avenue–D. Muñoz Street", "Mindanao Avenue–Old Sauyo Road", "Mindanao Avenue–Quirino Highway", "Quezon City University Main Campus / Novaliches District Hospital", "Quirino Highway–SM Novaliches", "Quirino Highway–Forest Hills Drive", "General Luis–Nova Bayan", "General Luis–Banahaw Street", "General Luis–SB Road"],
+        "return": ["General Luis–SB Road", "General Luis–Banahaw Street", "General Luis–Nova Bayan", "Quirino Highway–Forest Hills Drive", "Quirino Highway–SM Novaliches", "Quezon City University Main Campus / Novaliches District Hospital", "Mindanao Avenue–Quirino Highway", "Mindanao Avenue–Old Sauyo Road", "Mindanao Avenue–D. Muñoz Street", "Mindanao Avenue–Tandang Sora Avenue", "Mindanao Avenue–Congressional Avenue", "Mindanao Avenue–Tullahan Bridge", "Mindanao Avenue–Road 1", "North Avenue–Veterans Hospital / Vertis North", "QC Hall (NHA) Interchange"]
+      }
+    },
+    {
+      "route": 5,
+      "name": "Quezon City Hall–Quirino Highway via Visayas Avenue",
+      "status": "2026-procurement-stop-list; operational-stop-sequence-not-field-verified",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096.pdf",
+      "sourceDate": "2025-11",
+      "directions": {
+        "outbound": ["QC Hall (NHA) Interchange", "Visayas Avenue–Central Avenue", "Visayas Avenue–Vargas Street", "Congressional Avenue–Visayas Avenue", "Congressional Avenue–Circle C", "Mindanao Avenue–Congressional Avenue", "Mindanao Avenue–Tandang Sora Avenue", "Mindanao Avenue–D. Muñoz Street", "Mindanao Avenue–Old Sauyo Road", "Mindanao Avenue–Quirino Highway Interchange"],
+        "return": ["Mindanao Avenue–Quirino Highway Interchange", "Mindanao Avenue–Old Sauyo Road", "Mindanao Avenue–D. Muñoz Street", "Mindanao Avenue–Tandang Sora Avenue", "Mindanao Avenue–Congressional Avenue", "Congressional Avenue–Circle C", "Congressional Avenue–Visayas Avenue", "Visayas Avenue–Vargas Street", "Visayas Avenue–Central Avenue", "QC Hall (NHA) Interchange"]
+      }
+    },
+    {
+      "route": 6,
+      "name": "Quezon City Hall–Gilmore",
+      "status": "current-2026-stop-list; directional-sequence-not-specified-in-advisory",
+      "sourceUrl": "https://quezoncity.gov.ph/q-city-bus-service-advisory-new-bus-stop-on-route-6/",
+      "sourceDate": "2026-07-30",
+      "effectiveDate": "2026-08-03",
+      "listedStops": ["Quezon City Hall NHA Interchange", "Quezon Avenue (Philippine Children's Medical Center)", "Quezon Avenue–EDSA", "Quezon Avenue corner Examiner Street", "Quezon Avenue (Delta)–Panay Avenue", "Timog Avenue–Scout Tuason Street", "Tomas Morato Avenue–Scout Limbaga Street", "Tomas Morato Avenue–Scout Lozano Street", "Don Alejandro Roces Avenue–Don Alejandro Roces Sr. Science-Technology High School", "Scout Reyes Street–District 4 Action Center", "Scout Chuatoco Avenue–Scout Tobias Street", "E. Rodriguez Sr. Avenue–Gilmore Interchange", "Gilmore Avenue–Carmel of St. Therese of the Child Jesus Church", "Aurora Boulevard–Hemady Street"]
+    },
+    {
+      "route": 7,
+      "name": "Quezon City Hall–Ortigas Avenue Extension",
+      "status": "2026-procurement-stop-list; operational-stop-sequence-not-field-verified",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096.pdf",
+      "sourceDate": "2025-11",
+      "directions": {
+        "outbound": ["QC Hall (NHA) Interchange", "Krus na Ligas", "Katipunan Avenue–Sta. Maria Della Strada Parish", "Katipunan Avenue–Ateneo de Manila Gate 3", "Aurora–Katipunan Interchange", "Katipunan Avenue–P. Tuazon Avenue (Quirino Memorial Medical Center)", "Katipunan Avenue–Boni Serrano Avenue", "E. Rodriguez Jr. Avenue–Eastwood City", "E. Rodriguez Jr. Avenue–Green Meadows Avenue", "E. Rodriguez Jr. Avenue–Ortigas Avenue flyover"],
+        "return": ["E. Rodriguez Jr. Avenue–Ortigas Avenue flyover", "E. Rodriguez Jr. Avenue–Green Meadows Avenue", "E. Rodriguez Jr. Avenue–Eastwood City", "Katipunan Avenue–Boni Serrano Avenue", "Katipunan Avenue–P. Tuazon Avenue (Quirino Memorial Medical Center)", "Aurora–Katipunan Interchange", "Katipunan Avenue–Ateneo de Manila Gate 3", "Katipunan Avenue–Sta. Maria Della Strada Parish", "Krus na Ligas", "QC Hall (NHA) Interchange"]
+      }
+    },
+    {
+      "route": 8,
+      "name": "Quezon City Hall–Muñoz",
+      "status": "2026-procurement-stop-list; operational-stop-sequence-not-field-verified",
+      "sourceUrl": "https://quezoncity.gov.ph/wp-content/uploads/2025/11/2.-CAO-26-SERVICES-0096.pdf",
+      "sourceDate": "2025-11",
+      "directions": {
+        "outbound": ["QC Hall (NHA) Interchange", "North Avenue–Veterans Hospital / Vertis North", "North Avenue–Philippine Medical Association (MRT-3 North Avenue / Trinoma Mall)", "Congressional Avenue corner Abra Street"],
+        "return": ["Congressional Avenue corner Abra Street", "Barangay Ramon Magsaysay Hall", "Corregidor Street corner Ilocos Sur Street", "SM City North EDSA (Quezon City University San Francisco)", "North Avenue–Veterans Hospital / Vertis North", "QC Hall (NHA) Interchange"]
+      }
+    }
+  ],
+  "globalGaps": [
+    "The procurement documents describe specified boarding points but allow mutually agreed changes and detours; verify each stop sequence against current operations before import.",
+    "No usable stop coordinates, road polylines, or segment travel-time data are included in this transcription.",
+    "Route 1's stop list is from 2021; only current operation of the route is confirmed in 2026, so its stop list is historical and excluded from active import.",
+    "Route 6's August 2026 advisory enumerates stops but does not state their directional ordering.",
+    "Reuse terms for redistribution of the government route/map material have not been confirmed."
+  ]
+}

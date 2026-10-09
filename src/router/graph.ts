@@ -1,6 +1,6 @@
-import { legFareCentavos } from './fare.ts'
+import { fareForLeg } from './fare.ts'
 import { haversineKm } from './geo.ts'
-import type { Avoid, FareEntry, Mode, Route, RoutePack, RouterConfig } from './types.ts'
+import type { Avoid, FareEligibility, FareEntry, Mode, Route, RoutePack, RouterConfig } from './types.ts'
 import { WALK_ROUTE_ID } from './types.ts'
 
 export interface Edge {
@@ -13,6 +13,7 @@ export interface Edge {
   fareCentavos: number
   /** undefined for walking edges. */
   fareEntry?: FareEntry
+  fareEffectiveDate?: string
   verified: boolean
 }
 
@@ -36,7 +37,7 @@ function routeIsUsable(route: Route) {
 }
 
 /** Applies the avoid-list, then builds every candidate leg and walking edge. */
-export function buildGraph(pack: RoutePack, avoid: Avoid, config: RouterConfig): Graph {
+export function buildGraph(pack: RoutePack, avoid: Avoid, config: RouterConfig, fareEligibility: FareEligibility = 'adult'): Graph {
   const avoidRoutes = new Set(avoid.routeIds)
   const avoidModes = new Set<string>(avoid.modes)
   const avoidTags = new Set(avoid.tags)
@@ -69,6 +70,8 @@ export function buildGraph(pack: RoutePack, avoid: Avoid, config: RouterConfig):
     }
 
     const stops = route.stops
+    const routeEdges: Edge[] = []
+    let fareGap: string | undefined
     for (let board = 0; board < stops.length - 1; board++) {
       const boardId = stops[board].landmarkId
       // Boarding at an unknown or avoided stop is not possible.
@@ -84,19 +87,31 @@ export function buildGraph(pack: RoutePack, avoid: Avoid, config: RouterConfig):
         minutes += stop.minFromPrev
         if (stop.landmarkId === boardId) continue
         const legDist = round3(distKm)
-        addEdge({
+        const calculation = fareForLeg(boardId, stop.landmarkId, legDist, fareEntry, undefined, fareEligibility)
+        if (!calculation) {
+          fareGap = `${boardId} to ${stop.landmarkId}`
+          break
+        }
+        routeEdges.push({
           routeId: route.id,
           mode: route.mode,
           boardId,
           alightId: stop.landmarkId,
           distKm: legDist,
           minutes: round3(minutes),
-          fareCentavos: legFareCentavos(legDist, fareEntry),
+          fareCentavos: calculation.centavos,
+          fareEffectiveDate: calculation.effectiveDate,
           fareEntry,
           verified: route.verified === true,
         })
       }
+      if (fareGap) break
     }
+    if (fareGap) {
+      assumptions.push(`Route ${route.id} skipped: fare table "${fareEntry.id}" has no current fare for ${fareGap}.`)
+      continue
+    }
+    for (const edge of routeEdges) addEdge(edge)
   }
 
   if (!avoidModes.has('walk') && config.walkMaxMeters > 0 && config.walkSpeedKmh > 0) {
