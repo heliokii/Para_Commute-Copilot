@@ -145,7 +145,14 @@ try {
   check('Proof panel: last inference shows measured latency and tokens per second', proof.inference?.ok === 'true' && /\d+ ms/.test(proof.inference.text) && proof.inference.text.includes('tokens/s'), proof.inference?.text)
   check('Proof panel: browser-counted requests to other servers is 0', proof['cross-origin']?.ok === 'true', proof['cross-origin']?.text)
 
-  check('No request to any other host was attempted', outside.length === 0, outside.slice(0, 5).join(', '))
+  // Setup and Offline Mode were opened above; About is the third screen that reads model state.
+  await page.evaluate(() => {
+    location.hash = '#/about'
+  })
+  await page.waitForFunction(() => document.body.innerText.includes('Naka-install'), { timeout: 10000 }).catch(() => {})
+  check('About marks the cached model as installed', await page.evaluate(() => document.body.innerText.includes('Naka-install')))
+
+  check('Cached model was never fetched again: no request to any other host was attempted', outside.length === 0, outside.slice(0, 5).join(', '))
 } catch (error) {
   check('LLM check ran to completion', false, error.message)
 } finally {

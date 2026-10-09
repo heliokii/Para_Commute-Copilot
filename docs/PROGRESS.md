@@ -359,3 +359,24 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 - `check:voice` needs Windows (System.Speech) for its test audio, and nvidia-smi for the memory figures.
 - New dependency: `@huggingface/transformers` 4.3.1 (Apache-2.0), which brings `onnxruntime-web` 1.31.0-dev (MIT).
 - `README.md`, `DEMO.md`, `docs/SUBMISSION.md` and `docs/DEMO_PREFLIGHT.md` got one line each about voice. `main` and tag `submission-v1` are untouched.
+
+### Phase 7 addendum: no download without the Setup button (2026-10-09)
+
+**Found**
+- Opening Setup, Offline Mode or About never starts a download, offline or online: none of them calls a load or download function. Now asserted in `test:e2e`.
+- A cached model is never fetched again: `check:llm` (LLM) and `check:voice` (Whisper) load real cached models with every other host unreachable and count zero requests. `check:llm` now also opens About.
+- One hole, reproduced before the fix: the app start-up trusts a note in `localStorage` that says the LLM is downloaded. If the cache was emptied (browser eviction, or site data partly cleared) and the rider had not opened Setup, the first unclear chat message called the model loader, which tried to download from `huggingface.co`. Offline it failed and the chat fell back to rules; online it would have started the full model download without the rider asking.
+
+**Fixed**
+- `loadModel` takes `allowDownload`. The chat path passes `false`: a model missing from the cache is an error and nothing is fetched. The note is corrected and the model shows as not installed, so the rider can choose to download again on Setup.
+- Tests: `src/ai/runtime.test.ts` (4 new) and a `test:e2e` step that plants a stale note, sends a chat message offline with WebGPU on, and asserts no request to another host. That step failed before the fix and passes after.
+- Whisper never had this hole: its cached load answers model-host requests with a local "not found".
+
+**Passed after the change**
+- `lint`, `build`, `npm test` (167 of 167), `check:offline` (31 of 31), `test:e2e` (59 of 59), `check:update` (8 of 8), `check:llm` (13 of 13), audit (Performance 89, Accessibility 100, Best Practices 100, SEO 100). `check:voice` was not rerun; no voice code changed.
+
+**Known and not fixed: the LLM size readout**
+- "Laki sa phone" for the LLM is the growth of the browser's storage estimate across the download, kept in one `localStorage` value. It is wrong when: a model was deleted just before (the estimate still counts the deleted bytes, so growth is too small or negative, shown as a smaller number or "Hindi nasukat"); a download was interrupted and resumed (only the last part is counted); the voice model downloads at the same time (it is counted too); or two LLMs are cached (the value belongs to whichever was downloaded last). Seen for real on the voice model, which used the same method until it was changed to add up the cache entries. Not reproduced on the LLM. Display only; it affects no behaviour.
+
+**DEMO.md**
+- Voice is an optional step marked "use only if the live voice test passes", with the test defined. The arrival alert is an optional step labeled Simulated GPS. Neither was rehearsed or timed.

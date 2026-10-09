@@ -256,10 +256,17 @@ export function getLlm(): LlmComplete | undefined {
     if (getLoadedModelId() !== state.selectedId) {
       // First use after a reload: load from the local cache, no network.
       try {
-        await loadModel(state.selectedId, (progress, progressText) => set({ progress, progressText }))
+        await loadModel(state.selectedId, (progress, progressText) => set({ progress, progressText }), false)
         set({ status: 'ready' })
       } catch (error) {
-        set({ status: 'error', error: error instanceof Error ? error.message : String(error), errorKind: classifyError(error) })
+        if (await isModelCached(state.selectedId)) {
+          set({ status: 'error', error: error instanceof Error ? error.message : String(error), errorKind: classifyError(error) })
+        } else {
+          // The start-up note said downloaded but the cache is empty (cleared or evicted).
+          // Correct the note; downloading again is the rider's choice, on the Setup screen.
+          writeStored(READY_KEY, null)
+          set({ status: 'absent' })
+        }
         throw error
       }
     }

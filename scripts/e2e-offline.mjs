@@ -16,7 +16,8 @@ if (!existsSync('dist/sw.js')) {
 
 const { check, finish } = createReport()
 const server = await preview({ preview: { port: PORT, strictPort: true }, logLevel: 'silent' })
-const browser = await launch()
+// WebGPU on where the machine has it, so the model lane is reachable in the download checks.
+const browser = await launch(['--enable-unsafe-webgpu', '--ignore-gpu-blocklist'])
 
 try {
   const page = await browser.newPage()
@@ -37,6 +38,12 @@ try {
     if (!response.fromServiceWorker() && !response.fromCache()) fromNetwork.push(response.url())
   })
   page.on('requestfailed', (request) => failed.push(request.url()))
+  // Every request the page even tries to make to another host, from here on.
+  const outside = []
+  page.on('request', (request) => {
+    const url = request.url()
+    if (!url.startsWith(BASE) && !url.startsWith('data:') && !url.startsWith('blob:')) outside.push(url)
+  })
   await page.reload({ waitUntil: 'networkidle0' })
   await page.keyboard.press('Escape') // skip the splash
   check('Offline: navigator reports offline', await page.evaluate(() => !navigator.onLine))
@@ -316,6 +323,48 @@ try {
     setup.includes('Walang WebGPU') ? 'no WebGPU' : 'model not downloaded',
   )
   check('Setup screen warns to use WiFi or explains the fallback', /Mag-WiFi muna|Gumagana pa rin ang Plan a Route/.test(setup))
+
+  // --- Opening a screen never starts a model download ---
+  await goTo('#/offline')
+  await page.waitForSelector('[data-testid=proof-model]', { timeout: 5000 })
+  await goTo('#/about')
+  await page.waitForFunction(() => document.body.innerText.includes('On this device'), { timeout: 5000 })
+  await goTo('#/setup')
+  const downloading = await page.evaluate(() => Boolean(document.querySelector('[data-testid=setup-progress], [data-testid=setup-voice-progress]')))
+  check('Opening Setup, Offline Mode and About offline starts no model download and asks no other host', outside.length === 0 && !downloading, outside.join(', '))
+
+  // --- A stale "model is downloaded" note must not turn a chat message into a download ---
+  // The start-up check trusts this note; the cache itself is empty in this profile.
+  // Leave Setup first: that screen checks the real cache and would correct the note.
+  await goTo('#/')
+  await page.evaluate(() => {
+    localStorage.setItem('para.model', 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC')
+    localStorage.setItem('para.model.ready', 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC')
+  })
+  await page.reload({ waitUntil: 'networkidle0' })
+  await page.keyboard.press('Escape')
+  await goTo('#/chat')
+  await page.waitForSelector('[data-testid=chat-input]', { visible: true, timeout: 5000 })
+  const repliesBefore = await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)
+  await page.focus('[data-testid=chat-input]')
+  // No origin, so the rules cannot finish and the model lane is tried.
+  await page.keyboard.type('Paano pumunta sa Delta?')
+  await page.keyboard.press('Enter')
+  await page.waitForFunction(
+    (count) => document.querySelectorAll('[data-testid=tsupher-message]').length > count && !document.querySelector('[data-testid=typing]'),
+    { timeout: 60000, polling: 250 },
+    repliesBefore,
+  )
+  const webGpu = await page.evaluate(async () => Boolean(navigator.gpu && (await navigator.gpu.requestAdapter())))
+  check(
+    'Chat with a model that is noted as downloaded but missing from the cache: no download is attempted',
+    outside.length === 0,
+    outside.length > 0 ? outside.slice(0, 3).join(', ') : webGpu ? 'WebGPU on: model lane was reachable' : 'no WebGPU here: model lane not reachable, check is vacuous',
+  )
+  await page.evaluate(() => {
+    localStorage.removeItem('para.model')
+    localStorage.removeItem('para.model.ready')
+  })
 
   check('Offline: every response served by service worker or cache', fromNetwork.length === 0, fromNetwork.join(', '))
   check('Offline: no failed requests', failed.length === 0, failed.join(', '))

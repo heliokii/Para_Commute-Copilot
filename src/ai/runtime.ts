@@ -77,12 +77,16 @@ export async function isModelCached(modelId: string): Promise<boolean> {
 /**
  * Downloads (if needed) and loads a model. Shards already in the cache are
  * skipped, so calling this again after a failure resumes the download.
+ * With `allowDownload` false a model missing from the cache is an error:
+ * nothing is fetched. Only the Setup screen's button may download.
  */
 export async function loadModel(
   modelId: string,
   onProgress?: (progress: number, text: string) => void,
+  allowDownload = true,
 ): Promise<void> {
   if (engine && loadedModelId === modelId) return
+  if (!allowDownload && !(await isModelCached(modelId))) throw new Error('Model is not in the local cache')
   await unloadModel()
   const { CreateMLCEngine } = await webllm()
   engine = await CreateMLCEngine(modelId, {
