@@ -114,7 +114,7 @@ export function OfflineMode() {
   ]
 
   return (
-    <div className="flex min-h-dvh flex-col items-center bg-bg-deeper px-5 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center">
+    <div className="on-deep flex min-h-dvh xl:min-h-full flex-col items-center bg-bg-deeper px-5 pt-[max(2rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] text-center">
       <span className="flex size-16 items-center justify-center rounded-full border-2 border-accent-amber text-accent-amber">
         <Icon name="wifi-off" className="size-8" />
       </span>

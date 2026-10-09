@@ -35,6 +35,11 @@ export const copy = {
     planSub: '(Jeep, UV, Bus, MRT/LRT)',
     chatTitle: 'Chat',
     chatSub: 'Kausapin si Tsupher',
+    savedTitle: 'My Saved Routes',
+    savedSub: 'Tingnan ang mga na-save',
+    tipTitle: 'Tsupher Tip!',
+    tipBody: 'Mas mura ba? Buksan ang "Mas Mura Mode" para unahin ang pinakamurang ruta.',
+    placesTitle: 'Mga Na-save na Lugar',
     offlineTitle: '100% Offline',
     offlineBody:
       'Lahat ng info ay nasa telepono mo. Walang data na kailangan. Nasa phone mo lang ang lokasyon mo.',
@@ -457,6 +462,9 @@ export const copy = {
     destination: 'Dulo',
     transfer: 'Lipatan',
     legend: 'Legend',
+    features: 'Opsyonal na Feature',
+    alertTitle: 'Drop-off Alert',
+    alertSub: 'Sasabihan ka ni Tsupher kapag malapit na ang babaan. Buksan ang Trip mode.',
     describe: (from: string, to: string, legs: number) =>
       `Mapa mula ${from} hanggang ${to}, ${legs} bahagi.`,
     describeNetwork: 'Mapa ng Metro Manila na may mga linya ng LRT-1, LRT-2 at MRT-3.',

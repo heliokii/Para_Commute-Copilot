@@ -1,14 +1,6 @@
 import { copy } from '../copy'
-import { TAB_PATHS, type Tab } from '../lib/nav'
-import { Icon, type IconName } from './Icon'
-
-const ITEMS: { tab: Tab; icon: IconName; label: string }[] = [
-  { tab: 'home', icon: 'home', label: copy.nav.home },
-  { tab: 'ruta', icon: 'route', label: copy.nav.ruta },
-  { tab: 'mapa', icon: 'map', label: copy.nav.mapa },
-  { tab: 'paborito', icon: 'star', label: copy.nav.paborito },
-  { tab: 'higit', icon: 'menu', label: copy.nav.higit },
-]
+import { NAV_ITEMS, TAB_PATHS, type Tab } from '../lib/nav'
+import { Icon } from './Icon'
 
 export function BottomNav({ active }: { active: Tab }) {
   return (
@@ -17,7 +9,7 @@ export function BottomNav({ active }: { active: Tab }) {
       className="surface fixed inset-x-0 bottom-0 z-20 mx-auto max-w-md rounded-t-card bg-surface-cream px-2 pb-[env(safe-area-inset-bottom)] text-ink-dark shadow-[0_-6px_20px_-10px_rgb(0_0_0/0.4)]"
     >
       <ul className="flex">
-        {ITEMS.map((item) => {
+        {NAV_ITEMS.map((item) => {
           const current = item.tab === active
           return (
             <li key={item.tab} className="min-w-0 flex-1">

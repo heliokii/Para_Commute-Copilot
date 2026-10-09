@@ -184,7 +184,7 @@ export function Chat() {
     : []
 
   return (
-    <div className="backdrop flex h-dvh flex-col">
+    <div className="backdrop flex h-dvh flex-col xl:h-full">
       <header className="flex min-h-16 items-center gap-2 px-3 pt-[env(safe-area-inset-top)]">
         <a
           href={`#${TAB_PATHS.home}`}

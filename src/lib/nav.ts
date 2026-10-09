@@ -1,4 +1,6 @@
 import { useSyncExternalStore } from 'react'
+import type { IconName } from '../components/Icon'
+import { copy } from '../copy'
 
 // Hash routing keeps every screen on the precached index.html.
 
@@ -40,6 +42,15 @@ export const OVERLAY_PATHS: Record<Overlay, string> = {
   'dev-components': '/dev/components',
   'dev-bench': '/dev/bench',
 }
+
+/** Shared by the bottom nav (phone) and the side nav (dashboard). */
+export const NAV_ITEMS: { tab: Tab; icon: IconName; label: string }[] = [
+  { tab: 'home', icon: 'home', label: copy.nav.home },
+  { tab: 'ruta', icon: 'route', label: copy.nav.ruta },
+  { tab: 'mapa', icon: 'map', label: copy.nav.mapa },
+  { tab: 'paborito', icon: 'star', label: copy.nav.paborito },
+  { tab: 'higit', icon: 'menu', label: copy.nav.higit },
+]
 
 export interface Route {
   tab: Tab

@@ -83,7 +83,7 @@ export function Results() {
     .sort()[0]
 
   return (
-    <div className="backdrop min-h-dvh pb-10">
+    <div className="backdrop min-h-dvh xl:min-h-full pb-10">
       <TopBar title={copy.results.title} backHref={`#${TAB_PATHS.ruta}`} />
       <div className="flex flex-col gap-3 px-4 pt-2">
         {intent && (

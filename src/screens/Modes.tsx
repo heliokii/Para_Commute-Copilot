@@ -19,7 +19,7 @@ interface ToggleRowProps {
   children?: ReactNode
 }
 
-function ToggleRow({ icon, label, sub, checked, onChange, testId, children }: ToggleRowProps) {
+export function ToggleRow({ icon, label, sub, checked, onChange, testId, children }: ToggleRowProps) {
   return (
     <Card className="p-4">
       <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export function Modes() {
   const cheapOn = !plan.customEnabled && plan.preference === 'cheapest'
 
   return (
-    <div className="backdrop min-h-dvh pb-10">
+    <div className="backdrop min-h-dvh xl:min-h-full pb-10">
       <TopBar title={copy.modes.title} backHref={backHref()} />
       <div className="flex flex-col gap-3 px-4 pt-2">
         <p className="px-1 text-sm text-on-deep/90">{copy.modes.intro}</p>

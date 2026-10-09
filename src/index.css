@@ -105,6 +105,45 @@ body {
     linear-gradient(180deg, var(--color-bg-gradient-top), var(--color-bg-deep) 55%);
 }
 
+/* Wide-screen dashboard: the screens sit on one cream panel with white cards, so
+   the on-brown tokens are remapped for everything inside it. */
+:root {
+  --cream: var(--color-surface-cream);
+  --line-on-deep: var(--color-line-on-deep);
+}
+
+@media (min-width: 80rem) {
+  .panel {
+    background: var(--cream);
+  }
+  .panel > * {
+    --color-on-deep: var(--color-ink-dark);
+    --color-line-on-deep: var(--color-line);
+    --color-surface-cream: #fff;
+    color: var(--color-ink-dark);
+  }
+  .panel .backdrop:not(.on-deep) {
+    background: none;
+  }
+  .panel :focus-visible {
+    outline-color: var(--color-brown-mid);
+  }
+  /* Screens that stay brown inside the panel. */
+  .panel .on-deep {
+    --color-on-deep: var(--cream);
+    --color-line-on-deep: var(--line-on-deep);
+    --color-surface-cream: var(--cream);
+    color: var(--cream);
+  }
+  .panel .on-deep :focus-visible {
+    outline-color: var(--color-accent-amber);
+  }
+  .panel .on-deep .surface :focus-visible,
+  .panel .on-deep .surface:focus-visible {
+    outline-color: var(--color-brown-mid);
+  }
+}
+
 :focus-visible {
   outline: 3px solid var(--color-accent-amber);
   outline-offset: 2px;

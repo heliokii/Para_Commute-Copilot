@@ -25,7 +25,7 @@ export function Trip() {
 
   if (legs.length === 0) {
     return (
-      <div className="backdrop min-h-dvh">
+      <div className="backdrop min-h-dvh xl:min-h-full">
         <TopBar title={t.title} backHref={`#${TAB_PATHS.ruta}`} />
         <div className="px-4 pt-2">
           <Card className="flex flex-col items-center px-6 py-8 text-center">
@@ -39,7 +39,7 @@ export function Trip() {
 
   if (trip.source === 'ask') {
     return (
-      <div className="backdrop min-h-dvh">
+      <div className="backdrop min-h-dvh xl:min-h-full">
         <TopBar title={t.title} backHref={backHref} />
         <div className="flex flex-col gap-3 px-4 pt-2">
           <Card className="flex flex-col items-center px-6 py-8 text-center">
@@ -66,7 +66,7 @@ export function Trip() {
 
   if (trip.state.done) {
     return (
-      <div className="backdrop min-h-dvh">
+      <div className="backdrop min-h-dvh xl:min-h-full">
         <TopBar title={t.title} />
         <div className="flex flex-col gap-3 px-4 pt-2">
           {trip.source === 'sim' && <SimBanner />}
@@ -92,7 +92,7 @@ export function Trip() {
   const status = trip.weakAccuracy !== null ? t.weakSignal(trip.weakAccuracy) : trip.distanceM === null ? t.waiting : null
 
   return (
-    <div className="backdrop min-h-dvh pb-10">
+    <div className="backdrop min-h-dvh xl:min-h-full pb-10">
       <TopBar title={t.title} />
       <div className="flex flex-col gap-3 px-4 pt-2">
         {trip.source === 'sim' && <SimBanner />}
@@ -160,7 +160,7 @@ export function Trip() {
           aria-modal="true"
           aria-labelledby="trip-alert-title"
           data-testid="trip-alert"
-          className="backdrop fixed inset-0 z-40 mx-auto flex max-w-md flex-col items-center justify-center gap-4 px-6 text-center"
+          className="backdrop on-deep fixed inset-0 z-40 mx-auto flex max-w-md flex-col items-center justify-center gap-4 px-6 text-center"
         >
           {trip.source === 'sim' && <SimBanner />}
           <h2 id="trip-alert-title" className="font-display text-3xl font-semibold text-on-deep">

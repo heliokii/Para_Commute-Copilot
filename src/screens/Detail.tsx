@@ -90,7 +90,7 @@ export function Detail() {
 
   if (!result || !pack) {
     return (
-      <div className="backdrop min-h-dvh">
+      <div className="backdrop min-h-dvh xl:min-h-full">
         <TopBar title={copy.detail.title} backHref={`#${TAB_PATHS.ruta}`} />
         <div className="px-4 pt-2">
           <Card className="flex flex-col items-center px-6 py-8 text-center">
@@ -113,7 +113,7 @@ export function Detail() {
   ]
 
   return (
-    <div className="backdrop min-h-dvh pb-10">
+    <div className="backdrop min-h-dvh xl:min-h-full pb-10">
       <TopBar
         title={copy.detail.title}
         backHref={backHref}

@@ -14,6 +14,19 @@ export function useOnline() {
   return useSyncExternalStore(subscribeOnline, () => navigator.onLine)
 }
 
+// Tailwind's xl breakpoint: the dashboard layout needs room for three columns.
+const WIDE = '(min-width: 80rem)'
+
+function subscribeWide(listener: () => void) {
+  const query = matchMedia(WIDE)
+  query.addEventListener('change', listener)
+  return () => query.removeEventListener('change', listener)
+}
+
+export function useWide() {
+  return useSyncExternalStore(subscribeWide, () => matchMedia(WIDE).matches)
+}
+
 export function useBytesSent() {
   return useSyncExternalStore(subscribeBytesSent, getBytesSent)
 }
