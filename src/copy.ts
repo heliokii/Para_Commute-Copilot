@@ -125,7 +125,6 @@ export const copy = {
     askDestination: 'Saan ka papunta?',
     askBoth: 'Saan ka galing, at saan ka papunta?',
     pickOne: 'Alin dito ang ibig mong sabihin?',
-    needTripFirst: 'Sabihin mo muna kung saan ka galing at saan ka papunta.',
     unsupported:
       'Pasensya na, ruta at pamasahe lang ang kaya kong sagutin. Subukan: sabihin kung saan ka galing at saan ka papunta.',
     reset: 'Sige, bagong biyahe tayo. Saan ka papunta?',

@@ -80,7 +80,6 @@ export interface TsupherReply {
     | 'askDestination'
     | 'askBoth'
     | 'pickOne'
-    | 'needTripFirst'
     | 'unsupported'
     | 'reset'
     | 'answer'

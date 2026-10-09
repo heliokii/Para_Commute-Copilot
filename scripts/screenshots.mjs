@@ -3,7 +3,8 @@
 // review against design/reference/. Uses the dev server so dev-only screens are included.
 import { existsSync, mkdirSync } from 'node:fs'
 import puppeteer from 'puppeteer-core'
-import { createServer } from 'vite'
+import { createServer, preview } from 'vite'
+import { findChrome } from './lib/browser.mjs'
 
 const PORT = 5198
 const BASE = `http://localhost:${PORT}/`
@@ -23,20 +24,7 @@ const SCREENS = [
   ['dev-router', '#/dev/router'],
 ]
 
-const chromePath = [
-  process.env.CHROME_PATH,
-  'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium',
-].find((path) => path && existsSync(path))
-if (!chromePath) {
-  console.error('No Chrome or Edge found. Set CHROME_PATH.')
-  process.exit(1)
-}
+const chromePath = findChrome()
 
 mkdirSync(OUT, { recursive: true })
 const server = await createServer({ server: { port: PORT, strictPort: true }, logLevel: 'silent' })
@@ -127,6 +115,35 @@ try {
   await goTo('#/setup')
   await page.waitForFunction(() => /Tulog pa si Tsupher|Walang WebGPU|Gising na/.test(document.body.innerText), { timeout: 30000 })
   await shot('setup')
+
+  // The proof panel only tells the truth about the service worker in a production
+  // build, so that one screenshot is retaken from "vite preview" when dist/ exists.
+  if (existsSync('dist/sw.js')) {
+    const built = await preview({ preview: { port: PORT + 1, strictPort: true }, logLevel: 'silent' })
+    try {
+      const prod = await browser.newPage()
+      await prod.setViewport({ width: 390, height: 844, deviceScaleFactor: 2 })
+      await prod.goto(`http://localhost:${PORT + 1}/`, { waitUntil: 'networkidle0' })
+      await prod.evaluate(() => navigator.serviceWorker.ready)
+      await prod.goto(`http://localhost:${PORT + 1}/#/offline`, { waitUntil: 'networkidle0' })
+      await prod.reload({ waitUntil: 'networkidle0' })
+      await prod.keyboard.press('Escape')
+      await prod.waitForFunction(
+        () => document.querySelector('[data-testid=proof-sw]')?.dataset.ok === 'true' && document.querySelector('[data-testid=proof-pack]')?.dataset.ok === 'true',
+        { timeout: 15000, polling: 200 },
+      )
+      await prod.screenshot({ path: `${OUT}/offline-mode.png`, fullPage: true })
+      console.log(`${OUT}/offline-mode.png (production build)`)
+      await prod.close()
+    } finally {
+      await new Promise((resolve) => {
+        built.httpServer.closeAllConnections?.()
+        built.httpServer.close(resolve)
+      })
+    }
+  } else {
+    console.log('dist/ not found: offline-mode.png shows the dev server, where no service worker runs.')
+  }
 } finally {
   await browser.close()
   await server.close()

@@ -6,26 +6,13 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import puppeteer from 'puppeteer-core'
 import { preview } from 'vite'
+import { findChrome } from './lib/browser.mjs'
 
 const PORT = 4173
 const BASE = `http://localhost:${PORT}/`
 const OFFLINE = { offline: true, latency: 0, downloadThroughput: 0, uploadThroughput: 0 }
 
-const chromePath = [
-  process.env.CHROME_PATH,
-  'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium',
-].find((path) => path && existsSync(path))
-
-if (!chromePath) {
-  console.error('No Chrome or Edge found. Set CHROME_PATH.')
-  process.exit(1)
-}
+const chromePath = findChrome()
 if (!existsSync('dist/sw.js')) {
   console.error('dist/sw.js not found. Run "npm run build" first.')
   process.exit(1)

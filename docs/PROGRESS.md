@@ -249,3 +249,34 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 - Cross-origin requests are counted with the browser's resource timing, which also sees requests made by libraries.
 - GPS and Search rows from the mockup were dropped from the proof panel: the app does not use location at all in this build, and "search" is covered by the route pack row. Showing them ticked would not be derived from state.
 - New devDependency: `lighthouse`.
+
+## Phase 11: demo + submission (2026-10-09)
+
+**Passed**
+- `npm run lint`, `npm run build`, `npm test` (122 of 122), `npm run check:offline` (29 of 29), `npm run test:e2e` (47 of 47), `npm run check:update` (8 of 8): all pass after the documentation and hygiene changes.
+- Written: `DEMO.md` (three-minute script, pre-flight checklist, fallback line), `DISCLOSURE.md`, `GAP.md`, `docs/SUBMISSION.md`, a rewritten `README.md` with an architecture diagram and screenshots.
+- Repo hygiene: no secrets, keys or personal data found in tracked files; `.gitignore` covers `node_modules`, `dist` and the benchmark profile; dev-only screens are absent from the production bundle (checked by `check:offline`); one reply key that no code produced was removed; the Chrome lookup is shared by all scripts; one stale screenshot was deleted.
+- App code changed only for that unused key. No demo-blocking bug was found.
+
+**Could not be verified (also flagged inside the documents)**
+- `DISCLOSURE.md`: how the mascot, logo and mockups were made and the rights to them; the exact licence text of each model; whether AI tools helped write `CLAUDE.md` and `BUILD_PHASES.md`. Marked TEAM TO CONFIRM.
+- `GAP.md`: every result cell is empty. No competitor app was tested by anyone.
+- `DEMO.md`: the script was not rehearsed or timed by a person. Timings are estimates. The fares quoted are the fixture values the automated tests assert.
+- `DEMO.md`: voice and the arrival alert are named in the Phase 11 prompt but are not built; the script marks both as slots to skip.
+- `docs/SUBMISSION.md`: the event's rules on AI-assisted work and on work done before the event were not checked. When the planning documents and the art were created is not in git.
+- `README.md`: "may work on Node 22" is a guess; only Node 24.13 was used.
+- `docs/IOS_NOTES.md`: nothing in it was tested on a device.
+
+**Assumptions**
+- The demo script uses the synthetic place names, because that is what the build contains. It must be rewritten when real corridor data arrives.
+- The optional "show the model" step is kept out of the main three minutes, since a complete question never reaches the model.
+
+**Open items for the team (same list as `docs/SUBMISSION.md`)**
+1. Ride-verify one corridor and replace the synthetic pack.
+2. Run the airplane-mode tests in `GAP.md`.
+3. Fill the TEAM TO CONFIRM items in `DISCLOSURE.md`.
+4. Test on a real phone.
+5. Record the backup demo video.
+6. Check the name "Para!".
+7. Add real Taglish queries and rerun the benchmark.
+8. Phases 7, 8 and 9 are not started.
