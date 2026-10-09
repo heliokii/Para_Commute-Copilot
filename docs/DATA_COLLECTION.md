@@ -150,3 +150,22 @@ Errors (exit code 1): a missing file or column, a missing or invalid `ncr_bounda
 Warnings: an empty file, an unverified route, a fare with no photo or link, a fare with a conflict note, an empty rounding rule, a distance over three times the straight line, rush minutes lower than off-peak, a landmark no route stops at, a fare table no route uses, a terminal with no landmark or no verified date.
 
 A clean run means the files are consistent with each other. It does not mean the data is true. Only the ride does that.
+
+## Metro Manila worksheets (Q City Bus)
+
+The stop names and their order for Q City Bus Routes 2, 3, 4, 5, 7 and 8 are already transcribed from Quezon City's documents (`data/metro-manila/SOURCES.md`). What is missing is what only a ride can give: where each stop is, and how far and how long each hop is.
+
+1. `npm run import:ncr -- --init` creates or refreshes three files in `data/metro-manila/field/`. It never changes a cell you filled in.
+   - `stop_coordinates.csv`: one row per stop. Fill `lat`, `lon` (measured as described under landmarks.csv above), `method`, `measured_date`, `measured_by`.
+   - `segment_measurements.csv`: one row per hop, per direction. Fill `dist_km` and `min` (and `min_rush` if you rode at rush hour), `method`, `measured_date`, `measured_by`.
+   - `route_checks.csv`: one row per route direction. Fill `verified_date` and `verified_by` only after someone rode that direction end to end and the stop order matched.
+2. Put an NCR boundary file at `data/metro-manila/pack/ncr_boundary.geojson`: a GeoJSON Feature or FeatureCollection whose properties name NCR, with a Polygon or MultiPolygon. No boundary source has been accepted yet (see SOURCES.md), so this is still open.
+3. `npm run import:ncr` writes the pack CSVs to `data/metro-manila/pack/` and checks them the same way `npm run validate:pack` does.
+
+Rules the importer enforces:
+
+- A route direction is imported only when every one of its stops has coordinates and every hop has a measured distance and time. One blank cell leaves the whole direction out, and the report says what is missing.
+- Nothing is estimated. A blank stays blank; do not fill it from a map ruler, a headway or an end-to-end time.
+- Route 1 (2021 stop list) and Route 6 (no stop order per direction) are never imported from the current sources.
+- The app switches from the sample pack to this pack only when at least one route is imported and there are zero errors. Until then `src/db/generated/metro-manila-pack.json` stays empty and the app keeps showing "SAMPLE DATA, not verified".
+- If two rows are the same physical stop under two names (for example the two Aurora–Katipunan Interchange rows), say so in `note`; do not merge them yourself.

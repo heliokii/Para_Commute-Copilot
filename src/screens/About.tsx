@@ -6,6 +6,7 @@ import { Badge } from '../components/Badge'
 import { Card } from '../components/Card'
 import { TopBar } from '../components/TopBar'
 import { copy } from '../copy'
+import { ACTIVE_PACK } from '../db/activePack.ts'
 import { db } from '../db/db'
 import { seedReady } from '../db/seed'
 import { backHref } from '../lib/nav'
@@ -149,9 +150,11 @@ export function About() {
 
         <Section title={copy.about.data}>
           <Card className="px-4 py-3 text-sm">
-            <p>
-              <Badge tone="caution">{copy.app.sampleData}</Badge>
-            </p>
+            {ACTIVE_PACK.note && (
+              <p>
+                <Badge tone="caution">{copy.app.sampleData}</Badge>
+              </p>
+            )}
             <p className="mt-1 text-ink-muted tabular-nums">
               {counts
                 ? `On this device: route packs ${counts.packs}, routes ${counts.routes}, fare tables ${counts.fares}.`
@@ -168,7 +171,9 @@ export function About() {
                 {copy.stale.long(counts.fareAsOf, daysSince(counts.fareAsOf) ?? 0)}
               </p>
             )}
-            <p className="mt-1 text-ink-muted">{copy.about.dataNote}</p>
+            <p className="mt-1 text-ink-muted">
+              {ACTIVE_PACK.note ? copy.about.dataNote : copy.about.realDataNote}
+            </p>
           </Card>
         </Section>
 

@@ -11,6 +11,7 @@
     "test": "vitest run",
     "check:offline": "node scripts/offline-check.mjs",
     "validate:pack": "node scripts/validate-pack.mjs",
+    "import:ncr": "node scripts/import-metro-manila-pack.mjs",
     "assets": "node scripts/prepare-assets.mjs",
     "tokens": "node scripts/sample-tokens.mjs",
     "screenshots": "node scripts/screenshots.mjs",

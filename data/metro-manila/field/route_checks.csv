@@ -1,0 +1,13 @@
+route_id,route_name,verified_date,verified_by,note
+qcb-2-outbound,Q City Bus 2: QC Hall (NHA) Interchange to IBP Road–Litex,,,
+qcb-2-return,Q City Bus 2: IBP Road–Litex to QC Hall (NHA) Interchange,,,
+qcb-3-outbound,Q City Bus 3: Aurora–Katipunan Interchange (LRT-2 Katipunan Station) to E. Rodriguez Sr.–Welcome Rotonda,,,
+qcb-3-return,Q City Bus 3: E. Rodriguez Sr.–Welcome Rotonda to Aurora–Katipunan Interchange (LRT-2 Katipunan Station),,,
+qcb-4-outbound,Q City Bus 4: QC Hall (NHA) Interchange to General Luis–SB Road,,,
+qcb-4-return,Q City Bus 4: General Luis–SB Road to QC Hall (NHA) Interchange,,,
+qcb-5-outbound,Q City Bus 5: QC Hall (NHA) Interchange to Mindanao Avenue–Quirino Highway Interchange,,,
+qcb-5-return,Q City Bus 5: Mindanao Avenue–Quirino Highway Interchange to QC Hall (NHA) Interchange,,,
+qcb-7-outbound,Q City Bus 7: QC Hall (NHA) Interchange to E. Rodriguez Jr. Avenue–Ortigas Avenue flyover,,,
+qcb-7-return,Q City Bus 7: E. Rodriguez Jr. Avenue–Ortigas Avenue flyover to QC Hall (NHA) Interchange,,,
+qcb-8-outbound,Q City Bus 8: QC Hall (NHA) Interchange to Congressional Avenue corner Abra Street,,,
+qcb-8-return,Q City Bus 8: Congressional Avenue corner Abra Street to QC Hall (NHA) Interchange,,,

@@ -491,6 +491,8 @@ export const copy = {
     data: 'Pinagkunan ng data',
     dataLoading: 'Binabasa ang local database…',
     dataNote: 'Synthetic na test network lang. Walang totoong ruta, terminal o pamasahe.',
+    realDataNote:
+      'Galing sa mga opisyal na source na nakalista sa data/metro-manila/SOURCES.md. May tatak na "Hindi pa verified" ang rutang hindi pa nasasakyan ng team.',
     packVersion: (id: string, version: string) => `Route pack: ${id}, bersyon ${version}`,
     fareAsOf: (date: string) => `Pamasahe as of ${date}`,
     fonts: 'Mga font',

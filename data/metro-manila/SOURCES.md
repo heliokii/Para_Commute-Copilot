@@ -106,3 +106,8 @@ Decision: reject both as current-boundary certification. The HDX source is usefu
 
 LRTA's [Distance Between Stations](https://www.lrta.gov.ph/distance-between-stations/) page embeds a published spreadsheet listing all 12 consecutive station distances from Recto to Antipolo; extracted values are in [lrt2-segment-distances.json](lrt2-segment-distances.json). Its total is 15.967 km, while LRTA's [Railway Operations](https://www.lrta.gov.ph/railway-operations/) page describes a 17.6 km line. This mismatch is unresolved, so preserve the source figures but do not use them as validated route geometry or segment travel times.
 
+### Importer status, 2026-10-10
+
+`npm run import:ncr` builds the route pack from the Q City Bus stop inventory and the field worksheets in `field/`. It imported 0 routes on 2026-10-10: no stop has coordinates and no segment has a measured distance or time. The free fare is written only when a route is imported, with the Quezon City route guide as its source and the guide's last-updated date (2026-08-04) as its date, because the guide does not say when free rides began.
+
+The PIA page carrying MMDA's Love Bus notice returned HTTP 403 when fetched again on 2026-10-10, so its named points could not be re-read or transcribed into a stop list. The Love Bus is therefore not in the importer. The manifest entry keeps the road sequence captured earlier.

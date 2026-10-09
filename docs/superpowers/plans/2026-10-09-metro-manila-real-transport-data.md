@@ -104,7 +104,9 @@
 
 - [x] Add the NCR geometry check and provenance checks to pack validation. Keep sourced-but-unverified routes explicitly unverified. (Stop geometry is checked against the supplied boundary; fare rows require an HTTPS source, valid effective date, product, vehicle class, and source note; unverified routes remain warnings.)
 - [ ] Import all active in-scope road modes: traditional/modern jeepney, UV Express, and city bus classes. Exclude railways and the EDSA Carousel per user direction; record other suspended, stale, or out-of-scope road services with a reason.
+  - 2026-10-10: `scripts/import-metro-manila-pack.mjs` (`npm run import:ncr`) exists and imports **0 routes**. It reads the Q City Bus stop inventory plus the field worksheets in `data/metro-manila/field/` and emits a route direction only when every stop has coordinates and every segment a measured distance and time. All 12 importable directions (Routes 2, 3, 4, 5, 7, 8) are skipped for missing measurements; Route 1 (historical list) and Route 6 (no direction order) are blocked at the source. Jeepney, UV Express and other bus routes still have no source. The MMDA Love Bus is not in the importer: the PIA notice returned HTTP 403 on 2026-10-10, so no stop list could be transcribed.
 - [ ] Run `npm run validate:pack data/metro-manila`. Expected: no schema/reference/geometry errors; every accepted fare has a source and effective date; warnings identify any route not ride-verified.
+  - 2026-10-10: the pack folder is `data/metro-manila/pack`. `npm run validate:pack data/metro-manila/pack` reports 1 error (`ncr_boundary.geojson is required`) and 0 routes. Still open.
 
 ### Task 4: Activate the real pack without deleting user data
 
@@ -121,7 +123,9 @@
 - [x] Add a populated-database test proving reseeding updates the app-owned pack and preserves another pack plus user state. (`npm run check:migrate`.)
 - [x] Seed only the app-owned pack rows transactionally; preserve other packs, fares, terminals, favorites, settings, and contributions.
 - [ ] Switch the app's default pack and update labels/disclosures with the pack's `as of` date and source confidence.
+  - 2026-10-10: the switch is built but not thrown. `src/db/activePack.ts` picks the bundled pack in `src/db/generated/metro-manila-pack.json` once it has a route, else the synthetic pack; `src/db/seed.ts` seeds whichever is active. The bundled pack is empty, so the default is still `synthetic-pack`. About and the router harness show the sample label only for a pack that carries a `note`.
 - [ ] Build the app and run router, pack, seed, and offline smoke checks. Confirm the default route results use only in-scope real data and report unverified coverage honestly.
+  - 2026-10-10: build and checks pass with the synthetic pack still active. Not done for real data: there is none. The app has never been run in a browser with a real pack.
 
 ## Completion criteria
 

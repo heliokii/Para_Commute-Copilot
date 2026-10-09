@@ -505,6 +505,7 @@
     },
     {
       "id": "mmda-love-bus-c5-2026",
+      "importerStatus": "Not in the importer. The source page returned HTTP 403 when refetched on 2026-10-10, so no stop list was transcribed.",
       "mode": "bus",
       "publisher": "Metropolitan Manila Development Authority, reported by Philippine Information Agency",
       "url": "https://pia.gov.ph/news/first-lady-leads-inauguration-of-mmdas-revived-love-bus-interactive-gallery-annex-building/",

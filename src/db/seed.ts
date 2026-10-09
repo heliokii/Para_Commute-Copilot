@@ -1,16 +1,16 @@
-import { SYNTHETIC_PACK } from '../router/__fixtures__/synthetic-pack.ts'
+import { ACTIVE_PACK } from './activePack.ts'
 import { db } from './db.ts'
 
 export const SAMPLE_LABEL = 'SAMPLE DATA, not verified'
-export const ACTIVE_PACK_ID = SYNTHETIC_PACK.id
+export const ACTIVE_PACK_ID = ACTIVE_PACK.id
 
-// Loads the synthetic pack so the router can be exercised offline. Nothing in it
-// is a real route, terminal or fare. Replace with the ride-verified pack later.
+// Loads the active pack into Dexie. That is the synthetic pack (no real route,
+// terminal or fare) until "npm run import:ncr" produces a validated real one.
 async function ensureSeed() {
-  const existing = await db.routePacks.get(SYNTHETIC_PACK.id)
-  if (existing?.version === SYNTHETIC_PACK.version) return
+  const existing = await db.routePacks.get(ACTIVE_PACK.id)
+  if (existing?.version === ACTIVE_PACK.version) return
 
-  const { landmarks, routes, fares, ...packRow } = SYNTHETIC_PACK
+  const { landmarks, routes, fares, ...packRow } = ACTIVE_PACK
   const packId = packRow.id
   await db.transaction('rw', db.routePacks, db.routes, db.landmarks, db.terminals, db.fares, async () => {
     await Promise.all([
@@ -27,7 +27,7 @@ async function ensureSeed() {
   })
 }
 
-/** Resolves once the local database holds the current sample pack. */
+/** Resolves once the local database holds the current active pack. */
 export const seedReady: Promise<void> = ensureSeed().catch((error) => {
   console.error('ParaDB seed failed', error)
 })

@@ -114,7 +114,7 @@ export default function RouterHarness() {
         </a>
       </header>
       <p className="surface rounded-xl bg-surface-warm px-3 py-2 text-sm font-semibold text-ink-dark">
-        {SAMPLE_LABEL}. Pack: {pack.id} v{pack.version}
+        {pack.note ? `${SAMPLE_LABEL}. ` : ''}Pack: {pack.id} v{pack.version}
       </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">

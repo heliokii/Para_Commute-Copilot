@@ -425,3 +425,35 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 - Favorite ids are built from content, so two hearts for the same trip and preference always agree.
 - The contribution payload has a random `uid` made on the device so an import can skip a report it already has.
 - No new dependency. `liveQuery` comes from Dexie.
+
+## Metro Manila data pipeline (2026-10-10, branch `test`)
+
+Continues `docs/superpowers/plans/2026-10-09-metro-manila-real-transport-data.md`. The plan's open steps need route data that does not exist yet, so this adds the tooling and leaves the sample pack active. **No real route, coordinate, time or fare value was added.**
+
+**What was built**
+- `npm run import:ncr` (`scripts/import-metro-manila-pack.mjs`, logic in `src/pack/fromInventory.ts`): turns the sourced Q City Bus stop inventory plus three field worksheets into route pack CSVs, checks them like `validate:pack`, and writes the bundled pack.
+- Worksheets in `data/metro-manila/field/` (51 stops, 104 segments, 12 route directions), prefilled with sourced stop names and order only. Coordinates, distances, times and ride checks are blank for the team.
+- `src/db/activePack.ts`: the app uses the bundled pack once it has a route, otherwise the synthetic pack. `src/db/seed.ts` seeds the active one; its replace-only-this-pack transaction is unchanged.
+- About and the router harness show the sample label only when the active pack carries a `note`.
+- `scripts/lib/packCheck.mjs`: the checks from `validate-pack.mjs`, shared with the importer. The boundary error now says what kind of GeoJSON is expected.
+
+**Result today**
+- `npm run import:ncr`: 0 routes imported, exit code 1, `src/db/generated/metro-manila-pack.json` empty. Twelve directions skipped for missing measurements; Route 1 and Route 6 blocked at the source.
+- `npm run validate:pack data/metro-manila/pack`: 1 error (no `ncr_boundary.geojson`), 0 routes. The plan's Task 3 and Task 4 boxes stay unchecked.
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean (precache 29 entries, 7635 KiB).
+- `npm test`: 219 of 219 in four of five runs (12 new tests). One run failed `src/router/plan.test.ts > determinism > gives identical output over 100 runs`, an existing test this change does not touch; it ran right after a build and the message was not captured. It passed alone three times and in the next three full runs. Cause not established.
+- `npm run check:offline`: 31 of 31. `npm run test:e2e`: 98 of 98. `npm run check:migrate`: 11 of 11. `npm run check:update`: 8 of 8. `npm run check:llm`: 13 of 13. All with the synthetic pack active.
+- Scratch check, outside the repo and deleted afterwards: one direction filled with made-up numbers and a box-shaped boundary. The importer imported that one route, reported 0 errors, wrote a pack with a free fare citing the Quezon City guide and `verified: false`, and exited 0. With a boundary file of the wrong shape it refused.
+
+**Not tested**
+- The app with a real pack active. The scratch check stopped at the bundled JSON; no build, router run or browser check was done with it. The route screens, map, chat and trip mode have only ever run on the synthetic pack.
+- A fare of 0 in the router and on the fare-detail sheet.
+- `npm run audit`, `npm run screenshots`, `npm run check:voice`.
+- Whether the two "Aurora–Katipunan Interchange" rows are one place. They are kept as two stops because the sources name them differently.
+
+**Assumptions**
+- The free-fare row uses the route guide's last-updated date as its effective date, and says so in its source note.
+- Pack id `metro-manila`; its version is the inventory capture date plus a hash of the CSVs, so any new measurement reseeds the app.
+- The MMDA Love Bus is not in the importer: the PIA page returned HTTP 403, so no stop list could be transcribed.
