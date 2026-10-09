@@ -1,0 +1,112 @@
+// Every user-facing string lives here. Taglish, warm, short.
+// The mascot and AI guide is Tsupher. Never write mockup values (fares, times, places) here.
+
+export const copy = {
+  app: {
+    name: 'Para!',
+    subtitle: 'Commute Copilot',
+    tagline: ['Tamang ruta.', 'Tamang sakay.', 'Laging kasama ka.'],
+    mascot: 'Tsupher',
+    sampleData: 'SAMPLE DATA, not verified',
+  },
+  splash: {
+    skip: 'I-tap para magpatuloy',
+  },
+  nav: {
+    label: 'Pangunahing navigation',
+    home: 'Home',
+    ruta: 'Ruta',
+    mapa: 'Mapa',
+    paborito: 'Paborito',
+    higit: 'Higit Pa',
+    back: 'Bumalik',
+  },
+  status: {
+    online: 'Online',
+    offline: 'Offline',
+  },
+  home: {
+    greeting: 'Kumusta!',
+    intro: 'Ako si Tsupher! Handang tumulong sa iyong biyahe. Saan ka papunta?',
+    promptLabel: 'Itanong kay Tsupher',
+    promptPlaceholder: 'Type o magsalita ng Taglish. Saan ka papunta?',
+    promptSubmit: 'Itanong',
+    promptNotYet: 'Hindi pa makasagot si Tsupher dito. Gamitin muna ang Plan a Route.',
+    micDisabled: 'Boses: hindi pa gumagana',
+    planTitle: 'Plan a Route',
+    planSub: '(Jeep, UV, Bus, MRT/LRT)',
+    voiceTitle: 'Voice Chat',
+    voiceSub: 'Kausapin si Tsupher',
+    voiceSheetTitle: 'Malapit na ang Voice Chat',
+    voiceSheetBody:
+      'Tinuturuan pa si Tsupher makinig. Sa ngayon, i-type muna ang tanong mo o gamitin ang Plan a Route.',
+    voiceSheetOk: 'Sige, Tsupher!',
+    offlineTitle: '100% Offline',
+    offlineBody:
+      'Lahat ng info ay nasa telepono mo. Walang data na kailangan. Nasa phone mo lang ang lokasyon mo.',
+  },
+  offline: {
+    title: 'Offline Mode',
+    body: 'Gumagana ang Para! nang walang internet.',
+    rows: {
+      gps: { label: 'GPS / Lokasyon', value: 'Hindi kailangan' },
+      search: { label: 'Search / Query', value: 'Naka-save sa phone' },
+      ai: { label: 'AI Assistant', value: 'Hindi pa naka-install' },
+    },
+    yes: 'Handa',
+    no: 'Wala pa',
+    ok: 'Okay',
+    bytesSent: 'Bytes sent',
+    bytesNote: 'sukat ng app',
+    bytesExplain:
+      'Bilang ito ng app mismo. Ang tunay na patunay ay ang Network tab ng devtools.',
+    private: 'Pribado at Ligtas',
+    connection: 'Koneksyon ngayon',
+  },
+  higit: {
+    title: 'Higit Pa',
+    modes: { label: 'Mga Mode', sub: 'Mas mura, iwas traffic, custom' },
+    offline: { label: 'Offline Mode', sub: 'Tingnan kung ano ang gumagana nang walang internet' },
+    settings: { label: 'Settings', sub: 'Wika at unit' },
+    about: { label: 'About / Disclosure', sub: 'Mga library, model at pinagkunan ng data' },
+    devRouter: { label: 'Router harness', sub: 'Dev only' },
+    devComponents: { label: 'Components', sub: 'Dev only' },
+    soon: 'Malapit na',
+  },
+  stub: {
+    title: 'Ginagawa pa ito',
+    ruta: 'Dito mo pipiliin ang pinanggalingan at pupuntahan mo.',
+    mapa: 'Dito lalabas ang mapa ng ruta mo.',
+    paborito: 'Dito mase-save ang mga paborito mong ruta.',
+  },
+  about: {
+    title: 'About',
+    intro:
+      'Ang Para! ay offline na katulong sa commute. Walang account, walang analytics, walang lumalabas sa device na ito.',
+    libraries: 'Mga library',
+    models: 'Mga model',
+    modelsNone: 'Wala pa. Walang AI model sa build na ito.',
+    data: 'Pinagkunan ng data',
+    dataLoading: 'Binabasa ang local database…',
+    dataNote: 'Synthetic na test network lang. Walang totoong ruta, terminal o pamasahe.',
+    fonts: 'Mga font',
+    art: 'Art',
+    artNote:
+      'Ang mga sprite ni Tsupher ay awtomatikong ginupit mula sa reference sheet (draft). Placeholder pa ang wordmark.',
+  },
+  tsupher: {
+    hero: 'Si Tsupher, ang jeepney na gabay mo',
+    happy: 'Si Tsupher, nakangiti',
+    thinking: 'Si Tsupher, nag-iisip',
+    map: 'Si Tsupher, nagbabasa ng mapa',
+    'thumbs-up': 'Si Tsupher, naka-thumbs up',
+    confused: 'Si Tsupher, nalilito',
+    sad: 'Si Tsupher, malungkot',
+    sign: 'Si Tsupher, may hawak na karatula',
+    driving: 'Si Tsupher, umaandar',
+    luggage: 'Si Tsupher, may dalang maleta',
+    jumping: 'Si Tsupher, tumatalon sa tuwa',
+    love: 'Si Tsupher, kinikilig',
+    excited: 'Si Tsupher, excited',
+  },
+} as const

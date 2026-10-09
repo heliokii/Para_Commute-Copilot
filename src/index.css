@@ -1,6 +1,7 @@
 @import 'tailwindcss';
+@import './styles/tokens.css';
 
-/* Self-hosted Inter (SIL OFL). latin-ext carries the peso sign. */
+/* Self-hosted fonts (SIL OFL). latin-ext carries the peso sign. No remote fonts. */
 @font-face {
   font-family: 'Inter Variable';
   font-style: normal;
@@ -26,44 +27,54 @@
     U+2C60-2C7F, U+A720-A7FF;
 }
 
-:root {
-  color-scheme: light dark;
-  --bg: #f5f0e6;
-  --surface: #fbf8f1;
-  --ink: #2a2620;
-  --muted: #6b6357;
-  --line: #e2d9c8;
-  --accent: #b4532a;
-  --on-accent: #fbf8f1;
-  --ok: #3f6b3a;
-  --warn: #8a5a12;
+/* Display font for headings. Latin subset only: headings are UI copy. */
+@font-face {
+  font-family: 'Fredoka Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 700;
+  src: url('../node_modules/@fontsource-variable/fredoka/files/fredoka-latin-wght-normal.woff2')
+    format('woff2-variations');
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #171512;
-    --surface: #211e1a;
-    --ink: #f0eadd;
-    --muted: #a79e8e;
-    --line: #36312a;
-    --accent: #e08a5b;
-    --on-accent: #171512;
-    --ok: #8fc487;
-    --warn: #e0b565;
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fredoka Variable', 'Inter Variable', ui-rounded, system-ui, sans-serif;
+  --radius-card: 1.5rem;
+  --shadow-card: 0 6px 20px -8px rgb(0 0 0 / 0.35);
+  --animate-bob: bob 3.2s ease-in-out infinite;
+  --animate-rise: rise 0.28s ease-out both;
+  --animate-fade: fade 0.2s ease-out both;
+
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4%);
+    }
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 
-@theme inline {
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-on-accent: var(--on-accent);
-  --color-ok: var(--ok);
-  --color-warn: var(--warn);
+:root {
+  color-scheme: light;
 }
 
 html,
@@ -73,16 +84,38 @@ body,
 }
 
 body {
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--color-bg-deeper);
+  color: var(--color-on-deep);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Brown backdrop with the faint sunburst from the showcase. */
+.backdrop {
+  background:
+    repeating-conic-gradient(
+      from 0deg at 85% -5%,
+      rgb(255 255 255 / 0.035) 0deg 6deg,
+      transparent 6deg 12deg
+    ),
+    radial-gradient(120% 70% at 85% -5%, var(--color-bg-gradient-glow), transparent 60%),
+    linear-gradient(180deg, var(--color-bg-gradient-top), var(--color-bg-deep) 55%);
+}
+
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 3px solid var(--color-accent-amber);
   outline-offset: 2px;
+}
+
+/* Amber is invisible on cream, so focus rings on light surfaces use brown. */
+.surface :focus-visible,
+.surface:focus-visible {
+  outline-color: var(--color-brown-mid);
+}
+
+[hidden] {
+  display: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

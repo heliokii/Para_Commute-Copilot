@@ -39,7 +39,13 @@ const distJs = readdirSync('dist/assets')
   .filter((file) => file.endsWith('.js'))
   .map((file) => readFileSync(join('dist/assets', file), 'utf8'))
   .join('\n')
-check('Production build has no dev harness', !distJs.includes('Router harness (dev only)'))
+check(
+  'Production build has no dev screens',
+  !distJs.includes('Router harness (dev only)') && !distJs.includes('Components (dev only)'),
+)
+
+const mascotBytes = readdirSync('dist/mascot').reduce((sum, file) => sum + statSync(join('dist/mascot', file)).size, 0)
+check('Mascot assets under 1 MB', mascotBytes < 1024 * 1024, `${(mascotBytes / 1024).toFixed(0)} KiB`)
 
 const precacheBytes = [...readFileSync('dist/sw.js', 'utf8').matchAll(/url:"([^"]+)"/g)]
   .map((match) => statSync(join('dist', match[1])).size)
@@ -101,17 +107,28 @@ try {
   page.on('requestfailed', (request) => failed.push(`${request.url()} ${request.failure()?.errorText}`))
 
   await page.reload({ waitUntil: 'networkidle0' })
+  await page.keyboard.press('Escape') // skip the splash
   const home = await page.evaluate(() => ({
-    onLine: navigator.onLine,
     text: document.body.innerText,
-    chip: document.querySelector('[role=status]')?.textContent ?? '',
-    rootChildren: document.querySelector('#root')?.childElementCount ?? 0,
+    pill: document.querySelector('main:not([hidden]) [role=status]')?.textContent ?? '',
+    mascot: [...document.images].filter((image) => image.src.includes('/mascot/') && image.naturalWidth > 0).length,
   }))
-  check('Offline reload: app renders', home.rootChildren > 0 && home.text.includes('Saan ka papunta?'))
-  check('Offline: status shows Offline and bytes sent: 0', /Offline/.test(home.chip) && /bytes sent: 0/.test(home.chip), home.chip)
+  check('Offline reload: Home renders', home.text.includes('Kumusta!') && home.text.includes('Saan ka papunta?'))
+  check('Offline: status pill shows Offline', home.pill === 'Offline', home.pill)
+  check('Offline: mascot images load from cache', home.mascot > 0, String(home.mascot))
+
+  await page.evaluate(() => {
+    location.hash = '#/offline'
+  })
+  await page.waitForSelector('[data-testid=bytes-sent]', { timeout: 5000 })
+  const bytes = await page.$eval('[data-testid=bytes-sent]', (element) => element.textContent)
+  check('Offline Mode screen: bytes sent is 0 and labeled app-measured', bytes.includes('Bytes sent: 0 (sukat ng app)'), bytes)
   check('Offline: every response served by service worker or cache', fromNetwork.length === 0, fromNetwork.join(', '))
   check('Offline: no failed requests', failed.length === 0, failed.join(' | '))
-  check('Offline: self-hosted font loaded', await page.evaluate(() => document.fonts.check('16px "Inter Variable"')))
+  check(
+    'Offline: self-hosted fonts loaded',
+    await page.evaluate(() => document.fonts.check('16px "Inter Variable"') && document.fonts.check('600 16px "Fredoka Variable"')),
+  )
 
   // --- Local data, still offline ---
   await page.evaluate(() => {
@@ -120,6 +137,7 @@ try {
   await page.waitForFunction(() => document.body.innerText.includes('On this device'), { timeout: 5000 })
   const about = await page.evaluate(() => document.body.innerText)
   check('Offline: About lists libraries and the sample-data label', about.includes('dexie') && about.includes('SAMPLE DATA, not verified'))
+  check('Mascot is named Tsupher, never "Kuya Para"', !/kuya para/i.test(home.text + about) && home.text.includes('Tsupher'))
 
   const local = await page.evaluate(
     () =>

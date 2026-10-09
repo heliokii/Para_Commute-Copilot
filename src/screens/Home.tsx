@@ -1,105 +1,152 @@
 import { useState, type FormEvent } from 'react'
-import { StatusChip } from '../components/StatusChip'
+import { Banner } from '../components/Banner'
+import { BottomSheet } from '../components/BottomSheet'
+import { Button } from '../components/Button'
+import { Card } from '../components/Card'
+import { Icon, type IconName } from '../components/Icon'
+import { StatusPill } from '../components/StatusPill'
+import { Tsupher } from '../components/Tsupher'
+import { copy } from '../copy'
+import { OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
+
+interface TileProps {
+  icon: IconName
+  title: string
+  sub: string
+  href?: string
+  onClick?: () => void
+}
+
+function Tile({ icon, title, sub, href, onClick }: TileProps) {
+  const content = (
+    <>
+      <span className="flex size-11 items-center justify-center rounded-full bg-brown-mid text-surface-cream">
+        <Icon name={icon} className="size-5.5" />
+      </span>
+      <span className="mt-3 block font-display text-lg leading-tight font-semibold">{title}</span>
+      <span className="mt-0.5 block text-xs text-ink-muted">{sub}</span>
+    </>
+  )
+  const classes =
+    'surface block w-full rounded-card bg-surface-cream p-4 text-left text-ink-dark shadow-card'
+  return href ? (
+    <a href={href} className={classes}>
+      {content}
+    </a>
+  ) : (
+    <button type="button" onClick={onClick} className={classes}>
+      {content}
+    </button>
+  )
+}
 
 export function Home() {
   const [query, setQuery] = useState('')
   const [notice, setNotice] = useState('')
+  const [voiceOpen, setVoiceOpen] = useState(false)
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
     if (!query.trim()) return
-    // Router lands in a later phase (CLAUDE.md section 8, step 3).
-    setNotice('Wala pang router. Shell pa lang ito, kaya walang rutang maipapakita.')
+    // The chat arrives in Phase 6. Until then, point to the plan screen.
+    setNotice(copy.home.promptNotYet)
   }
 
   return (
-    <div className="mx-auto flex min-h-full w-full max-w-md flex-col px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-32">
-      <header className="flex items-center justify-between gap-3">
-        <span className="text-lg font-semibold tracking-tight">Para!</span>
-        <a
-          href="#/about"
-          className="rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-ink"
-        >
-          About
-        </a>
+    <div className="flex flex-col gap-4 px-4 pt-[max(1rem,env(safe-area-inset-top))]">
+      <header className="flex items-center gap-3">
+        <img src="/icons/pwa-192.png" alt="" className="size-12 rounded-2xl shadow-card" />
+        <div className="min-w-0 flex-1 leading-none">
+          {/* Wordmark placeholder: live text until the wordmark art is exported. */}
+          <p className="font-display text-3xl font-bold tracking-tight">{copy.app.name}</p>
+          <p className="mt-0.5 font-display text-sm font-medium text-on-deep/85">
+            {copy.app.subtitle}
+          </p>
+        </div>
+        <StatusPill />
       </header>
 
-      <div className="mt-3">
-        <StatusChip />
+      <div className="flex items-end gap-2">
+        <div className="min-w-0 flex-1">
+          <h1 className="font-display text-3xl font-semibold">{copy.home.greeting}</h1>
+          <p className="mt-1 text-[0.95rem] leading-snug text-on-deep/90">{copy.home.intro}</p>
+        </div>
+        <Tsupher state="hero" size="lg" eager decorative bob className="-mb-2" />
       </div>
 
-      <main className="mt-8 flex flex-col gap-8">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <label htmlFor="destination" className="text-3xl font-semibold tracking-tight">
-            Saan ka papunta?
+      <Card className="p-3">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2">
+          <label htmlFor="ask" className="sr-only">
+            {copy.home.promptLabel}
           </label>
-          <div className="flex items-center gap-2 rounded-2xl border border-line bg-surface p-2 focus-within:border-accent">
-            <input
-              id="destination"
-              type="text"
-              value={query}
-              onChange={(event) => {
-                setQuery(event.target.value)
-                setNotice('')
-              }}
-              placeholder="Hal. bahay papuntang trabaho"
-              autoComplete="off"
-              enterKeyHint="go"
-              className="min-w-0 flex-1 bg-transparent px-2 py-2 text-base outline-none placeholder:text-muted"
-            />
-            <button
-              type="submit"
-              className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-on-accent transition-opacity hover:opacity-90"
-            >
-              Hanap
-            </button>
-          </div>
-          <p aria-live="polite" className="min-h-5 text-sm text-muted">
-            {notice}
-          </p>
+          <textarea
+            id="ask"
+            rows={2}
+            value={query}
+            onChange={(event) => {
+              setQuery(event.target.value)
+              setNotice('')
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) event.currentTarget.form?.requestSubmit()
+            }}
+            placeholder={copy.home.promptPlaceholder}
+            enterKeyHint="go"
+            className="min-w-0 flex-1 resize-none bg-transparent px-2 py-1 text-base text-ink-dark outline-none placeholder:text-ink-muted"
+          />
+          <button
+            type="button"
+            aria-disabled="true"
+            aria-label={copy.home.micDisabled}
+            title={copy.home.micDisabled}
+            className="flex size-12 shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-brown-mid text-surface-cream opacity-50"
+          >
+            <Icon name="mic" />
+          </button>
+          <button type="submit" className="sr-only">
+            {copy.home.promptSubmit}
+          </button>
         </form>
+        <p aria-live="polite" className="px-2 text-sm text-ink-muted empty:hidden">
+          {notice}
+        </p>
+      </Card>
 
-        <section aria-labelledby="recent-heading" className="flex flex-col gap-3">
-          <h2 id="recent-heading" className="text-sm font-semibold tracking-wide text-muted uppercase">
-            Mga huling ruta
-          </h2>
-          <div className="rounded-2xl border border-dashed border-line px-4 py-8 text-center">
-            <p className="font-medium">Wala pang ruta</p>
-            <p className="mt-1 text-sm text-muted">
-              Lalabas dito ang mga huli mong hinanap sa session na ito.
-            </p>
-          </div>
-        </section>
-      </main>
-
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 flex justify-center pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-        <button
-          type="button"
-          aria-disabled="true"
-          aria-describedby="ask-hint"
-          className="pointer-events-auto flex cursor-not-allowed flex-col items-center gap-1"
-        >
-          <span className="flex size-16 items-center justify-center rounded-full bg-accent text-on-accent opacity-60 shadow-lg">
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="size-7"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="9" y="3" width="6" height="11" rx="3" />
-              <path d="M5 11a7 7 0 0 0 14 0M12 18v3" />
-            </svg>
-          </span>
-          <span className="sr-only">Magtanong gamit ang boses</span>
-          <span id="ask-hint" className="rounded-full bg-bg px-2 text-xs font-medium text-muted">
-            Boses: hindi pa gumagana
-          </span>
-        </button>
+      <div className="grid grid-cols-2 gap-3">
+        <Tile
+          icon="pin"
+          title={copy.home.planTitle}
+          sub={copy.home.planSub}
+          href={`#${TAB_PATHS.ruta}`}
+        />
+        <Tile
+          icon="chat"
+          title={copy.home.voiceTitle}
+          sub={copy.home.voiceSub}
+          onClick={() => setVoiceOpen(true)}
+        />
       </div>
+
+      <Banner
+        title={copy.home.offlineTitle}
+        body={copy.home.offlineBody}
+        href={`#${OVERLAY_PATHS.offline}`}
+        art={<Tsupher state="thumbs-up" size="md" decorative />}
+      />
+
+      <BottomSheet
+        open={voiceOpen}
+        onClose={() => setVoiceOpen(false)}
+        title={copy.home.voiceSheetTitle}
+      >
+        <div className="mt-2 flex items-center gap-3">
+          <Tsupher state="thinking" size="md" decorative />
+          <p className="text-sm text-ink-dark/85">{copy.home.voiceSheetBody}</p>
+        </div>
+        <Button variant="dark" className="mt-5 w-full" onClick={() => setVoiceOpen(false)}>
+          {copy.home.voiceSheetOk}
+        </Button>
+      </BottomSheet>
     </div>
   )
 }

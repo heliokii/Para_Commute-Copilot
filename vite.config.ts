@@ -23,9 +23,10 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         scope: '/',
-        theme_color: '#F5F0E6',
-        background_color: '#F5F0E6',
-        // Placeholder icons. Replace before branding.
+        // Matches --color-bg-deep in src/styles/tokens.css.
+        theme_color: '#4F2A14',
+        background_color: '#4F2A14',
+        // Generated from design/reference/Logo.png by scripts/prepare-assets.mjs.
         icons: [
           { src: 'icons/pwa-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/pwa-512.png', sizes: '512x512', type: 'image/png' },
@@ -39,7 +40,7 @@ export default defineConfig({
       },
       workbox: {
         // Whole app shell plus self-hosted fonts.
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,ico,woff2}'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
       },

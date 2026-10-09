@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import pkg from '../../package.json'
+import { Card } from '../components/Card'
+import { TopBar } from '../components/TopBar'
+import { copy } from '../copy'
 import { db } from '../db/db'
-import { SAMPLE_LABEL, seedReady } from '../db/seed'
+import { seedReady } from '../db/seed'
+import { backHref } from '../lib/nav'
 
 const versions: Record<string, string> = { ...pkg.devDependencies, ...pkg.dependencies }
 
@@ -13,7 +17,11 @@ const LIBRARIES = [
   { name: 'vite', role: 'Build tool' },
   { name: 'vite-plugin-pwa', role: 'Service worker and manifest (Workbox)' },
   { name: 'workbox-window', role: 'Service worker registration' },
-  { name: '@fontsource-variable/inter', role: 'Self-hosted Inter font (SIL OFL)' },
+]
+
+const FONTS = [
+  { name: '@fontsource-variable/inter', role: 'Inter, body text (SIL OFL 1.1)' },
+  { name: '@fontsource-variable/fredoka', role: 'Fredoka, headings (SIL OFL 1.1)' },
 ]
 
 interface Counts {
@@ -21,6 +29,33 @@ interface Counts {
   routes: number
   fares: number
   fareAsOf: string | undefined
+}
+
+function Section({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="flex flex-col gap-2">
+      <h2 className="px-1 font-display text-lg font-semibold">{title}</h2>
+      {children}
+    </section>
+  )
+}
+
+function PackageList({ items }: { items: { name: string; role: string }[] }) {
+  return (
+    <Card>
+      <ul className="divide-y divide-line">
+        {items.map((item) => (
+          <li key={item.name} className="flex items-baseline justify-between gap-3 px-4 py-3">
+            <div className="min-w-0">
+              <p className="truncate font-medium">{item.name}</p>
+              <p className="text-sm text-ink-muted">{item.role}</p>
+            </div>
+            <span className="shrink-0 text-sm text-ink-muted tabular-nums">{versions[item.name]}</span>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  )
 }
 
 export function About() {
@@ -46,69 +81,38 @@ export function About() {
   }, [])
 
   return (
-    <div className="mx-auto flex min-h-full w-full max-w-md flex-col px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-10">
-      <header className="flex items-center justify-between gap-3">
-        <a
-          href="#/"
-          className="-ml-3 rounded-full px-3 py-1.5 text-sm font-medium text-muted hover:text-ink"
-        >
-          ← Bumalik
-        </a>
-      </header>
+    <div className="backdrop min-h-full pb-10">
+      <TopBar title={copy.about.title} backHref={backHref()} />
+      <main className="flex flex-col gap-6 px-4 pt-2">
+        <p className="px-1 text-sm text-on-deep/90">{copy.about.intro}</p>
 
-      <main className="mt-6 flex flex-col gap-8">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight">About</h1>
-          <p className="mt-2 text-sm text-muted">
-            Para! is an offline commute helper. No accounts, no analytics, nothing leaves this
-            device.
-          </p>
-        </div>
+        <Section title={copy.about.libraries}>
+          <PackageList items={LIBRARIES} />
+        </Section>
 
-        <section aria-labelledby="libraries-heading" className="flex flex-col gap-3">
-          <h2 id="libraries-heading" className="text-sm font-semibold tracking-wide text-muted uppercase">
-            Libraries
-          </h2>
-          <ul className="divide-y divide-line rounded-2xl border border-line bg-surface">
-            {LIBRARIES.map((library) => (
-              <li key={library.name} className="flex items-baseline justify-between gap-3 px-4 py-3">
-                <div className="min-w-0">
-                  <p className="truncate font-medium">{library.name}</p>
-                  <p className="text-sm text-muted">{library.role}</p>
-                </div>
-                <span className="shrink-0 text-sm text-muted tabular-nums">
-                  {versions[library.name]}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <Section title={copy.about.fonts}>
+          <PackageList items={FONTS} />
+        </Section>
 
-        <section aria-labelledby="models-heading" className="flex flex-col gap-3">
-          <h2 id="models-heading" className="text-sm font-semibold tracking-wide text-muted uppercase">
-            Models
-          </h2>
-          <p className="rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-muted">
-            None yet. No AI model is bundled in this build.
-          </p>
-        </section>
+        <Section title={copy.about.models}>
+          <Card className="px-4 py-3 text-sm text-ink-muted">{copy.about.modelsNone}</Card>
+        </Section>
 
-        <section aria-labelledby="data-heading" className="flex flex-col gap-3">
-          <h2 id="data-heading" className="text-sm font-semibold tracking-wide text-muted uppercase">
-            Data sources
-          </h2>
-          <div className="rounded-2xl border border-line bg-surface px-4 py-3 text-sm">
-            <p className="font-semibold text-warn">{SAMPLE_LABEL}</p>
-            <p className="mt-1 text-muted tabular-nums">
+        <Section title={copy.about.data}>
+          <Card className="px-4 py-3 text-sm">
+            <p className="font-semibold text-accent-terracotta">{copy.app.sampleData}</p>
+            <p className="mt-1 text-ink-muted tabular-nums">
               {counts
                 ? `On this device: route packs ${counts.packs}, routes ${counts.routes}, fare tables ${counts.fares} (latest as of ${counts.fareAsOf ?? 'unknown'}).`
-                : 'Reading local database…'}
+                : copy.about.dataLoading}
             </p>
-            <p className="mt-1 text-muted">
-              Synthetic test network only. No real routes, terminals or fares are included.
-            </p>
-          </div>
-        </section>
+            <p className="mt-1 text-ink-muted">{copy.about.dataNote}</p>
+          </Card>
+        </Section>
+
+        <Section title={copy.about.art}>
+          <Card className="px-4 py-3 text-sm text-ink-muted">{copy.about.artNote}</Card>
+        </Section>
       </main>
     </div>
   )

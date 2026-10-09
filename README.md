@@ -2,7 +2,7 @@
 
 Taglish commute helper that works with no signal. Offline-first PWA: Vite, React, TypeScript, Tailwind, Dexie. See `CLAUDE.md` for the full plan.
 
-Current state: PWA shell plus the deterministic router (Phase 2). No LLM, Whisper or voice yet. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
+Current state: Tsupher-themed PWA shell (Phase 3) plus the deterministic router (Phase 2). No LLM, Whisper or voice yet. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
 
 ## Run
 
@@ -32,6 +32,16 @@ npm run check:offline    # after a build: headless Chrome, network off, then ser
 
 Router dev harness (development only, not in production builds): run `npm run dev`, then open http://localhost:5173/#/dev/router.
 
+## Design assets
+
+Reference art lives in `design/reference/` and is never shipped.
+
+```sh
+npm run tokens       # sample the palette into src/styles/tokens.css
+npm run assets       # cut mascot sprites and build icons into public/
+npm run screenshots  # 390x844 screenshots of every screen into docs/screenshots/
+```
+
 ## Route pack data
 
 Collection guide: `docs/DATA_COLLECTION.md`. CSV templates: `data/templates/`.
@@ -48,8 +58,9 @@ npm run validate:pack -- some/dir  # checks another folder
 3. Install the app: use the install icon in the address bar (or menu, then "Install Para!").
 4. Open devtools. In Application, then Service workers, confirm `sw.js` is "activated and is running".
 5. In Network, set throttling to **Offline**.
-6. Reload. The Home screen should load, the status chip should read "Offline", and `bytes sent` should stay at 0.
-7. Open About. The library list and the sample data counts should still load (they come from IndexedDB).
+6. Reload. The Home screen should load and the status pill should read "Offline".
+7. Open Higit Pa, then Offline Mode. "Bytes sent" should stay at 0.
+8. Open Higit Pa, then About. The library list and the sample data counts should still load (they come from IndexedDB).
 
 For a stricter check, stop the preview server and reload the installed app. It should still load.
 

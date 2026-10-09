@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { ACTIVE_PACK_ID, SAMPLE_LABEL } from '../db/seed.ts'
+import { backHref } from '../lib/nav.ts'
 import { initRouter, planOptions, planRoute } from '../router/client.ts'
 import type { Mode, Preference, RoutePack } from '../router/types.ts'
 
@@ -20,8 +21,8 @@ interface CheckGroupProps {
 
 function CheckGroup({ legend, options, selected, onChange }: CheckGroupProps) {
   return (
-    <fieldset className="rounded-xl border border-line p-3">
-      <legend className="px-1 text-xs font-semibold text-muted uppercase">{legend}</legend>
+    <fieldset className="rounded-xl border border-line-on-deep p-3">
+      <legend className="px-1 text-xs font-semibold text-on-deep/80 uppercase">{legend}</legend>
       <div className="flex flex-wrap gap-x-4 gap-y-1">
         {options.map((option) => (
           <label key={option.value} className="flex items-center gap-1.5 text-sm">
@@ -65,8 +66,8 @@ export default function RouterHarness() {
     }
   }, [])
 
-  if (error) return <p className="p-4 text-warn">{error}</p>
-  if (!pack) return <p className="p-4 text-muted">Loading route pack from Dexie…</p>
+  if (error) return <p className="p-4 text-accent-amber">{error}</p>
+  if (!pack) return <p className="p-4 text-on-deep/80">Loading route pack from Dexie…</p>
 
   const modes = [...new Set<string>([...pack.routes.map((route) => route.mode), 'walk'])].sort()
   const tags = [
@@ -102,17 +103,17 @@ export default function RouterHarness() {
       {landmark.id}: {landmark.name}
     </option>
   ))
-  const selectClass = 'rounded-lg border border-line bg-surface px-2 py-2 text-sm'
+  const selectClass = 'surface rounded-lg border border-line bg-surface-cream px-2 py-2 text-sm text-ink-dark'
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 p-4">
       <header className="flex items-baseline justify-between gap-3">
         <h1 className="text-xl font-semibold">Router harness (dev only)</h1>
-        <a href="#/" className="text-sm text-muted hover:text-ink">
-          ← Home
+        <a href={backHref()} className="text-sm text-on-deep/80">
+          ← Back
         </a>
       </header>
-      <p className="rounded-xl border border-line bg-surface px-3 py-2 text-sm font-semibold text-warn">
+      <p className="surface rounded-xl bg-surface-warm px-3 py-2 text-sm font-semibold text-ink-dark">
         {SAMPLE_LABEL}. Pack: {pack.id} v{pack.version}
       </p>
 
@@ -184,7 +185,7 @@ export default function RouterHarness() {
 
         <button
           type="submit"
-          className="self-start rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-on-accent"
+          className="self-start rounded-xl bg-accent-amber px-4 py-2 text-sm font-semibold text-ink-dark"
         >
           Plan
         </button>
@@ -192,7 +193,7 @@ export default function RouterHarness() {
 
       <pre
         data-testid="router-output"
-        className="overflow-x-auto rounded-xl border border-line bg-surface p-3 text-xs"
+        className="surface overflow-x-auto rounded-xl bg-surface-cream p-3 text-xs text-ink-dark"
       >
         {output || 'No result yet.'}
       </pre>

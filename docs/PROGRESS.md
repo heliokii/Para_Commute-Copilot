@@ -54,3 +54,35 @@ One entry per phase: what passed, what failed, assumptions. Phase prompts are in
 **Open items for the team**
 - The showcase arrived during this phase as `design/reference/Para! Commute Copilot UI Showcase.png`, with `Para! Commute Copilot Dashboard.png`. Both were committed with Phase 2. File names differ from `BUILD_PHASES.md` 2.1.
 - Phase 3 asset prep (`BUILD_PHASES.md` 2.9) is not done: no `public/mascot/` sprites, no transparent hero, no wordmark.
+
+## Phase 3: Tsupher theme + shell (2026-10-09)
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean. `npm test`: 45 of 45.
+- `npm run check:offline`: 21 of 21. New checks: mascot images load from cache, both fonts load offline, mascot assets 304 KiB (budget 1 MB), precache 1016 KiB (budget 2 MB), no dev screens in the production build, the name "Kuya Para" appears nowhere.
+- Tokens sampled from `design/reference/` by `npm run tokens` into `src/styles/tokens.css`, with source pixel and contrast ratios recorded in the file.
+- Components: Tsupher, Button, Card, Chip, StatusPill, TopBar, BottomNav, BottomSheet, Banner, ProgressBar, Bubble (plus Icon).
+- Screens: Splash, Home, Offline Mode (static), Higit Pa, About. Ruta, Mapa and Paborito are labeled stubs.
+- `npm run screenshots` saves 390x844 shots of every screen to `docs/screenshots/`.
+- All strings in `src/copy.ts`. No mockup values (fares, times, sizes, place names) anywhere.
+
+**Failed or not verified**
+- Nothing failed.
+- Tab state survival is by construction (all tabs stay mounted); there is no automated test for it.
+- Contrast was computed for the token pairs only, not audited per screen. Full accessibility pass is Phase 10.
+- Not compared pixel by pixel with the showcase; only by eye from the screenshots.
+
+**Missing assets (placeholders in use)**
+- Wordmark art: missing. "Para!" is live text in the display font on Splash and Home.
+- Mascot sprites: no clean exports were supplied. `npm run assets` cuts the 12 sprites out of `Appearances.png` automatically (flood-fill of the beige background). They are drafts: about 170 px source size, upscaled 2x, with rough edges on the map and motion-line sprites.
+- Maskable icon: `Logo.png` is a full-bleed tile with the mascot cropped at the corner, so the mascot is not inside the 80% safe zone. The same art is used for all icon sizes.
+- Hero: `Para_.png` already had a transparent background, so it was used directly.
+
+**Assumptions**
+- No dark variant (the showcase theme is the only required one). `prefers-color-scheme` handling from Phase 1 was removed.
+- `ink-muted` is derived, not sampled: anti-aliased small text cannot be sampled reliably. It is ink-dark blended toward cream until contrast on cream reaches 5:1.
+- Display font: Fredoka (SIL OFL 1.1), latin subset only, self-hosted through `@fontsource-variable/fredoka`.
+- Offline Mode rows are static. The AI Assistant row is shown as not installed because no model ships yet; the mockup's size figure is not used.
+- Status pill: offline shows the green dot (it is the good state), online shows terracotta.
+- The Home prompt box accepts text but only shows a notice; the chat arrives in Phase 6. The Voice Chat tile opens a "coming soon" sheet.
+- New devDependencies: `sharp` (asset and token scripts), `@fontsource-variable/fredoka`.
