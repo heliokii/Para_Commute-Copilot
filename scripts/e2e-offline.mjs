@@ -262,7 +262,21 @@ try {
   await page.click('a[aria-label=Bumalik]')
   await page.waitForFunction(() => location.hash === '#/chat', { timeout: 5000 })
   check('Detail back button returns to the chat with the conversation intact', (await page.$$eval('[data-testid=tsupher-message]', (nodes) => nodes.length)) >= 6)
-  check('Chat: mic stays disabled', await page.evaluate(() => [...document.querySelectorAll('button[aria-disabled=true]')].some((button) => button.getAttribute('aria-label')?.includes('Boses'))))
+  // Mic with no voice model: points to Setup and never asks for the microphone.
+  await page.evaluate(() => {
+    window.__micAsked = false
+    const original = navigator.mediaDevices?.getUserMedia?.bind(navigator.mediaDevices)
+    if (navigator.mediaDevices) navigator.mediaDevices.getUserMedia = (...args) => ((window.__micAsked = true), original(...args))
+    ;[...document.querySelectorAll('[data-testid=mic-button]')].find((button) => button.offsetParent !== null).click()
+  })
+  await page.waitForSelector('[data-testid=listening][data-phase=needModel]', { timeout: 5000 }).catch(() => {})
+  const noVoice = await page.evaluate(() => ({
+    text: document.querySelector('[data-testid=listening]')?.innerText ?? '',
+    asked: window.__micAsked,
+  }))
+  check('Chat: mic without a voice model points to Setup and does not ask for the microphone', noVoice.text.includes('Kailangan muna ng voice model') && !noVoice.asked, noVoice.text.replace(/\s+/g, ' '))
+  await page.click('[data-testid=voice-close]')
+  check('Chat: closing the voice screen returns to typing', await page.evaluate(() => !document.querySelector('[data-testid=listening]')))
 
   // --- Error boundary: a crashing screen shows Tsupher and a retry, not a blank page ---
   // navigator.onLine is read while rendering the status pill; make it throw once.

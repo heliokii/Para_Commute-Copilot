@@ -30,7 +30,8 @@ check(
   'Production build has no dev screens',
   !distJs.includes('Router harness (dev only)') &&
     !distJs.includes('Components (dev only)') &&
-    !distJs.includes('Model benchmark (dev only)'),
+    !distJs.includes('Model benchmark (dev only)') &&
+    !distJs.includes('Voice benchmark (dev only)'),
 )
 
 const mascotBytes = readdirSync('dist/mascot').reduce((sum, file) => sum + statSync(join('dist/mascot', file)).size, 0)
@@ -50,6 +51,23 @@ check(
   'AI runtime chunk is precached for offline use, and is the only large chunk',
   runtimeChunks.length === 1,
   `${runtimeChunks.map((entry) => entry.url).join(', ')} ${(runtimeBytes / 1024).toFixed(0)} KiB`,
+)
+// The speech runtime's WASM is served by this app, never by a CDN. It is too large
+// to precache for everyone, so it is fetched from this origin when the rider
+// downloads the voice model (scripts/voice-check.mjs proves that with the network off).
+const ortFiles = readdirSync('dist/assets').filter((file) => /^ort-wasm.*\.(wasm|mjs)$/.test(file))
+const ortBytes = ortFiles.reduce((sum, file) => sum + statSync(join('dist/assets', file)).size, 0)
+check(
+  'ONNX Runtime WASM is self-hosted, and not in the first-run precache',
+  ortFiles.some((file) => file.endsWith('.wasm')) &&
+    ortFiles.some((file) => file.endsWith('.mjs')) &&
+    !precached.some((entry) => /ort-wasm/.test(entry.url)),
+  `${ortFiles.join(', ')} ${(ortBytes / 1024).toFixed(0)} KiB`,
+)
+check(
+  'No Web Speech API in the bundle',
+  // The lookbehind skips transformers.js names such as AutomaticSpeechRecognitionPipeline.
+  !/webkitSpeechRecognition|(?<![A-Za-z])SpeechRecognition\b/.test(distJs),
 )
 check(
   'No cloud AI endpoint in the bundle',

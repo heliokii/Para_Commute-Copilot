@@ -1,0 +1,21 @@
+{
+  "note": "Voice test phrases written by the coding agent against the SYNTHETIC sample pack. Landmark ids A to H are made up. Same list as docs/voice-test/PHRASES.md. Replace with real corridor names once the pack exists.",
+  "pack": "synthetic-pack",
+  "phrases": [
+    { "id": 1, "text": "Paano pumunta sa Foxtrot galing Alpha?", "expected": { "status": "ok", "originId": "A", "destinationId": "F" } },
+    { "id": 2, "text": "Galing ako sa Alpha Terminal, papunta sa Delta Plaza.", "expected": { "status": "ok", "originId": "A", "destinationId": "D" } },
+    { "id": 3, "text": "Mula Bravo papuntang Foxtrot Station.", "expected": { "status": "ok", "originId": "B", "destinationId": "F" } },
+    { "id": 4, "text": "Paano makapunta sa Golf Chapel mula sa Alpha?", "expected": { "status": "ok", "originId": "A", "destinationId": "G" } },
+    { "id": 5, "text": "Galing Charlie, papunta sa Echo Mall.", "expected": { "status": "ok", "originId": "C", "destinationId": "E" } },
+    { "id": 6, "text": "Papunta ako sa Delta galing Bravo, yung pinakamura.", "expected": { "status": "ok", "originId": "B", "destinationId": "D", "preference": "cheapest" } },
+    { "id": 7, "text": "Galing Alpha papunta sa Foxtrot, yung pinakamabilis.", "expected": { "status": "ok", "originId": "A", "destinationId": "F", "preference": "fastest" } },
+    { "id": 8, "text": "Mula Alpha hanggang Foxtrot, walang lipat.", "expected": { "status": "ok", "originId": "A", "destinationId": "F", "preference": "fewest_transfers" } },
+    { "id": 9, "text": "Galing Alpha papunta sa Foxtrot, iwas EDSA.", "expected": { "status": "ok", "originId": "A", "destinationId": "F", "avoid": { "tags": ["EDSA"] } } },
+    { "id": 10, "text": "Nasa Charlie ako, paano pumunta sa Foxtrot?", "expected": { "status": "ok", "originId": "C", "destinationId": "F" } },
+    { "id": 11, "text": "From Alpha to Delta, cheapest please.", "expected": { "status": "ok", "originId": "A", "destinationId": "D", "preference": "cheapest" } },
+    { "id": 12, "text": "Galing Kanto Charlie papunta sa Istasyon ng Foxtrot.", "expected": { "status": "ok", "originId": "C", "destinationId": "F" } },
+    { "id": 13, "text": "Mula sa Palengke ng Bravo papunta sa Plaza Delta.", "expected": { "status": "ok", "originId": "B", "destinationId": "D" } },
+    { "id": 14, "text": "Papunta sa Kapilya ng Golf galing Alpha Terminal, mabilis lang.", "expected": { "status": "ok", "originId": "A", "destinationId": "G", "preference": "fastest" } },
+    { "id": 15, "text": "Galing Hotel papunta sa Alpha.", "expected": { "status": "ok", "originId": "H", "destinationId": "A" } }
+  ]
+}

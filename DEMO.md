@@ -4,7 +4,7 @@ Read this with `docs/LLM_MANUAL_TEST.md` and the pre-flight checklist at the bot
 
 **State of the build this script was written against (2026-10-09):**
 - The app runs on the **synthetic sample pack**. Place names are "SYN Alpha Terminal", "SYN Foxtrot Station" and so on. Fares and times are made up and labeled "SAMPLE DATA" on screen. Say so out loud. Once the ride-verified corridor pack is in, replace the place names in the lines below and re-time the script.
-- **Voice is not built** (Phase 7). **Trip mode and the arrival alert are not built** (Phase 8). Their slots are marked below. Do not describe them as working.
+- **Voice is built on branch `phases-7-9` only (Phase 7), and is untested on human speech.** It is not in `submission-v1`. Do not demo it before a person has run `docs/voice-test/PHRASES.md` on the demo laptop. **Trip mode and the arrival alert are not built** (Phase 8). Their slots are marked below. Do not describe them as working.
 - The expected fares below are the hand-computed values for the sample pack. If the screen shows anything else, stop and check: the router or the pack changed.
 
 ## Script

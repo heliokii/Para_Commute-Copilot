@@ -22,6 +22,7 @@ import { Trip } from './screens/Trip'
 const RouterHarness = import.meta.env.DEV ? lazy(() => import('./dev/RouterHarness')) : null
 const ComponentGallery = import.meta.env.DEV ? lazy(() => import('./dev/ComponentGallery')) : null
 const Bench = import.meta.env.DEV ? lazy(() => import('./dev/Bench')) : null
+const VoiceBench = import.meta.env.DEV ? lazy(() => import('./dev/VoiceBench')) : null
 
 const TABS: Record<Tab, ReactNode> = {
   home: <Home />,
@@ -55,6 +56,8 @@ function overlayScreen(overlay: Overlay): ReactNode {
       return ComponentGallery ? <ComponentGallery /> : null
     case 'dev-bench':
       return Bench ? <Bench /> : null
+    case 'dev-voice':
+      return VoiceBench ? <VoiceBench /> : null
   }
 }
 

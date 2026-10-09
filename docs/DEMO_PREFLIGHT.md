@@ -7,6 +7,7 @@ Demo laptop, production build, one browser only (Chrome or Edge). Full script: `
 - [ ] `npm ci`, `npm run build`, `npm run preview`, open http://localhost:4173 in the demo browser, install the app.
 - [ ] Higit Pa, Offline Mode: AI row must read WebGPU. If it says no WebGPU, run the demo on the rules lane and skip the model step.
 - [ ] Setup, "Gisingin si Tsupher": download **Qwen2.5 1.5B Instruct** (about 840 MB) on WiFi. Wait for "Gising na si Tsupher!". Model files live in this browser profile only. Another browser or profile has no model.
+- [ ] Voice (branch `phases-7-9` only): on the same Setup screen tap "I-download ang boses" (Whisper tiny, about 142 MB). Then tap the mic once and allow the microphone, so the permission prompt does not appear during the demo. Run `docs/voice-test/PHRASES.md` first: voice has never been tested with a human voice.
 - [ ] Do not clear browsing data. It deletes the model and the offline copy.
 - [ ] Record a backup screen recording of one clean run.
 

@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import pkg from '../../package.json'
-import { peekModel, useModel } from '../ai/modelManager'
+import { peekModel, peekVoice, useModel } from '../ai/modelManager'
 import { CANDIDATES } from '../ai/runtime'
 import { Badge } from '../components/Badge'
 import { Card } from '../components/Card'
@@ -10,6 +10,7 @@ import { db } from '../db/db'
 import { seedReady } from '../db/seed'
 import { backHref } from '../lib/nav'
 import { daysSince, isFareStale } from '../lib/proof'
+import { VOICE_CANDIDATES } from '../voice/whisper'
 
 const versions: Record<string, string> = { ...pkg.devDependencies, ...pkg.dependencies }
 
@@ -22,6 +23,10 @@ const LIBRARIES = [
   { name: 'vite-plugin-pwa', role: 'Service worker and manifest (Workbox)' },
   { name: 'workbox-window', role: 'Service worker registration' },
   { name: '@mlc-ai/web-llm', role: 'On-device LLM runtime (WebGPU), Apache-2.0' },
+  {
+    name: '@huggingface/transformers',
+    role: 'On-device Whisper speech runtime (WebGPU or WASM), Apache-2.0. Includes onnxruntime-web (MIT), served by this app.',
+  },
 ]
 
 const FONTS = [
@@ -70,9 +75,11 @@ export function About() {
   const [counts, setCounts] = useState<Counts | null>(null)
   const model = useModel()
   const installed = model.status === 'ready' || model.status === 'cached'
+  const voiceInstalled = model.voiceStatus === 'ready' || model.voiceStatus === 'cached'
 
   useEffect(() => {
     void peekModel()
+    void peekVoice()
   }, [])
 
   useEffect(() => {
@@ -121,14 +128,15 @@ export function About() {
           <Card>
             <p className="px-4 pt-3 text-sm text-ink-muted">{copy.about.modelsNote}</p>
             <ul className="divide-y divide-line">
-              {CANDIDATES.map((candidate) => (
+              {[...CANDIDATES, ...VOICE_CANDIDATES].map((candidate) => (
                 <li key={candidate.id} className="flex items-baseline justify-between gap-3 px-4 py-3">
                   <div className="min-w-0">
                     <p className="font-medium">{candidate.label}</p>
                     <p className="text-sm break-all text-ink-muted">{candidate.id}</p>
                     <p className="text-sm text-ink-muted">{candidate.license}</p>
                   </div>
-                  {installed && candidate.id === model.selectedId && (
+                  {((installed && candidate.id === model.selectedId) ||
+                    (voiceInstalled && candidate.id === model.voiceId)) && (
                     <span className="shrink-0 rounded-full bg-surface-warm px-2.5 py-1 text-xs font-semibold">
                       {copy.about.modelInstalled}
                     </span>

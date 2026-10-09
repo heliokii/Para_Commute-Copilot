@@ -16,6 +16,7 @@ export type Overlay =
   | 'dev-router'
   | 'dev-components'
   | 'dev-bench'
+  | 'dev-voice'
 
 export const TAB_PATHS: Record<Tab, string> = {
   home: '/',
@@ -37,6 +38,7 @@ export const OVERLAY_PATHS: Record<Overlay, string> = {
   'dev-router': '/dev/router',
   'dev-components': '/dev/components',
   'dev-bench': '/dev/bench',
+  'dev-voice': '/voice-bench',
 }
 
 export interface Route {

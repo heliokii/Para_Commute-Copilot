@@ -5,6 +5,7 @@ import { Card } from '../components/Card'
 import { Icon, type IconName } from '../components/Icon'
 import { StatusPill } from '../components/StatusPill'
 import { Tsupher } from '../components/Tsupher'
+import { VoiceButton } from '../components/VoiceButton'
 import { copy } from '../copy'
 import { go, OVERLAY_PATHS, TAB_PATHS } from '../lib/nav'
 import { sendMessage } from '../state/chat'
@@ -48,13 +49,17 @@ export function Home() {
     void peekModel()
   }, [])
 
+  function ask(text: string) {
+    go(OVERLAY_PATHS.chat)
+    void sendMessage(text)
+  }
+
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
     const text = query.trim()
     if (!text) return
     setQuery('')
-    go(OVERLAY_PATHS.chat)
-    void sendMessage(text)
+    ask(text)
   }
 
   return (
@@ -100,15 +105,7 @@ export function Home() {
             enterKeyHint="go"
             className="min-w-0 flex-1 resize-none bg-transparent px-2 py-1 text-base text-ink-dark outline-none placeholder:text-ink-muted"
           />
-          <button
-            type="button"
-            aria-disabled="true"
-            aria-label={copy.home.micDisabled}
-            title={copy.home.micDisabled}
-            className="flex size-12 shrink-0 cursor-not-allowed items-center justify-center rounded-full bg-surface-warm text-brown-mid opacity-60"
-          >
-            <Icon name="mic" />
-          </button>
+          <VoiceButton onText={ask} />
           <button
             type="submit"
             aria-label={copy.home.promptSubmit}
@@ -129,7 +126,7 @@ export function Home() {
         <Tile
           icon="chat"
           title={copy.home.voiceTitle}
-          sub={`${copy.home.voiceSub}. ${copy.home.voiceSoon}.`}
+          sub={copy.home.voiceSub}
           href={`#${OVERLAY_PATHS.chat}`}
         />
       </div>

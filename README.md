@@ -48,7 +48,7 @@ Team **git inet**: Daniel Aldreen Manjares, Justine Catapang, Elijah Emmanuel. P
 - **Fares are reference only**, with a date. The fare matrix posted in the vehicle is what applies. Discounts are not modeled.
 - **Waiting time is not modeled.** Times are ride and walk time only.
 - **No GPS.** Location is not used in this build. Trip mode and arrival alerts are not built.
-- **No voice.** The mic buttons are disabled placeholders.
+- **Voice is on branch `phases-7-9` only**, with on-device Whisper. Its accuracy on human speech is untested (`docs/voice-benchmark.md`). On `main` the mic buttons are disabled placeholders.
 - **Favorites, settings and the contribution queue are not built.**
 - **The map is a schematic** drawn from the route pack, not a street map.
 

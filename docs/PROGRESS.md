@@ -306,3 +306,56 @@ Phases 7 (voice), 8 (trip mode) and 9 (favorites, settings) were skipped on inst
 - "Passed the alight point" is a 40 m radius check. A sparse GPS stream can skip it; "Nakababa na ako" covers that.
 - The simulated track runs through the pack's stops in straight lines; it is not a road path.
 - No background operation: the screen must stay on. `DEMO.md` still marks the arrival alert as a slot to skip (unchanged on this branch).
+
+## Phase 7: voice (2026-10-09, branch `phases-7-9`, after Phase 8)
+
+**Built**
+- On-device Whisper through transformers.js 4.3.1 on ONNX Runtime Web: WebGPU when available, else WASM. No Web Speech API (`check:offline` asserts it is absent from the bundle).
+- ONNX Runtime WASM self-hosted: the two runtime files are emitted into `dist/assets` and `wasmPaths` points at them, so nothing is fetched from jsdelivr. They are not in the first-run precache (26 MB); transformers.js stores them in Cache Storage when the rider downloads the voice model.
+- Model manager and "Gisingin si Tsupher": a "Boses ni Tsupher" card with Whisper tiny (default) or base, approximate size before download, progress in MB, measured size after, and delete.
+- Capture (`src/voice/capture.ts`): 16 kHz mono through an AudioWorklet, energy-based end of speech (0.9 s of silence after speech), 8 s limit. The microphone is requested only on tap. Refusal shows a message and returns to typing. Samples are zero-filled right after transcription and never stored.
+- Post-correction (`src/voice/correct.ts`): words that nearly spell a pack landmark are replaced with the pack's spelling. A weak match (similarity under 0.8) shows "Ito ba ang ibig mong sabihin…?" chips, including the text as heard. The chosen text goes through `sendMessage`, the same path as typed input.
+- Listening screen: "Makinig si Tsupher…", three CSS rings (off under reduced motion), hint, "Tapusin", "Kanselahin". Mic buttons enabled on Home and Chat.
+- `docs/voice-test/PHRASES.md` (15 phrases, mirrored in `tests/voice-phrases.json`) and the dev page `#/voice-bench`.
+- Proof panel: new "Boses (Whisper)" row with model, size, backend and the last transcription time. About and `DISCLOSURE.md` list the model and libraries.
+- `npm run check:voice` (new, not in the phase gate list): generated speech played into Chrome's fake microphone.
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean. `npm test`: 163 of 163 (25 new in `src/voice/voice.test.ts`).
+- `npm run check:offline`: 31 of 31 (2 new). `npm run test:e2e`: 57 of 57 (mic without a voice model points to Setup and does not ask for the microphone). `npm run check:update`: 8 of 8. `npm run check:llm`: 12 of 12.
+- `npm run audit`: Performance 90, Accessibility 100, Best Practices 100, SEO 100.
+- `npm run check:voice`: 23 of 23 with a fresh download, for Whisper tiny and again for Whisper base.
+  - Production build, network fully off after the download: mic tap, listening screen, recording stopped on silence after 4.4 s, transcript, chat reply with the router fare ₱18.25, zero requests to other hosts, refused microphone falls back to typing.
+  - Dev server with the LLM (Qwen2.5 1.5B) loaded first and every other host unreachable: same flow, both models loaded at once.
+
+**Numbers (laptop, RTX 4050 6 GB, headless Chrome)**
+- Whisper download host: `huggingface.co`, redirecting to `us.aws.cdn.hf.co`. These are the same two hosts the LLM download already uses; no new host.
+- Size on device, runtime files included: Whisper tiny 142 MB, Whisper base 224 MB (WebGPU builds, read from the cache). WASM builds would be about 67 and 101 MB (computed, not measured).
+- Transcription: 1.3 to 2.3 s for 4.2 s of audio on first use; 0.75 to 1.1 s warm in a direct test; about 3.5 s on WASM.
+- GPU memory (nvidia-smi, whole machine): page open 3036 MiB, LLM loaded 4622 MiB, LLM plus Whisper tiny 5166 MiB, of 6141 MiB. About 3.0 GB was already in use by other programs. The LLM adds about 1.6 GB and Whisper tiny about 0.55 GB (base about 0.75 GB). They coexist, so Whisper is loaded on first mic use and kept loaded; it is not unloaded afterwards.
+- First-run download: precache 29 entries, 7600 KiB (3047 KiB gzipped), up from 7020 KiB (2879 KiB gzipped). The increase is the 564 KiB transformers.js chunk. App shell 1704 KiB (budget 2 MB). First-load page transfer 314 KiB.
+
+**Bugs found by the generated-audio test and fixed**
+- A main-thread audio tap (ScriptProcessorNode) lost most of the speech whenever the page was busy; "From Alpha to Delta, cheapest please" came back as "From". Capture now runs in an AudioWorklet.
+- Loading the model while recording froze the listening screen for up to 14 s. The model now loads after recording stops.
+- transformers.js rejects "no local and no remote models", so a cached load is kept off the network by answering model-host requests with a local 404.
+- Storage estimates lag after a delete, so a second download showed a wrong size. The voice size is now summed from the cache entries.
+
+**Untested or not done**
+- **Accuracy on human speech: untested.** No voice clips were supplied. The one sentence tested was English, spoken by the Windows synthesizer. Tagalog and Taglish recognition, accents, street noise and real microphones are all unknown.
+- The tiny against base comparison was one generated sentence each (both correct). The phase prompt's landmark-word accuracy table over team clips does not exist. Tiny is the default because it is smaller, not because it was shown to be better.
+- Language: fixed to `tagalog` without evidence. transformers.js has no auto-detect, so the "auto" setting in the phase prompt could not be run.
+- The "Ito ba ang ibig mong sabihin…?" chips are covered by unit tests of the corrector only. No automated run produced a weak match, so the chips were never seen on screen.
+- End-of-speech thresholds were tuned on generated audio, never on a phone microphone or in a noisy place.
+- WASM backend: run once in a scratch test with a decoded file, not through the app's mic flow. No device without WebGPU was used.
+- Phones and iOS Safari: nothing was run. `docs/IOS_NOTES.md` has a section written from the code only.
+- Whisper base memory was sampled once; the figure is rough.
+- After an app update that changes the ONNX Runtime version, the runtime file names change and voice needs one online use to cache them again. Not tested.
+- `DEMO.md` still has no voice step in the script; it now says voice exists on this branch only and is untested on human speech.
+
+**Assumptions**
+- The voice model is optional and separate from the LLM: it works without WebGPU and without the LLM.
+- The size shown before download is a constant measured on this laptop; the size shown after is read from the cache.
+- `check:voice` needs Windows (System.Speech) for its test audio, and nvidia-smi for the memory figures.
+- New dependency: `@huggingface/transformers` 4.3.1 (Apache-2.0), which brings `onnxruntime-web` 1.31.0-dev (MIT).
+- `README.md`, `DEMO.md`, `docs/SUBMISSION.md` and `docs/DEMO_PREFLIGHT.md` got one line each about voice. `main` and tag `submission-v1` are untouched.

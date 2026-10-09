@@ -11,7 +11,7 @@ interface BubbleProps {
 export function Bubble({ from, wide = false, children }: BubbleProps) {
   const mine = from === 'user'
   return (
-    <div className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
+    <div data-from={from} className={`flex ${mine ? 'justify-end' : 'justify-start'}`}>
       <div
         className={`${wide ? 'w-full' : 'max-w-[85%]'} rounded-3xl px-4 py-3 text-[0.95rem] leading-snug ${
           mine

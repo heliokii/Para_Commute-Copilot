@@ -39,3 +39,7 @@
 3. Open Para! from the Home Screen icon (not from Safari: the two do not share storage on iOS).
 4. If the device has WebGPU: Higit Pa, "Gisingin si Tsupher", download a model on WiFi, wait for "Gising na si Tsupher!".
 5. Turn on airplane mode and run the manual checklist.
+
+## Voice (Phase 7, branch `phases-7-9`)
+
+Not tested on any iPhone or iPad. From the code only: the microphone is requested inside the tap handler, which is what Safari requires; audio capture uses AudioWorklet and a 16 kHz AudioContext; Whisper runs on WASM when WebGPU is missing. If any of these fails, the listening screen shows "Hindi gumana ang boses sa device na ito" and the rider types instead. Whether the model loads within iOS memory limits is unknown.

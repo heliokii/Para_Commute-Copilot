@@ -78,6 +78,15 @@ const MODE_WORDS: Record<string, Mode> = {
   lakad: 'walk', maglakad: 'walk', walking: 'walk', lakarin: 'walk',
 }
 
+/** Cue, connector, filler and mode words: never part of a place name. */
+export const isFunctionWord = (token: string) =>
+  FILLERS.has(token) ||
+  CONNECTORS.has(token) ||
+  ORIGIN_CUES.has(token) ||
+  DESTINATION_CUES.has(token) ||
+  AVOID_CUES.has(token) ||
+  token in MODE_WORDS
+
 const PREFERENCE_PATTERNS: [Preference, RegExp][] = [
   // Checked first: "walang lipat" would otherwise read as an avoid phrase.
   ['fewest_transfers', /\b(walang lipat|isang sakay lang|isang sakay|(pina)?ka(k)?a?unting (lipat|sakay|transfer)|konting (lipat|sakay)|kaunting (lipat|sakay)|ayaw (ko )?(ng )?(maraming )?lipat|fewest transfers?|less transfers?|least transfers?|no transfers?|direct|diretso|dire-?diretso|tuloy tuloy)\b/],

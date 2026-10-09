@@ -31,7 +31,7 @@ Para! is an offline-first commute copilot for Filipino commuters. You ask in Tag
 | Disclosure screen (About) | Built | Lists libraries, fonts, models, data source. |
 | Ride-verified corridor data | Not built | Templates, a collection guide and a CSV validator exist. The app runs on synthetic data labeled as such. |
 | Terminal directory | Not built | CSV template only. |
-| Voice input (on-device Whisper) | Not built | Mic buttons are disabled placeholders. |
+| Voice input (on-device Whisper) | Built on branch `phases-7-9` only; not in `submission-v1` | Plumbing verified with generated audio. Accuracy on human speech untested. |
 | Trip mode and arrival alert | Not built | "Simulan ang Ruta" opens a placeholder. |
 | Favorites, settings, contribution queue | Not built | Paborito tab is a placeholder. |
 | Competitor gap test | Not done | `GAP.md` has the test steps and an empty table. |
