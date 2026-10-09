@@ -3,11 +3,17 @@ import { BottomNav } from './components/BottomNav'
 import { copy } from './copy'
 import { useRoute, type Overlay, type Tab } from './lib/nav'
 import { About } from './screens/About'
+import { Detail } from './screens/Detail'
 import { HigitPa } from './screens/HigitPa'
 import { Home } from './screens/Home'
+import { Mapa } from './screens/Mapa'
+import { Modes } from './screens/Modes'
 import { OfflineMode } from './screens/OfflineMode'
+import { Results } from './screens/Results'
+import { Ruta } from './screens/Ruta'
 import { Splash } from './screens/Splash'
 import { StubScreen } from './screens/StubScreen'
+import { Trip } from './screens/Trip'
 
 // Dev-only screens. The DEV check is static, so production builds drop the imports.
 const RouterHarness = import.meta.env.DEV ? lazy(() => import('./dev/RouterHarness')) : null
@@ -15,14 +21,22 @@ const ComponentGallery = import.meta.env.DEV ? lazy(() => import('./dev/Componen
 
 const TABS: Record<Tab, ReactNode> = {
   home: <Home />,
-  ruta: <StubScreen title={copy.nav.ruta} body={copy.stub.ruta} sprite="map" />,
-  mapa: <StubScreen title={copy.nav.mapa} body={copy.stub.mapa} sprite="driving" />,
+  ruta: <Ruta />,
+  mapa: <Mapa />,
   paborito: <StubScreen title={copy.nav.paborito} body={copy.stub.paborito} sprite="love" />,
   higit: <HigitPa />,
 }
 
 function overlayScreen(overlay: Overlay): ReactNode {
   switch (overlay) {
+    case 'results':
+      return <Results />
+    case 'detail':
+      return <Detail />
+    case 'trip':
+      return <Trip />
+    case 'modes':
+      return <Modes />
     case 'offline':
       return <OfflineMode />
     case 'about':

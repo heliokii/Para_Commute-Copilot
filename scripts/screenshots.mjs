@@ -13,7 +13,8 @@ const OUT = 'docs/screenshots'
 const SCREENS = [
   ['home', '#/'],
   ['ruta', '#/ruta'],
-  ['mapa', '#/mapa'],
+  ['mapa-network', '#/mapa'],
+  ['modes', '#/modes'],
   ['paborito', '#/paborito'],
   ['higit-pa', '#/higit'],
   ['offline-mode', '#/offline'],
@@ -74,6 +75,38 @@ try {
     await page.screenshot({ path: `${OUT}/${name}.png`, fullPage: name.startsWith('dev-') || name === 'about' })
     console.log(`${OUT}/${name}.png`)
   }
+
+  // Plan flow with a route selected (SAMPLE data from the synthetic pack).
+  const shot = async (name, fullPage = false) => {
+    await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))))
+    await settle()
+    await page.screenshot({ path: `${OUT}/${name}.png`, fullPage })
+    console.log(`${OUT}/${name}.png`)
+  }
+  const goTo = (hash) =>
+    page.evaluate((target) => {
+      location.hash = target
+    }, hash)
+  await goTo('#/ruta')
+  for (const [field, query] of [['origin', 'alpha'], ['destination', 'foxtrot']]) {
+    await page.waitForSelector(`[data-testid=${field}]`, { visible: true })
+    await page.focus(`[data-testid=${field}]`)
+    await page.keyboard.type(query)
+    await page.keyboard.press('Enter')
+  }
+  await page.evaluate(() => document.activeElement?.blur())
+  await shot('ruta-filled')
+  await page.click('main:not([hidden]) button[type=submit]')
+  await page.waitForSelector('[data-testid=route-option]')
+  await shot('results', true)
+  await page.click('[data-testid=route-option]')
+  await page.waitForSelector('[data-testid=leg]')
+  await shot('detail', true)
+  await goTo('#/mapa')
+  await page.waitForSelector('[data-testid=route-map] polyline[data-leg]')
+  await shot('mapa-route')
+  await goTo('#/ruta/trip')
+  await shot('trip')
 } finally {
   await browser.close()
   await server.close()

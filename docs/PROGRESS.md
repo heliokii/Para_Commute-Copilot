@@ -86,3 +86,30 @@ One entry per phase: what passed, what failed, assumptions. Phase prompts are in
 - Status pill: offline shows the green dot (it is the good state), online shows terracotta.
 - The Home prompt box accepts text but only shows a notice; the chat arrives in Phase 6. The Voice Chat tile opens a "coming soon" sheet.
 - New devDependencies: `sharp` (asset and token scripts), `@fontsource-variable/fredoka`.
+
+## Phase 4: plan flow (2026-10-09)
+
+**Passed**
+- `npm run lint`: clean. `npm run build`: clean. Precache 27 entries, 1061 KiB.
+- `npm test`: 62 of 62 (adds custom preference 8, fare breakdown 1, fuzzy matcher 8).
+- `npm run check:offline`: 21 of 21.
+- `npm run test:e2e` (new, production build, network off): 29 of 29. Covers plan, results, detail, fare sheet, Trip placeholder, map, avoid-EDSA what-if, custom preference, no-route state, and zero network use.
+- The router worker now ships in the production bundle and is in the precache.
+- Screens: Ruta (pickers with fuzzy autocomplete over names and aliases, preference chips, Hanap), Results, Route detail with fare breakdown sheet and Tandaan box, Mga Mode, schematic SVG map with pan, zoom and legend, Trip placeholder.
+
+**Failed or not verified**
+- Nothing failed.
+- Map pan by drag, wheel zoom and pinch zoom were not exercised by a test; only the zoom buttons were.
+- Map labels can still collide when two stops are close (seen with two stops in the sample pack). Zooming separates them.
+- No link to the official LTFRB fare matrix yet (`CLAUDE.md` rule 6). `FareEntry` has no URL field and no real URL has been supplied; the fare sheet shows the source note and effective date only.
+
+**Assumptions**
+- "Persist the last result" means the in-memory plan session (`src/state/plan.ts`), shared by the Ruta and Mapa tabs. It is not written to disk, per `CLAUDE.md` rule 5.
+- Custom Preference needed router support: new preference `custom` with `Intent.weights` (fare, minutes, transfers). At equal weights 1 peso = 1 minute and one transfer = 10 minutes (`customTransferMinutes`, a config constant).
+- Results show the option that answers the rider's chosen preference first, tagged "Pinili mo". The other options keep the label of the first preference that produced them.
+- "N sakay" counts ride legs; "N lipat" is the router's `transfers`.
+- Iwas Traffic / Iwas EDSA adds the tag `EDSA` to the avoid-list. Results are labeled Simulated with a note that the app cannot know real traffic.
+- Tandaan shows only `route.note`. For the sample pack that note is the synthetic-data label.
+- Wika and Unit rows are visual stubs. No aircon option exists.
+- The heart button is a disabled stub.
+- Mode colours for the map are chosen for contrast on cream, not sampled from the showcase.

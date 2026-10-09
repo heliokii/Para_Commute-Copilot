@@ -2,7 +2,18 @@
 
 export type Mode = 'jeepney' | 'modern_jeepney' | 'uv' | 'bus' | 'train' | 'walk'
 
-export type Preference = 'cheapest' | 'fastest' | 'fewest_transfers'
+export type Preference = 'cheapest' | 'fastest' | 'fewest_transfers' | 'custom'
+
+/**
+ * Relative importance for the 'custom' preference. Any non-negative numbers.
+ * At equal weights, 1 peso counts the same as 1 minute, and one transfer the
+ * same as RouterConfig.customTransferMinutes minutes.
+ */
+export interface Weights {
+  fare: number
+  minutes: number
+  transfers: number
+}
 
 export type RoundingRule = 'nearest_0.25' | 'nearest_1' | 'ceil_1' | 'none'
 
@@ -71,6 +82,8 @@ export interface Intent {
   destinationId: string
   preference: Preference
   avoid: Avoid
+  /** Used only when preference is 'custom'. */
+  weights?: Weights
 }
 
 export interface Leg {
@@ -116,6 +129,8 @@ export interface RouterConfig {
   walkSpeedKmh: number
   /** Added per transfer when ranking 'fastest'. Not included in totalMinutes. */
   transferPenaltyMin: number
+  /** What one transfer is worth, in minutes, for the 'custom' preference. */
+  customTransferMinutes: number
 }
 
 export const WALK_ROUTE_ID = 'walk'

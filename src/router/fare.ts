@@ -28,3 +28,30 @@ export function legFareCentavos(distKm: number, fare: FareEntry): number {
 export function legFare(distKm: number, fare: FareEntry): number {
   return legFareCentavos(distKm, fare) / 100
 }
+
+export interface FareBreakdown {
+  baseFare: number
+  baseKm: number
+  /** Distance charged per km, beyond baseKm. */
+  extraKm: number
+  perKm: number
+  extraFare: number
+  /** Before the rounding rule. */
+  unrounded: number
+  total: number
+}
+
+/** The parts of legFare, for showing the working on screen. */
+export function fareBreakdown(distKm: number, fare: FareEntry): FareBreakdown {
+  const extraKm = Math.round(Math.max(0, distKm - fare.baseKm) * 1000) / 1000
+  const extraFare = Math.round(extraKm * fare.perKm * 100) / 100
+  return {
+    baseFare: fare.baseFare,
+    baseKm: fare.baseKm,
+    extraKm,
+    perKm: fare.perKm,
+    extraFare,
+    unrounded: Math.round((fare.baseFare + extraFare) * 100) / 100,
+    total: legFare(distKm, fare),
+  }
+}

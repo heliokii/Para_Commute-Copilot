@@ -49,8 +49,49 @@ const PATHS = {
       <path d="M12 11v5.5M12 7.6v.4" />
     </>
   ),
+  bus: (
+    <>
+      <rect x="5" y="4" width="14" height="13" rx="3" />
+      <path d="M5 11h14M8 17v2.5M16 17v2.5M8.5 14h.01M15.5 14h.01" />
+    </>
+  ),
+  train: (
+    <>
+      <rect x="6" y="3.5" width="12" height="13" rx="3.5" />
+      <path d="M6 10.5h12M9 13.5h.01M15 13.5h.01M8.5 16.5 6.5 20.5M15.5 16.5l2 4" />
+    </>
+  ),
+  walk: (
+    <>
+      <circle cx="13" cy="4.5" r="1.7" />
+      <path d="m9 21 2.5-6-2-2.5 1-4.5 3 2.5 3 1M10.5 8 7.5 10v3M13.5 15l2 6" />
+    </>
+  ),
+  heart: <path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z" />,
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
+  coins: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M10 16.5v-9h2.8a2.5 2.5 0 0 1 0 5H10M8.5 9.5h6M8.5 11.5h6" />
+    </>
+  ),
+  swap: <path d="M8 4v15m0 0-3.5-3.5M8 19l3.5-3.5M16 20V5m0 0-3.5 3.5M16 5l3.5 3.5" />,
+  plus: <path d="M12 5v14M5 12h14" />,
+  minus: <path d="M5 12h14" />,
+  target: (
+    <>
+      <circle cx="12" cy="12" r="6" />
+      <path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4" />
+    </>
+  ),
+  flag: <path d="M6 21V4m0 1h11l-2.5 4 2.5 4H6" />,
   send: <path d="M4 12 20 4l-5 16-3-6.5L4 12Z" />,
-  tools: <path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.500-5.500a4 4 0 0 0 5-5L15 12l-3-3 2.500-2.500Z" />,
+  tools: <path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5L15 12l-3-3 2.5-2.5Z" />,
 } satisfies Record<string, ReactNode>
 
 export type IconName = keyof typeof PATHS

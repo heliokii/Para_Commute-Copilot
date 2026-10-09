@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { SYNTHETIC_PACK as pack } from './__fixtures__/synthetic-pack.ts'
+import { DEFAULT_ROUTER_CONFIG } from './config.ts'
 import { planOptions, planRoute } from './plan.ts'
 import type { Avoid, Intent, Preference, RoutePack, RouteResult } from './types.ts'
 
@@ -165,7 +166,7 @@ describe('walking legs', () => {
   })
 
   it('respects the configured walking distance', () => {
-    const config = { walkMaxMeters: 100, walkSpeedKmh: 4.5, transferPenaltyMin: 5 }
+    const config = { ...DEFAULT_ROUTER_CONFIG, walkMaxMeters: 100 }
     expect(planRoute(pack, intent('D', 'G'), config).reason).toBe('no_path')
   })
 })
@@ -324,5 +325,64 @@ describe('fares come only from FareEntry data', () => {
     // R1 A>D with baseKm 9.5 is covered by the base fare alone.
     const longBase = withFares((fare) => (fare.id === 'F-J' ? { ...fare, baseKm: 9.5 } : fare))
     expect(planRoute(longBase, intent('A', 'D', 'cheapest')).totalFare).toBe(10)
+  })
+})
+
+describe('custom preference', () => {
+  const custom = (weights: unknown, avoid: Partial<Avoid> = {}) =>
+    planRoute(pack, { ...intent('A', 'F', 'custom', avoid), weights: weights as Intent['weights'] })
+
+  // A -> F candidates (fare, minutes, transfers), one transfer = 10 min:
+  //   X  R1 A>C + R3 C>F   26.00, 45, 1
+  //   Y  R2 A>C + R3 C>F   35.25, 27, 1
+  //   D  R1 A>F            30.25, 80, 0
+  it('fare-only weights match cheapest', () => {
+    expect(sequence(custom({ fare: 1, minutes: 0, transfers: 0 }))).toEqual(['R1:A>C', 'R3:C>F'])
+  })
+
+  it('time-only weights match the quickest ride', () => {
+    expect(sequence(custom({ fare: 0, minutes: 1, transfers: 0 }))).toEqual(['R2:A>C', 'R3:C>F'])
+  })
+
+  it('transfer-only weights match fewest transfers', () => {
+    expect(sequence(custom({ fare: 0, minutes: 0, transfers: 1 }))).toEqual(['R1:A>F'])
+  })
+
+  it('equal weights add pesos, minutes and transfers', () => {
+    // X = 26 + 45 + 10 = 81, Y = 35.25 + 27 + 10 = 72.25, D = 30.25 + 80 = 110.25
+    const result = custom({ fare: 1, minutes: 1, transfers: 1 })
+    expect(sequence(result)).toEqual(['R2:A>C', 'R3:C>F'])
+    expect(result.preference).toBe('custom')
+    expect(result.assumptions.join(' ')).toContain('Custom ranking')
+  })
+
+  it('a heavier fare weight tips the balance', () => {
+    // fare x3: X = 78 + 45 + 10 = 133, Y = 105.75 + 27 + 10 = 142.75, D = 90.75 + 80 = 170.75
+    expect(sequence(custom({ fare: 3, minutes: 1, transfers: 1 }))).toEqual(['R1:A>C', 'R3:C>F'])
+  })
+
+  it('missing, zero or bad weights fall back to equal weights', () => {
+    const equal = custom({ fare: 1, minutes: 1, transfers: 1 })
+    const bad = [undefined, {}, { fare: 0, minutes: 0, transfers: 0 }, { fare: -2, minutes: Number.NaN }]
+    for (const weights of bad) {
+      expect(sequence(custom(weights))).toEqual(sequence(equal))
+    }
+  })
+
+  it('planOptions puts the custom result first and de-duplicates', () => {
+    const options = planOptions(pack, {
+      ...intent('A', 'F', 'custom'),
+      weights: { fare: 0, minutes: 0, transfers: 1 },
+    })
+    // custom picks R1 A>F, which fewest_transfers would also pick.
+    expect(options.map((option) => option.preference)).toEqual(['custom', 'cheapest', 'fastest'])
+  })
+
+  it('standard preferences ignore weights', () => {
+    const withWeights = planRoute(pack, {
+      ...intent('A', 'F', 'cheapest'),
+      weights: { fare: 0, minutes: 9, transfers: 0 },
+    })
+    expect(withWeights).toEqual(planRoute(pack, intent('A', 'F', 'cheapest')))
   })
 })

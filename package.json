@@ -13,7 +13,8 @@
     "validate:pack": "node scripts/validate-pack.mjs",
     "assets": "node scripts/prepare-assets.mjs",
     "tokens": "node scripts/sample-tokens.mjs",
-    "screenshots": "node scripts/screenshots.mjs"
+    "screenshots": "node scripts/screenshots.mjs",
+    "test:e2e": "node scripts/e2e-offline.mjs"
   },
   "dependencies": {
     "@fontsource-variable/fredoka": "^5.3.0",

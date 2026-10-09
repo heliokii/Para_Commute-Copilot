@@ -4,7 +4,15 @@ import { useSyncExternalStore } from 'react'
 
 export type Tab = 'home' | 'ruta' | 'mapa' | 'paborito' | 'higit'
 /** Full-screen views that sit on top of the tabs. */
-export type Overlay = 'offline' | 'about' | 'dev-router' | 'dev-components'
+export type Overlay =
+  | 'results'
+  | 'detail'
+  | 'trip'
+  | 'modes'
+  | 'offline'
+  | 'about'
+  | 'dev-router'
+  | 'dev-components'
 
 export const TAB_PATHS: Record<Tab, string> = {
   home: '/',
@@ -15,6 +23,10 @@ export const TAB_PATHS: Record<Tab, string> = {
 }
 
 export const OVERLAY_PATHS: Record<Overlay, string> = {
+  results: '/ruta/results',
+  detail: '/ruta/detail',
+  trip: '/ruta/trip',
+  modes: '/modes',
   offline: '/offline',
   about: '/about',
   'dev-router': '/dev/router',
@@ -33,7 +45,11 @@ function parse(hash: string): Route {
   const overlay = (Object.keys(OVERLAY_PATHS) as Overlay[]).find(
     (key) => OVERLAY_PATHS[key] === path,
   )
-  if (overlay) return { tab: lastTab, overlay }
+  if (overlay) {
+    // Plan-flow overlays belong to the Ruta tab, wherever they were opened from.
+    if (OVERLAY_PATHS[overlay].startsWith('/ruta/')) lastTab = 'ruta'
+    return { tab: lastTab, overlay }
+  }
   const tab = (Object.keys(TAB_PATHS) as Tab[]).find((key) => TAB_PATHS[key] === path) ?? 'home'
   lastTab = tab
   return { tab, overlay: null }
@@ -52,4 +68,8 @@ export function useRoute(): Route {
 /** Where an overlay's back button returns to. */
 export function backHref(): string {
   return `#${TAB_PATHS[lastTab]}`
+}
+
+export function go(path: string) {
+  location.hash = path
 }

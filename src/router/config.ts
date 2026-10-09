@@ -5,4 +5,5 @@ export const DEFAULT_ROUTER_CONFIG: RouterConfig = {
   walkMaxMeters: 300,
   walkSpeedKmh: 4.5,
   transferPenaltyMin: 5,
+  customTransferMinutes: 10,
 }

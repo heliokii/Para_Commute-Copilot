@@ -2,7 +2,7 @@
 
 Taglish commute helper that works with no signal. Offline-first PWA: Vite, React, TypeScript, Tailwind, Dexie. See `CLAUDE.md` for the full plan.
 
-Current state: Tsupher-themed PWA shell (Phase 3) plus the deterministic router (Phase 2). No LLM, Whisper or voice yet. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
+Current state: typed plan flow (Ruta, results, detail, schematic map, modes) on the deterministic router. No LLM, Whisper or voice yet. The local database holds a synthetic test network labeled "SAMPLE DATA, not verified". It contains no real routes or fares. Progress log: `docs/PROGRESS.md`.
 
 ## Run
 
@@ -26,6 +26,7 @@ npm run lint
 ```sh
 npm test                 # router and data-validator unit tests (Vitest)
 npm run check:offline    # after a build: headless Chrome, network off, then server stopped
+npm run test:e2e         # after a build: plan, results, detail and map with the network off
 ```
 
 `check:offline` needs Chrome or Edge. Set `CHROME_PATH` if it is not in a default location.

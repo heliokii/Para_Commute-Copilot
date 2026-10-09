@@ -48,3 +48,20 @@ describe('legFare', () => {
     expect(legFare(1, tenths)).toBe(0.3)
   })
 })
+
+describe('fareBreakdown', () => {
+  it('shows the working behind a leg fare', async () => {
+    const { fareBreakdown } = await import('./fare.ts')
+    // 9.6 km: 20 + 4.6 * 2.2 = 30.12 -> 30.00
+    expect(fareBreakdown(9.6, bus('nearest_0.25'))).toEqual({
+      baseFare: 20,
+      baseKm: 5,
+      extraKm: 4.6,
+      perKm: 2.2,
+      extraFare: 10.12,
+      unrounded: 30.12,
+      total: 30,
+    })
+    expect(fareBreakdown(3, bus('nearest_0.25'))).toMatchObject({ extraKm: 0, extraFare: 0, total: 20 })
+  })
+})

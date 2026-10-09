@@ -13,7 +13,7 @@ interface Item {
 }
 
 const ITEMS: Item[] = [
-  { icon: 'sliders', ...copy.higit.modes },
+  { icon: 'sliders', ...copy.higit.modes, href: `#${OVERLAY_PATHS.modes}` },
   { icon: 'wifi-off', ...copy.higit.offline, href: `#${OVERLAY_PATHS.offline}` },
   { icon: 'globe', ...copy.higit.settings },
   { icon: 'info', ...copy.higit.about, href: `#${OVERLAY_PATHS.about}` },

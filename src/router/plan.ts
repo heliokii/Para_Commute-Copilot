@@ -11,10 +11,26 @@ import type {
   RoutePack,
   RouteResult,
   RouterConfig,
+  Weights,
 } from './types.ts'
 import { WALK_ROUTE_ID } from './types.ts'
 
-const PREFERENCES: Preference[] = ['cheapest', 'fastest', 'fewest_transfers']
+const STANDARD: Preference[] = ['cheapest', 'fastest', 'fewest_transfers']
+const PREFERENCES: Preference[] = [...STANDARD, 'custom']
+const EQUAL_WEIGHTS: Weights = { fare: 1, minutes: 1, transfers: 1 }
+
+const weight = (value: unknown) =>
+  typeof value === 'number' && Number.isFinite(value) && value > 0 ? value : 0
+
+/** Cleans user-supplied weights. All zero (or missing) falls back to equal weights. */
+function normalizeWeights(weights: Partial<Weights> | undefined): Weights {
+  const clean = {
+    fare: weight(weights?.fare),
+    minutes: weight(weights?.minutes),
+    transfers: weight(weights?.transfers),
+  }
+  return clean.fare + clean.minutes + clean.transfers > 0 ? clean : EQUAL_WEIGHTS
+}
 
 interface Label {
   landmarkId: string
@@ -36,8 +52,17 @@ function costOf(
   minutes: number,
   transfers: number,
   config: RouterConfig,
+  weights: Weights,
 ): [number, number, number] {
   switch (preference) {
+    case 'custom':
+      return [
+        weights.fare * (fareCentavos / 100) +
+          weights.minutes * minutes +
+          weights.transfers * transfers * config.customTransferMinutes,
+        fareCentavos,
+        minutes,
+      ]
     case 'fastest':
       return [minutes + transfers * config.transferPenaltyMin, fareCentavos, transfers]
     case 'fewest_transfers':
@@ -99,6 +124,7 @@ export function planRoute(
 ): RouteResult {
   const preference = PREFERENCES.includes(intent?.preference) ? intent.preference : 'cheapest'
   const avoid = normalizeAvoid(intent?.avoid)
+  const weights = normalizeWeights(intent?.weights)
   const simulated =
     avoid.landmarkIds.length + avoid.routeIds.length + avoid.modes.length + avoid.tags.length > 0
 
@@ -164,7 +190,7 @@ export function planRoute(
         fareCentavos,
         minutes,
         transfers,
-        cost: costOf(preference, fareCentavos, minutes, transfers, config),
+        cost: costOf(preference, fareCentavos, minutes, transfers, config, weights),
         seq: seq++,
         prev: label,
         edge,
@@ -202,6 +228,11 @@ export function planRoute(
       `Walking legs use straight-line distance at ${config.walkSpeedKmh} km/h, up to ${config.walkMaxMeters} m.`,
     )
   }
+  if (preference === 'custom') {
+    assumptions.push(
+      `Custom ranking: fare x${weights.fare}, minutes x${weights.minutes}, transfers x${weights.transfers} (one transfer counts as ${config.customTransferMinutes} min).`,
+    )
+  }
   if (fareDates.length > 1) {
     assumptions.push('Legs use fare tables with different effective dates. The oldest is shown.')
   }
@@ -226,13 +257,16 @@ const legSequenceKey = (result: RouteResult) =>
 /**
  * Cheapest, fastest and fewest-transfers results, de-duplicated by leg sequence.
  * A duplicate keeps the label of the first preference that produced it.
+ * When the base intent is 'custom', the custom result comes first.
  */
 export function planOptions(
   pack: RoutePack,
   baseIntent: Intent,
   config: RouterConfig = DEFAULT_ROUTER_CONFIG,
 ): RouteResult[] {
-  const results = PREFERENCES.map((preference) =>
+  const order: Preference[] =
+    baseIntent?.preference === 'custom' ? ['custom', ...STANDARD] : STANDARD
+  const results = order.map((preference) =>
     planRoute(pack, { ...baseIntent, preference }, config),
   )
   const found = results.filter((result) => result.status === 'ok')
